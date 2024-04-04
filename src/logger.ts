@@ -1,13 +1,19 @@
 import * as vscode from 'vscode'
 
+const outputChannel = vscode.window.createOutputChannel('Argon')
+outputChannel.appendLine('Argon started')
+
 export function info(message: string) {
-  vscode.window.showInformationMessage(message)
+  outputChannel.append(message)
+  vscode.window.showInformationMessage(`Argon: ${message}`)
 }
 
 export function warn(message: string) {
-  vscode.window.showWarningMessage(message)
+  outputChannel.append(message)
+  vscode.window.showWarningMessage(`Argon: ${message}`)
 }
 
 export function error(message: string) {
-  vscode.window.showErrorMessage(message)
+  outputChannel.append(message)
+  vscode.window.showErrorMessage(`Argon: ${message}`)
 }

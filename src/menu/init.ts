@@ -6,8 +6,8 @@ import { Item } from '.'
 import { getArgonPath } from '../util'
 
 export const item: Item = {
-  label: '$(project) Initialize new project',
-  description: 'Initialize Argon project',
+  label: '$(file-add) Init',
+  description: 'Create a new project',
   action: 'init',
 }
 
@@ -92,6 +92,7 @@ function getProjectOptions(
 
   vscode.window
     .showQuickPick(options, {
+      title: 'Select project options',
       canPickMany: true,
     })
     .then((items) => {

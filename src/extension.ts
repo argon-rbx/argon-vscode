@@ -18,8 +18,6 @@ export async function activate(context: vscode.ExtensionContext) {
     }
   }
 
-  console.log(vscode.workspace.workspaceFolders)
-
   const state = new State(context)
 
   Object.values(commands).forEach((command) => {

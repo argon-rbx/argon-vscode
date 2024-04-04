@@ -1,12 +1,27 @@
-import * as init from './init'
 import * as vscode from 'vscode'
 import * as util from '../util'
+
+import * as init from './init'
+import * as serve from './serve'
+import * as build from './build'
+import * as sourcemap from './sourcemap'
+import * as stop from './stop'
+import * as exec from './exec'
+import * as debug from './debug'
+import * as studio from './studio'
+import * as plugin from './plugin'
+import * as settings from './settings'
+import * as help from './help'
 
 export interface Item {
   label: string
   description: string
-  kind?: vscode.QuickPickItemKind
   action: string
+}
+
+export interface Divider {
+  label: string
+  kind: vscode.QuickPickItemKind
 }
 
 function verify() {
@@ -17,8 +32,44 @@ function verify() {
   }
 }
 
-export function items(): Item[] {
-  return [init.item]
+function general(): Divider {
+  return {
+    label: 'General',
+    kind: vscode.QuickPickItemKind.Separator,
+  }
+}
+
+function helpers(): Divider {
+  return {
+    label: 'Helpers',
+    kind: vscode.QuickPickItemKind.Separator,
+  }
+}
+
+function misc(): Divider {
+  return {
+    label: 'Misc',
+    kind: vscode.QuickPickItemKind.Separator,
+  }
+}
+
+export function items(): (Item | Divider)[] {
+  return [
+    general(),
+    init.item,
+    serve.item,
+    build.item,
+    sourcemap.item,
+    stop.item,
+    helpers(),
+    exec.item,
+    debug.item,
+    studio.item,
+    plugin.item,
+    misc(),
+    settings.item,
+    help.item,
+  ]
 }
 
 export function onDidAccept(action: string, context: vscode.ExtensionContext) {
@@ -26,6 +77,41 @@ export function onDidAccept(action: string, context: vscode.ExtensionContext) {
     case 'init':
       verify()
       init.handler(context)
+      break
+    case 'serve':
+      verify()
+      serve.handler()
+      break
+    case 'build':
+      verify()
+      build.handler()
+      break
+    case 'sourcemap':
+      verify()
+      sourcemap.handler()
+      break
+    case 'stop':
+      stop.handler()
+      break
+
+    case 'exec':
+      exec.handler()
+      break
+    case 'debug':
+      debug.handler()
+      break
+    case 'studio':
+      studio.handler()
+      break
+    case 'plugin':
+      plugin.handler()
+      break
+
+    case 'settings':
+      settings.handler()
+      break
+    case 'help':
+      help.handler()
       break
   }
 }

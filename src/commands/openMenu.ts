@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import * as menu from '../menu'
-import { State } from '../state'
 import * as logger from '../logger'
+import { State } from '../state'
 
 export function openMenu(state: State) {
   return vscode.commands.registerCommand('argon.openMenu', () => {
