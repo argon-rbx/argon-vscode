@@ -1,0 +1,108 @@
+{
+  "name": "argon",
+  "displayName": "Argon",
+  "description": "Full featured tool for Roblox development",
+  "publisher": "Dervex",
+  "version": "2.0.0-pre1",
+  "icon": "assets/logo.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/argon-rbx/argon-vscode.git"
+  },
+  "engines": {
+    "vscode": "^1.87.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "Roblox",
+    "Studio",
+    "Lua",
+    "Luau",
+    "Sync"
+  ],
+  "activationEvents": [
+    "onLanguage:lua",
+    "onLanguage:luau",
+    "workspaceContains:*.project.json"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "argon.openMenu",
+        "title": "Open Menu",
+        "category": "Argon"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "argon.play",
+        "when": "editorLangId == lua || editorLangId == luau",
+        "key": "f5"
+      },
+      {
+        "command": "argon.run",
+        "when": "editorLangId == lua || editorLangId == luau",
+        "key": "f8"
+      },
+      {
+        "command": "argon.start",
+        "when": "editorLangId == lua || editorLangId == luau",
+        "key": "f7"
+      },
+      {
+        "command": "argon.execute",
+        "when": "editorLangId == lua || editorLangId == luau",
+        "key": "f6"
+      },
+      {
+        "command": "argon.stop",
+        "when": "editorLangId == lua || editorLangId == luau",
+        "key": "shift+f5"
+      }
+    ],
+    "icons": {
+      "argon-logo": {
+        "description": "Argon logo",
+        "default": {
+          "fontPath": "assets/argon-font.woff",
+          "fontCharacter": "\\41"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "format:write": "npx prettier --write .",
+    "format:check": "npx prettier --check .",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.87.0",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
+    "@vscode/test-electron": "^2.3.4",
+    "eslint": "^8.47.0",
+    "glob": "^10.3.3",
+    "mocha": "^10.2.0",
+    "prettier": "^3.2.5",
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.1.6",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "@terascope/fetch-github-release": "^0.8.7"
+  }
+}
