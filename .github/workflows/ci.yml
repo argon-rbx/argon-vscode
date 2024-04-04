@@ -24,7 +24,7 @@ jobs:
         run: npm run lint
 
       - name: Format
-        run: npm run check:format
+        run: npm run format:check
 
   build-test:
     name: Build and Test
@@ -40,4 +40,6 @@ jobs:
       #   run: vsce package # Is this okay?
 
       - name: Test
-        run: npm test
+        uses: coactions/setup-xvfb@v1
+        with:
+          run: npm test

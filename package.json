@@ -5,9 +5,13 @@
   "publisher": "Dervex",
   "version": "2.0.0-pre1",
   "icon": "assets/logo.png",
+  "homepage": "https://argon.wiki",
   "repository": {
     "type": "git",
     "url": "https://github.com/argon-rbx/argon-vscode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/argon-rbx/argon-vscode/issues"
   },
   "engines": {
     "vscode": "^1.87.0"
