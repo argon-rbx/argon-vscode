@@ -14,7 +14,7 @@ export function openMenu(state: State) {
       const item = quickPick.selectedItems[0] as menu.Item
 
       try {
-        await menu.onDidAccept(item.action, state.context)
+        await menu.onDidAccept(item.action, state)
       } catch (err) {
         if (err) {
           logger.error(`Failed to run command: ${err}`)
