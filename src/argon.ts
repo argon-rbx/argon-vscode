@@ -4,6 +4,8 @@ import * as logger from './logger'
 import * as util from './util'
 
 function log(data: string) {
+  data = data.trim()
+
   if (data.startsWith('ERROR')) {
     logger.error(data.slice(7))
   } else if (data.startsWith('WARN')) {
@@ -27,15 +29,19 @@ function run(command: string) {
   process.stderr?.on('data', (data) => {
     log(data)
   })
+
+  return process
 }
 
 export function init(project: string, template: string, options: string[]) {
   run(`init ${project} --template ${template} ${options.join(' ')}`)
 }
 
-export function exec(code: string) {
-  console.log(code)
+export function serve(project: string, options: string[]) {
+  return run(`serve ${project} ${options.join(' ')}`)
+}
 
+export function exec(code: string) {
   run(`exec "${code}"`)
 }
 

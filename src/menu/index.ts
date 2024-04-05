@@ -1,5 +1,6 @@
 import * as vscode from 'vscode'
 import * as util from '../util'
+import { State } from '../state'
 
 import * as init from './init'
 import * as serve from './serve'
@@ -72,15 +73,15 @@ export function items(): (Item | Divider)[] {
   ]
 }
 
-export function onDidAccept(action: string, context: vscode.ExtensionContext) {
+export async function onDidAccept(action: string, state: State) {
   switch (action) {
     case 'init':
       verify()
-      init.handler(context)
+      await init.handler(state.context)
       break
     case 'serve':
       verify()
-      serve.handler()
+      await serve.handler(state)
       break
     case 'build':
       verify()

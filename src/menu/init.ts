@@ -11,117 +11,124 @@ export const item: Item = {
   action: 'init',
 }
 
-function getProjectName(then: (name: string) => void) {
-  const quickPick = vscode.window.createQuickPick()
-  quickPick.title = 'Enter project name'
-  quickPick.placeholder = 'default.project.json'
-  quickPick.value = 'default'
-  quickPick.show()
+function getProjectName(): Promise<string> {
+  return new Promise((resolve, reject) => {
+    vscode.window
+      .showInputBox({
+        title: 'Enter project name',
+        placeHolder: 'default.project.json',
+        value: 'default',
+      })
+      .then((name) => {
+        if (!name) {
+          return reject()
+        }
 
-  quickPick.onDidAccept(() => {
-    then(quickPick.value)
-    quickPick.hide()
+        resolve(name)
+      })
   })
 }
 
-function getProjectTemplate(then: (template: string) => void) {
-  const priority = ['place', 'plugin', 'package', 'model']
+function getProjectTemplate(): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const priority = ['place', 'plugin', 'package', 'model']
 
-  let templates = fs
-    .readdirSync(path.join(getArgonPath(), 'templates'))
-    .sort((a, b) => {
-      let index1 = priority.indexOf(a)
-      let index2 = priority.indexOf(b)
+    let templates = fs
+      .readdirSync(path.join(getArgonPath(), 'templates'))
+      .sort((a, b) => {
+        let index1 = priority.indexOf(a)
+        let index2 = priority.indexOf(b)
 
-      return index1 === -1 ? 1 : index2 === -1 ? -1 : index1 - index2
-    })
-    .map((template) => {
-      return {
-        label: template.charAt(0).toUpperCase() + template.slice(1),
-        id: template,
-      }
-    })
+        return index1 === -1 ? 1 : index2 === -1 ? -1 : index1 - index2
+      })
+      .map((template) => {
+        return {
+          label: template.charAt(0).toUpperCase() + template.slice(1),
+          id: template,
+        }
+      })
 
-  vscode.window
-    .showQuickPick(templates, {
-      title: 'Select project template',
-    })
-    .then((template) => {
-      if (!template) {
-        return then('place')
-      }
+    vscode.window
+      .showQuickPick(templates, {
+        title: 'Select project template',
+      })
+      .then((template) => {
+        if (!template) {
+          return reject()
+        }
 
-      then(template.id)
-    })
+        resolve(template.id)
+      })
+  })
 }
 
 function getProjectOptions(
   context: vscode.ExtensionContext,
-  then: (options: string[]) => void,
-) {
-  const options = [
-    {
-      label: 'Include docs',
-      flag: '--docs',
-      id: 'includeDocs',
-      picked: true,
-    },
-    {
-      label: 'Configure Git',
-      flag: '--git',
-      id: 'useGit',
-      picked: true,
-    },
-    {
-      label: 'Setup Wally',
-      flag: '--wally',
-      id: 'useWally',
-      picked: false,
-    },
-    {
-      label: 'Use roblox-ts',
-      flag: '--ts',
-      id: 'tsMode',
-      picked: false,
-    },
-  ]
+): Promise<string[]> {
+  return new Promise((resolve, reject) => {
+    const options = [
+      {
+        label: 'Include docs',
+        flag: '--docs',
+        id: 'includeDocs',
+        picked: true,
+      },
+      {
+        label: 'Configure Git',
+        flag: '--git',
+        id: 'useGit',
+        picked: true,
+      },
+      {
+        label: 'Setup Wally',
+        flag: '--wally',
+        id: 'useWally',
+        picked: false,
+      },
+      {
+        label: 'Use roblox-ts',
+        flag: '--ts',
+        id: 'tsMode',
+        picked: false,
+      },
+    ]
 
-  options.forEach((option) => {
-    option['picked'] = context.globalState.get(option.id, option.picked)
-  })
-
-  vscode.window
-    .showQuickPick(options, {
-      title: 'Select project options',
-      canPickMany: true,
+    options.forEach((option) => {
+      option['picked'] = context.globalState.get(option.id, option.picked)
     })
-    .then((items) => {
-      if (!items) {
-        return then([])
-      }
 
-      options.forEach((item) => {
-        if (items.find((i) => i.id === item.id)) {
-          context.globalState.update(item.id, true)
-        } else {
-          context.globalState.update(item.id, false)
-        }
+    vscode.window
+      .showQuickPick(options, {
+        title: 'Select project options',
+        canPickMany: true,
       })
+      .then((items) => {
+        if (!items) {
+          return reject()
+        }
 
-      then(items.map((item) => item.flag))
-    })
+        options.forEach((item) => {
+          context.globalState.update(
+            item.id,
+            items.find((i) => i.id === item.id) !== undefined,
+          )
+        })
+
+        resolve(items.map((item) => item.flag))
+      })
+  })
 }
 
-export function handler(context: vscode.ExtensionContext) {
-  getProjectName((name) => {
-    getProjectTemplate((template) => {
-      getProjectOptions(context, (options) => {
-        if (!name.endsWith('.project.json')) {
-          name += '.project.json'
-        }
+export async function handler(context: vscode.ExtensionContext) {
+  let name = await getProjectName()
+  const template = await getProjectTemplate()
+  const options = await getProjectOptions(context)
 
-        argon.init(name, template, options)
-      })
-    })
-  })
+  if (!name.endsWith('.project.json')) {
+    name += '.project.json'
+  }
+
+  argon.init(name, template, options)
+
+  return name
 }
