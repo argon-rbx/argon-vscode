@@ -9,38 +9,42 @@ export const item: Item = {
   action: 'stop',
 }
 
-export function handler(state: State) {
-  let items = state.getSessions().map((session) => {
-    return { label: session.project, id: session.id }
+export async function handler(state: State): Promise<void> {
+  return new Promise((resolve, reject) => {
+    let items = state.getSessions().map((session) => {
+      return { label: `${session.project} [${session.type}]`, id: session.id }
+    })
+
+    if (items.length === 0) {
+      return vscode.window.showQuickPick([], {
+        title: 'No sessions to stop',
+      })
+    }
+
+    items.push({ label: '$(x)Stop all', id: 0 })
+
+    vscode.window
+      .showQuickPick(items, {
+        title: 'Select a session to stop',
+      })
+      .then((item) => {
+        if (!item) {
+          return reject()
+        }
+
+        if (item.id === 0) {
+          items.forEach((item) => {
+            if (item.id !== 0) {
+              state.removeSession(item.id)
+              argon.stop(item.id)
+            }
+          })
+        } else {
+          state.removeSession(item.id)
+          argon.stop(item.id)
+        }
+
+        resolve()
+      })
   })
-
-  if (items.length === 0) {
-    return vscode.window.showQuickPick([], {
-      title: 'No sessions to stop',
-    })
-  }
-
-  items.push({ label: '$(x)Stop all', id: 0 })
-
-  vscode.window
-    .showQuickPick(items, {
-      title: 'Select a session to stop',
-    })
-    .then((item) => {
-      if (!item) {
-        return
-      }
-
-      if (item.id === 0) {
-        items.forEach((item) => {
-          if (item.id !== 0) {
-            state.removeSession(item.id)
-            argon.stop(item.id)
-          }
-        })
-      } else {
-        state.removeSession(item.id)
-        argon.stop(item.id)
-      }
-    })
 }

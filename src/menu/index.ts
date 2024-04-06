@@ -57,10 +57,10 @@ function misc(): Divider {
 export function items(): (Item | Divider)[] {
   return [
     general(),
-    init.item,
     serve.item,
     build.item,
     sourcemap.item,
+    init.item,
     stop.item,
     helpers(),
     exec.item,
@@ -75,24 +75,24 @@ export function items(): (Item | Divider)[] {
 
 export async function onDidAccept(action: string, state: State) {
   switch (action) {
-    case 'init':
-      verify()
-      await init.handler(state.context)
-      break
     case 'serve':
       verify()
       await serve.handler(state)
       break
     case 'build':
       verify()
-      build.handler()
+      await build.handler(state)
       break
     case 'sourcemap':
       verify()
-      sourcemap.handler()
+      await sourcemap.handler(state)
+      break
+    case 'init':
+      verify()
+      await init.handler(state.context)
       break
     case 'stop':
-      stop.handler(state)
+      await stop.handler(state)
       break
 
     case 'exec':
@@ -115,4 +115,25 @@ export async function onDidAccept(action: string, state: State) {
       help.handler()
       break
   }
+}
+
+export function getProject(context: vscode.ExtensionContext): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const projects = util.findProjects()
+    projects.push('$(plus) Create new project')
+
+    vscode.window
+      .showQuickPick(projects, {
+        title: 'Select a project',
+      })
+      .then(async (project) => {
+        if (!project) {
+          return reject()
+        }
+
+        resolve(
+          project.endsWith('.project.json') ? project : init.handler(context),
+        )
+      })
+  })
 }

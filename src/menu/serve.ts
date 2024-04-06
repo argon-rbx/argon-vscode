@@ -1,8 +1,7 @@
 import * as vscode from 'vscode'
 import * as argon from '../argon'
 import * as util from '../util'
-import * as init from './init'
-import { Item } from '.'
+import { Item, getProject } from '.'
 import { State } from '../state'
 import { Session } from '../session'
 
@@ -10,25 +9,6 @@ export const item: Item = {
   label: '$(rss) Serve',
   description: 'Sync with Roblox Studio',
   action: 'serve',
-}
-
-function getProject(): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const projects = util.findProjects()
-    projects.push('$(plus) Create new project')
-
-    vscode.window
-      .showQuickPick(projects, {
-        title: 'Select a project',
-      })
-      .then(async (project) => {
-        if (!project) {
-          return reject()
-        }
-
-        resolve(project)
-      })
-  })
 }
 
 function getAddress(): Promise<{
@@ -103,7 +83,7 @@ function getOptions(
 
     vscode.window
       .showQuickPick(options, {
-        title: 'Select project options',
+        title: 'Select serve options',
         canPickMany: true,
       })
       .then(async (items) => {
@@ -127,11 +107,7 @@ function getOptions(
 }
 
 export async function handler(state: State) {
-  let project = await getProject()
-
-  if (!project.endsWith('.project.json')) {
-    project = await init.handler(state.context)
-  }
+  let project = await getProject(state.context)
 
   const [options, customAddress] = await getOptions(state.context)
   let address = {
@@ -153,7 +129,7 @@ export async function handler(state: State) {
   }
 
   let name = util.getProjectName(project)
-  let id = argon.serve(project, options)
+  let id = await argon.serve(project, options)
 
   const session = new Session(name, project, id).withAddress(
     `${address.host}:${address.port}`,

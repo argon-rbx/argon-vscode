@@ -1,6 +1,7 @@
-export class Session {
-  private started = Date.now()
+export type SessionType = 'Serve' | 'Build' | 'Sourcemap'
 
+export class Session {
+  public type: SessionType = 'Serve'
   public name: string
   public project: string
   public id: number
@@ -12,12 +13,13 @@ export class Session {
     this.id = id
   }
 
-  public withAddress(address: string) {
-    this.address = address
+  public withType(type: SessionType) {
+    this.type = type
     return this
   }
 
-  public get duration() {
-    return Date.now() - this.started
+  public withAddress(address: string) {
+    this.address = address
+    return this
   }
 }

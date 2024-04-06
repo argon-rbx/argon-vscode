@@ -22,30 +22,64 @@ function run(command: string) {
     cwd: util.getCurrentDir(),
   })
 
+  let lastOutput = ''
+
   process.stdout?.on('data', (data) => {
+    lastOutput = data
     log(data)
   })
 
   process.stderr?.on('data', (data) => {
+    lastOutput = data
     log(data)
   })
+
+  return process.exitCode === 0 || process.exitCode === null
+    ? Promise.resolve(lastOutput)
+    : Promise.reject(lastOutput)
+}
+
+export async function serve(project: string, options: string[]) {
+  const id = Date.now()
+  await run(`serve ${project} ${id} ${options.join(' ')}`)
+  return id
+}
+
+export async function build(project: string, options: string[]) {
+  if (options.includes('--watch')) {
+    const id = Date.now()
+    await run(`build ${project} ${id} ${options.join(' ')}`)
+    return id
+  }
+
+  await run(`build ${project} ${options.join(' ')}`)
+}
+
+export async function sourcemap(project: string, options: string[]) {
+  if (options.includes('--watch')) {
+    const id = Date.now()
+    await run(`sourcemap ${project} ${id} ${options.join(' ')}`)
+    return id
+  }
+
+  await run(`sourcemap ${project} ${options.join(' ')}`)
 }
 
 export function init(project: string, template: string, options: string[]) {
   run(`init ${project} --template ${template} ${options.join(' ')}`)
 }
 
-export function serve(project: string, options: string[]) {
-  const id = Date.now()
-
-  run(`serve ${project} ${id} ${options.join(' ')}`)
-
-  return id
+export function stop(id: number) {
+  run(`stop ${id}`)
 }
 
 export function exec(code: string) {
   run(`exec "${code}"`)
 }
+
+// export function debug(mode: string) {
+//   run(`debug "${mode}"`)
+// }
 
 export function studio() {
   run('studio')
@@ -53,8 +87,4 @@ export function studio() {
 
 export function plugin() {
   run('plugin')
-}
-
-export function stop(id: number) {
-  run(`stop ${id}`)
 }

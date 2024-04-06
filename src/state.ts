@@ -19,15 +19,18 @@ export class State {
   public show() {
     this.item.command = 'argon.openMenu'
     this.item.text = '$(argon-logo) Argon'
+    this.item.tooltip = 'No running sessions'
     this.item.show()
   }
 
   public addSession(session: Session) {
     this.sessions.push(session)
+    this.updateItem()
   }
 
   public removeSession(id: number) {
     this.sessions = this.sessions.filter((session) => session.id !== id)
+    this.updateItem()
   }
 
   public getSessions() {
@@ -39,5 +42,35 @@ export class State {
       console.log(`Stopping session ${session.id}...`)
       argon.stop(session.id)
     })
+  }
+
+  private updateItem() {
+    let sessionCount = this.sessions.length
+
+    this.item.text =
+      sessionCount === 0
+        ? '$(argon-logo) Argon'
+        : `$(argon-logo) Argon (${sessionCount})`
+
+    let tooltip = new vscode.MarkdownString()
+
+    this.sessions.forEach((session) => {
+      tooltip.appendMarkdown(`## ${session.name}\n`)
+
+      tooltip.appendCodeblock(`Type: ${session.type}\n`)
+      tooltip.appendCodeblock(`File: ${session.project}\n`)
+
+      if (session.address) {
+        tooltip.appendCodeblock(`Address: ${session.address}\n`)
+      }
+
+      tooltip.appendMarkdown('---\n')
+    })
+
+    if (sessionCount === 0) {
+      this.item.tooltip = 'No running sessions'
+    } else {
+      this.item.tooltip = tooltip
+    }
   }
 }
