@@ -4,6 +4,7 @@ import * as util from '../util'
 import * as init from './init'
 import { Item } from '.'
 import { State } from '../state'
+import { Session } from '../session'
 
 export const item: Item = {
   label: '$(rss) Serve',
@@ -72,7 +73,9 @@ function getAddress(): Promise<{
   })
 }
 
-function getOptions(context: vscode.ExtensionContext): Promise<string[]> {
+function getOptions(
+  context: vscode.ExtensionContext,
+): Promise<[string[], boolean]> {
   return new Promise((resolve, reject) => {
     const options = [
       {
@@ -115,26 +118,10 @@ function getOptions(context: vscode.ExtensionContext): Promise<string[]> {
           )
         })
 
-        const selectedOptions = items
-          .filter((item) => item.flag !== undefined)
-          .map((item) => item.flag)
-
-        if (items.find((item) => item.id === 'customAddress')) {
-          const address = await getAddress()
-
-          if (address.host) {
-            selectedOptions.push('--host ' + address.host)
-          }
-
-          if (address.port) {
-            selectedOptions.push('--port ' + address.port)
-          }
-        }
-
-        resolve(
-          // @ts-ignore
-          selectedOptions,
-        )
+        resolve([
+          items.flatMap((item) => (item.flag ? [item.flag] : [])),
+          items.find((item) => item.id === 'customAddress') !== undefined,
+        ])
       })
   })
 }
@@ -146,7 +133,31 @@ export async function handler(state: State) {
     project = await init.handler(state.context)
   }
 
-  const options = await getOptions(state.context)
+  const [options, customAddress] = await getOptions(state.context)
+  let address = {
+    host: 'localhost',
+    port: '8000',
+  }
 
-  let process = argon.serve(project, options)
+  if (customAddress) {
+    const custom = await getAddress()
+
+    if (custom.host) {
+      options.push('--host ' + custom.host)
+      address.host = custom.host
+    }
+    if (custom.port) {
+      options.push('--port ' + custom.port)
+      address.port = custom.port
+    }
+  }
+
+  let name = util.getProjectName(project)
+  let id = argon.serve(project, options)
+
+  const session = new Session(name, project, id).withAddress(
+    `${address.host}:${address.port}`,
+  )
+
+  state.addSession(session)
 }

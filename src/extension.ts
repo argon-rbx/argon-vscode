@@ -4,6 +4,8 @@ import * as installer from './installer'
 import * as logger from './logger'
 import { State } from './state'
 
+let state: State
+
 export async function activate(context: vscode.ExtensionContext) {
   console.log('Argon activated')
 
@@ -18,7 +20,7 @@ export async function activate(context: vscode.ExtensionContext) {
     }
   }
 
-  const state = new State(context)
+  state = new State(context)
 
   Object.values(commands).forEach((command) => {
     context.subscriptions.push(command(state))
@@ -27,4 +29,7 @@ export async function activate(context: vscode.ExtensionContext) {
   state.show()
 }
 
-export function deactivate() {}
+export function deactivate() {
+  console.log('Argon deactivating')
+  state.cleanup()
+}

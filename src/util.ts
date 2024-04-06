@@ -26,3 +26,19 @@ export function findProjects(dir?: string): string[] {
         fs.statSync(path.join(dir!, entry)).isFile(),
     )
 }
+
+export function getProjectName(project: string): string {
+  if (!path.isAbsolute(project)) {
+    let dir = getCurrentDir()
+
+    if (!dir) {
+      throw new Error(
+        'Cannot get project name without a workspace folder open!',
+      )
+    }
+
+    project = path.join(dir, project)
+  }
+
+  return JSON.parse(fs.readFileSync(project, 'utf8')).name
+}

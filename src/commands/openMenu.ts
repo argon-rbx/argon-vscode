@@ -5,25 +5,25 @@ import { State } from '../state'
 
 export function openMenu(state: State) {
   return vscode.commands.registerCommand('argon.openMenu', () => {
-    const quickPick = vscode.window.createQuickPick()
-
-    quickPick.title = 'Argon'
-    quickPick.items = menu.items()
-
-    quickPick.onDidAccept(async () => {
-      const item = quickPick.selectedItems[0] as menu.Item
-
-      try {
-        await menu.onDidAccept(item.action, state)
-      } catch (err) {
-        if (err) {
-          logger.error(`Failed to run command: ${err}`)
+    const items = menu.items()
+    const quickPick = vscode.window
+      .showQuickPick(items, {
+        title: 'Argon',
+      })
+      .then(async (item) => {
+        if (!item) {
+          return
         }
-      }
 
-      quickPick.dispose()
-    })
+        item = item as menu.Item
 
-    quickPick.show()
+        try {
+          await menu.onDidAccept(item.action, state)
+        } catch (err) {
+          if (err) {
+            logger.error(`Failed to run command: ${err}`)
+          }
+        }
+      })
   })
 }

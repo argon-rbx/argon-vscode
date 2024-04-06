@@ -1,4 +1,5 @@
 import * as vscode from 'vscode'
+import * as argon from './argon'
 import { Session } from './session'
 
 export class State {
@@ -21,9 +22,22 @@ export class State {
     this.item.show()
   }
 
+  public addSession(session: Session) {
+    this.sessions.push(session)
+  }
+
+  public removeSession(id: number) {
+    this.sessions = this.sessions.filter((session) => session.id !== id)
+  }
+
+  public getSessions() {
+    return [...this.sessions]
+  }
+
   public cleanup() {
     this.sessions.forEach((session) => {
-      console.log(session)
+      console.log(`Stopping session ${session.id}...`)
+      argon.stop(session.id)
     })
   }
 }

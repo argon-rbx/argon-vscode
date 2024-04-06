@@ -92,7 +92,7 @@ export async function onDidAccept(action: string, state: State) {
       sourcemap.handler()
       break
     case 'stop':
-      stop.handler()
+      stop.handler(state)
       break
 
     case 'exec':

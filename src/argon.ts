@@ -29,8 +29,6 @@ function run(command: string) {
   process.stderr?.on('data', (data) => {
     log(data)
   })
-
-  return process
 }
 
 export function init(project: string, template: string, options: string[]) {
@@ -38,7 +36,11 @@ export function init(project: string, template: string, options: string[]) {
 }
 
 export function serve(project: string, options: string[]) {
-  return run(`serve ${project} ${options.join(' ')}`)
+  const id = Date.now()
+
+  run(`serve ${project} ${id} ${options.join(' ')}`)
+
+  return id
 }
 
 export function exec(code: string) {
@@ -51,4 +53,8 @@ export function studio() {
 
 export function plugin() {
   run('plugin')
+}
+
+export function stop(id: number) {
+  run(`stop ${id}`)
 }
