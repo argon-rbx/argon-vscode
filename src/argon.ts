@@ -1,4 +1,3 @@
-import * as vscode from 'vscode'
 import * as childProcess from 'child_process'
 import * as logger from './logger'
 import * as util from './util'
@@ -77,9 +76,9 @@ export function exec(code: string) {
   run(`exec "${code}"`)
 }
 
-// export function debug(mode: string) {
-//   run(`debug "${mode}"`)
-// }
+export function debug(mode: string) {
+  run(`debug ${mode}`)
+}
 
 export function studio() {
   run('studio')

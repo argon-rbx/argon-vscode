@@ -5,9 +5,8 @@ import { State } from '../state'
 
 export function openMenu(state: State) {
   return vscode.commands.registerCommand('argon.openMenu', () => {
-    const items = menu.items()
-    const quickPick = vscode.window
-      .showQuickPick(items, {
+    vscode.window
+      .showQuickPick(menu.items(), {
         title: 'Argon',
       })
       .then(async (item) => {

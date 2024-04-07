@@ -5,11 +5,11 @@
     "outDir": "out",
     "lib": ["ES2020"],
     "sourceMap": true,
-    "strict": true
+    "strict": true,
+    "noUnusedParameters": true
     /* Additional Checks */
     // "rootDir": "src",
     // "noImplicitReturns": true, /* Report error when not all code paths in function return a value. */
     // "noFallthroughCasesInSwitch": true, /* Report errors for fallthrough cases in switch statement. */
-    // "noUnusedParameters": true,  /* Report errors on unused parameters. */
   }
 }

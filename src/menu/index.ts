@@ -63,8 +63,8 @@ export function items(): (Item | Divider)[] {
     init.item,
     stop.item,
     helpers(),
-    exec.item,
     debug.item,
+    exec.item,
     studio.item,
     plugin.item,
     misc(),
@@ -95,11 +95,11 @@ export async function onDidAccept(action: string, state: State) {
       await stop.handler(state)
       break
 
+    case 'debug':
+      await debug.handler()
+      break
     case 'exec':
       exec.handler()
-      break
-    case 'debug':
-      debug.handler()
       break
     case 'studio':
       studio.handler()
