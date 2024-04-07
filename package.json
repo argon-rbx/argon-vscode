@@ -57,14 +57,14 @@
         "key": "f7"
       },
       {
-        "command": "argon.execute",
-        "when": "editorLangId == lua || editorLangId == luau",
-        "key": "f6"
-      },
-      {
         "command": "argon.stop",
         "when": "editorLangId == lua || editorLangId == luau",
         "key": "shift+f5"
+      },
+      {
+        "command": "argon.exec",
+        "when": "editorLangId == lua || editorLangId == luau",
+        "key": "f6"
       }
     ],
     "icons": {

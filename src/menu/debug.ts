@@ -14,22 +14,22 @@ function getMode(): Promise<string> {
       {
         label: '$(vm) Play',
         description: 'F5',
-        action: 'play',
+        mode: 'play',
       },
       {
         label: '$(server-environment) Run',
         description: 'F8',
-        action: 'run',
+        mode: 'run',
       },
       {
         label: '$(server) Start',
         description: 'F7',
-        action: 'start',
+        mode: 'start',
       },
       {
         label: '$(stop-circle) Stop',
         description: 'Shift + F5',
-        action: 'stop',
+        mode: 'stop',
       },
     ]
 
@@ -42,7 +42,7 @@ function getMode(): Promise<string> {
           return reject()
         }
 
-        resolve(mode.action)
+        resolve(mode.mode)
       })
   })
 }
