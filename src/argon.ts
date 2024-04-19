@@ -1,47 +1,58 @@
 import * as childProcess from 'child_process'
 import * as logger from './logger'
-import * as util from './util'
+import { getCurrentDir } from './util'
 
 function log(data: string) {
   data = data.trim()
 
+  const isVerbose = data.endsWith(']')
+
   if (data.startsWith('ERROR')) {
-    logger.error(data.slice(7))
+    logger.error(data, isVerbose)
   } else if (data.startsWith('WARN')) {
-    logger.warn(data.slice(6))
-  } else if (data.startsWith('INFO')) {
-    logger.info(data.slice(6))
+    logger.warn(data, isVerbose)
   } else {
-    logger.info(data)
+    logger.info(data, isVerbose)
   }
+
+  return !isVerbose
 }
 
-function run(command: string) {
-  let process = childProcess.exec('argon ' + command + ' --yes --color never', {
-    cwd: util.getCurrentDir(),
-  })
+async function run(command: string) {
+  const process = childProcess.exec(
+    'argon ' + command + ' -vvv --yes --color never',
+    {
+      cwd: getCurrentDir(),
+    },
+  )
 
-  let lastOutput = ''
+  const lastOutput: Promise<string> = new Promise((resolve) => {
+    process.stdout?.on('data', (data) => {
+      if (log(data)) {
+        resolve(data)
+      }
+    })
 
-  process.stdout?.on('data', (data) => {
-    lastOutput = data
-    log(data)
-  })
-
-  process.stderr?.on('data', (data) => {
-    lastOutput = data
-    log(data)
+    process.stderr?.on('data', (data) => {
+      if (log(data)) {
+        resolve(data)
+      }
+    })
   })
 
   return process.exitCode === 0 || process.exitCode === null
-    ? Promise.resolve(lastOutput)
-    : Promise.reject(lastOutput)
+    ? Promise.resolve(await lastOutput)
+    : Promise.reject(await lastOutput)
 }
 
-export async function serve(project: string, options: string[]) {
+export async function serve(
+  project: string,
+  options: string[],
+): Promise<[number, string]> {
   const id = Date.now()
-  await run(`serve ${project} ${id} ${options.join(' ')}`)
-  return id
+  const message = await run(`serve ${project} ${id} ${options.join(' ')}`)
+
+  return [id, message]
 }
 
 export async function build(project: string, options: string[]) {
@@ -72,12 +83,12 @@ export function stop(id: number) {
   run(`stop ${id}`)
 }
 
-export function exec(code: string) {
-  run(`exec "${code}"`)
-}
-
 export function debug(mode: string) {
   run(`debug ${mode}`)
+}
+
+export function exec(code: string) {
+  run(`exec "${code}"`)
 }
 
 export function studio() {
@@ -86,4 +97,8 @@ export function studio() {
 
 export function plugin() {
   run('plugin')
+}
+
+export function version() {
+  return childProcess.execSync('argon --version').toString()
 }

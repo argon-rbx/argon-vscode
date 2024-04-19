@@ -33,11 +33,11 @@ function getProjectTemplate(): Promise<string> {
   return new Promise((resolve, reject) => {
     const priority = ['place', 'plugin', 'package', 'model']
 
-    let templates = fs
+    const templates = fs
       .readdirSync(path.join(getArgonPath(), 'templates'))
       .sort((a, b) => {
-        let index1 = priority.indexOf(a)
-        let index2 = priority.indexOf(b)
+        const index1 = priority.indexOf(a)
+        const index2 = priority.indexOf(b)
 
         return index1 === -1 ? 1 : index2 === -1 ? -1 : index1 - index2
       })

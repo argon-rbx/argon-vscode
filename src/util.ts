@@ -2,6 +2,7 @@ import * as vscode from 'vscode'
 import * as path from 'path'
 import * as os from 'os'
 import * as fs from 'fs'
+import * as argon from './argon'
 
 export function getArgonPath(): string {
   return path.join(os.homedir(), '.argon')
@@ -11,25 +12,41 @@ export function getCurrentDir(): string | undefined {
   return vscode.workspace.workspaceFolders?.[0]?.uri.fsPath
 }
 
-export function findProjects(dir?: string): string[] {
-  dir = dir || getCurrentDir()
+export function findProjects(placesOnly?: boolean): string[] {
+  const dir = getCurrentDir()
 
   if (!dir) {
     throw new Error('Cannot find projects without a workspace folder open!')
   }
 
-  return fs
+  let projects = fs
     .readdirSync(dir)
     .filter(
       (entry) =>
         entry.endsWith('.project.json') &&
-        fs.statSync(path.join(dir!, entry)).isFile(),
+        fs.statSync(path.join(dir, entry)).isFile(),
     )
+
+  if (placesOnly) {
+    projects = projects.filter((project) => {
+      const tree = JSON.parse(
+        fs.readFileSync(path.join(dir, project), 'utf8'),
+      ).tree
+
+      if (!tree) {
+        return false
+      }
+
+      return tree['$className'] === 'DataModel'
+    })
+  }
+
+  return projects
 }
 
 export function getProjectName(project: string): string {
   if (!path.isAbsolute(project)) {
-    let dir = getCurrentDir()
+    const dir = getCurrentDir()
 
     if (!dir) {
       throw new Error(
@@ -41,4 +58,8 @@ export function getProjectName(project: string): string {
   }
 
   return JSON.parse(fs.readFileSync(project, 'utf8')).name
+}
+
+export function getVersion() {
+  return argon.version().replace('argon ', '').trim()
 }

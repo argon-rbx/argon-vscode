@@ -11,7 +11,7 @@ export const item: Item = {
 
 export async function handler(state: State): Promise<void> {
   return new Promise((resolve, reject) => {
-    let items = state.getSessions().map((session) => {
+    const items = state.getSessions().map((session) => {
       return { label: `${session.project} [${session.type}]`, id: session.id }
     })
 

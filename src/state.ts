@@ -7,9 +7,12 @@ export class State {
   private sessions: Session[] = []
 
   public context: vscode.ExtensionContext
+  public version: string
 
-  public constructor(context: vscode.ExtensionContext) {
+  public constructor(context: vscode.ExtensionContext, version: string) {
     this.context = context
+    this.version = version
+
     this.item = vscode.window.createStatusBarItem(
       vscode.StatusBarAlignment.Left,
       -420,
@@ -45,14 +48,14 @@ export class State {
   }
 
   private updateItem() {
-    let sessionCount = this.sessions.length
+    const sessionCount = this.sessions.length
 
     this.item.text =
       sessionCount === 0
         ? '$(argon-logo) Argon'
         : `$(argon-logo) Argon (${sessionCount})`
 
-    let tooltip = new vscode.MarkdownString()
+    const tooltip = new vscode.MarkdownString()
 
     this.sessions.forEach((session) => {
       tooltip.appendMarkdown(`## ${session.name}\n`)

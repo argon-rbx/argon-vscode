@@ -1,6 +1,6 @@
 import * as vscode from 'vscode'
 import * as argon from '../argon'
-import * as util from '../util'
+import { getProjectName } from '../util'
 import { Item, getProject } from '.'
 import { State } from '../state'
 import { Session } from '../session'
@@ -27,10 +27,10 @@ function getAddress(): Promise<{
           return reject()
         }
 
-        let comps = address.split(':')
+        const comps = address.split(':')
 
         if (comps.length === 1) {
-          let comp = comps[0]
+          const comp = comps[0]
 
           if (isNaN(Number(comp))) {
             resolve({
@@ -107,10 +107,10 @@ function getOptions(
 }
 
 export async function handler(state: State) {
-  let project = await getProject(state.context)
+  const project = await getProject(state.context, true)
 
   const [options, customAddress] = await getOptions(state.context)
-  let address = {
+  const address = {
     host: 'localhost',
     port: '8000',
   }
@@ -122,14 +122,19 @@ export async function handler(state: State) {
       options.push('--host ' + custom.host)
       address.host = custom.host
     }
+
     if (custom.port) {
       options.push('--port ' + custom.port)
       address.port = custom.port
     }
   }
 
-  let name = util.getProjectName(project)
-  let id = await argon.serve(project, options)
+  const name = getProjectName(project)
+  const [id, message] = await argon.serve(project, options)
+
+  if (message.includes('already in use')) {
+    address.port = message.match(/\d+/g)?.[1]!
+  }
 
   const session = new Session(name, project, id).withAddress(
     `${address.host}:${address.port}`,

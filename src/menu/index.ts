@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import * as util from '../util'
+import { getCurrentDir, findProjects } from '../util'
 import { State } from '../state'
 
 import * as init from './init'
@@ -26,7 +26,7 @@ export interface Divider {
 }
 
 function verify() {
-  if (!util.getCurrentDir()) {
+  if (!getCurrentDir()) {
     throw new Error(
       'No workspace folder open! Please open one before running this command again',
     )
@@ -117,9 +117,12 @@ export async function onDidAccept(action: string, state: State) {
   }
 }
 
-export function getProject(context: vscode.ExtensionContext): Promise<string> {
+export function getProject(
+  context: vscode.ExtensionContext,
+  placeOnly?: boolean,
+): Promise<string> {
   return new Promise((resolve, reject) => {
-    const projects = util.findProjects()
+    const projects = findProjects(placeOnly)
     projects.push('$(plus) Create new project')
 
     vscode.window

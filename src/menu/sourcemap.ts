@@ -1,6 +1,6 @@
 import * as vscode from 'vscode'
 import * as argon from '../argon'
-import * as util from '../util'
+import { getProjectName } from '../util'
 import { Item, getProject } from '.'
 import { State } from '../state'
 import { Session } from '../session'
@@ -73,15 +73,15 @@ function getOptions(context: vscode.ExtensionContext): Promise<string[]> {
 }
 
 export async function handler(state: State) {
-  let project = await getProject(state.context)
+  const project = await getProject(state.context)
 
-  let output = await getOutput()
+  const output = await getOutput()
 
   const options = await getOptions(state.context)
   options.push(`--output ${output}`)
 
-  let name = util.getProjectName(project)
-  let id = await argon.sourcemap(project, options)
+  const name = getProjectName(project)
+  const id = await argon.sourcemap(project, options)
 
   if (id) {
     const session = new Session(name, project, id).withType('Sourcemap')

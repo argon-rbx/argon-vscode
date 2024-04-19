@@ -3,17 +3,30 @@ import * as vscode from 'vscode'
 const outputChannel = vscode.window.createOutputChannel('Argon')
 outputChannel.appendLine('Argon started')
 
-export function info(message: string) {
-  outputChannel.appendLine(message)
-  vscode.window.showInformationMessage(`Argon: ${message}`)
+function beautify(message: string) {
+  return 'Argon: ' + message.substring(message.indexOf(':') + 1)
 }
 
-export function warn(message: string) {
+export function info(message: string, noNotification?: boolean) {
   outputChannel.appendLine(message)
-  vscode.window.showWarningMessage(`Argon: ${message}`)
+
+  if (!noNotification) {
+    vscode.window.showInformationMessage(beautify(message))
+  }
 }
 
-export function error(message: string) {
+export function warn(message: string, noNotification?: boolean) {
   outputChannel.appendLine(message)
-  vscode.window.showErrorMessage(`Argon: ${message}`)
+
+  if (!noNotification) {
+    vscode.window.showWarningMessage(beautify(message))
+  }
+}
+
+export function error(message: string, noNotification?: boolean) {
+  outputChannel.appendLine(message)
+
+  if (!noNotification) {
+    vscode.window.showErrorMessage(beautify(message))
+  }
 }

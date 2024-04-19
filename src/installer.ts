@@ -46,5 +46,6 @@ export async function install() {
     },
   )
 
+  // Trigger Argon installator
   childProcess.execFileSync(argonPath, ['--version'])
 }

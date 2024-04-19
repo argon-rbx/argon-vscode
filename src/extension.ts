@@ -2,6 +2,7 @@ import * as vscode from 'vscode'
 import * as commands from './commands'
 import * as installer from './installer'
 import * as logger from './logger'
+import { getVersion } from './util'
 import { State } from './state'
 
 let state: State
@@ -20,7 +21,7 @@ export async function activate(context: vscode.ExtensionContext) {
     }
   }
 
-  state = new State(context)
+  state = new State(context, getVersion())
 
   Object.values(commands).forEach((command) => {
     context.subscriptions.push(command(state))

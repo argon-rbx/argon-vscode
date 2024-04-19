@@ -13,7 +13,7 @@ export function handler() {
     return
   }
 
-  let selection = vscode.window.activeTextEditor.document.getText(
+  const selection = vscode.window.activeTextEditor.document.getText(
     vscode.window.activeTextEditor.selection,
   )
 
