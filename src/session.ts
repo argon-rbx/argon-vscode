@@ -22,4 +22,8 @@ export class Session {
     this.address = address
     return this
   }
+
+  public equals(other: Session) {
+    return this.type === other.type && this.project === other.project
+  }
 }

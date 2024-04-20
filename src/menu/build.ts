@@ -99,7 +99,7 @@ export async function handler(state: State) {
   const options = await getOptions(state.context)
 
   if (output) {
-    options.push(`--output ${output}`)
+    options.push('--output', output)
   }
 
   const id = await argon.build(project, options)

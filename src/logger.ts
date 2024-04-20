@@ -1,32 +1,48 @@
-import * as vscode from 'vscode'
+import { window } from 'vscode'
+import * as config from './config'
 
-const outputChannel = vscode.window.createOutputChannel('Argon')
+const outputChannel = window.createOutputChannel('Argon')
 outputChannel.appendLine('Argon started')
 
-function beautify(message: string) {
-  return 'Argon: ' + message.substring(message.indexOf(':') + 1)
+function beautify(message: string): string {
+  const index = message.indexOf(':')
+
+  // Remove Argon CLI log prefix
+  if (index <= 5) {
+    message = message.substring(index + 1)
+  }
+
+  return 'Argon: ' + message
 }
 
-export function info(message: string, noNotification?: boolean) {
+function shouldShow(silent?: boolean): boolean {
+  if (silent) {
+    return false
+  }
+
+  return !config.hideNotifications()
+}
+
+export function info(message: string, silent?: boolean) {
   outputChannel.appendLine(message)
 
-  if (!noNotification) {
-    vscode.window.showInformationMessage(beautify(message))
+  if (shouldShow(silent)) {
+    window.showInformationMessage(beautify(message))
   }
 }
 
-export function warn(message: string, noNotification?: boolean) {
+export function warn(message: string, silent?: boolean) {
   outputChannel.appendLine(message)
 
-  if (!noNotification) {
-    vscode.window.showWarningMessage(beautify(message))
+  if (shouldShow(silent)) {
+    window.showWarningMessage(beautify(message))
   }
 }
 
-export function error(message: string, noNotification?: boolean) {
+export function error(message: string, silent?: boolean) {
   outputChannel.appendLine(message)
 
-  if (!noNotification) {
-    vscode.window.showErrorMessage(beautify(message))
+  if (shouldShow(silent)) {
+    window.showErrorMessage(beautify(message))
   }
 }

@@ -60,6 +60,6 @@ export function getProjectName(project: string): string {
   return JSON.parse(fs.readFileSync(project, 'utf8')).name
 }
 
-export function getVersion() {
+export function getVersion(): string {
   return argon.version().replace('argon ', '').trim()
 }

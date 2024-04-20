@@ -1,5 +1,6 @@
 import * as vscode from 'vscode'
 import * as argon from '../argon'
+import * as config from '../config'
 import { getProjectName } from '../util'
 import { Item, getProject } from '.'
 import { State } from '../state'
@@ -16,11 +17,14 @@ function getAddress(): Promise<{
   port: string | undefined
 }> {
   return new Promise((resolve, reject) => {
+    const host = config.defaultHost()
+    const port = config.defaultPort().toString()
+
     vscode.window
       .showInputBox({
         title: 'Enter full address or part of it',
-        placeHolder: 'localhost:8000',
-        value: '8000',
+        placeHolder: `${host}:${port}`,
+        value: port,
       })
       .then((address) => {
         if (!address) {
@@ -55,6 +59,7 @@ function getAddress(): Promise<{
 
 function getOptions(
   context: vscode.ExtensionContext,
+  autoRun: boolean,
 ): Promise<[string[], boolean]> {
   return new Promise((resolve, reject) => {
     const options = [
@@ -81,6 +86,15 @@ function getOptions(
       option['picked'] = context.globalState.get(option.id, option.picked)
     })
 
+    if (autoRun) {
+      return resolve([
+        options.flatMap((option) =>
+          option.flag && option.picked ? [option.flag] : [],
+        ),
+        false,
+      ])
+    }
+
     vscode.window
       .showQuickPick(options, {
         title: 'Select serve options',
@@ -106,28 +120,31 @@ function getOptions(
   })
 }
 
-export async function handler(state: State) {
-  const project = await getProject(state.context, true)
+export async function handler(state: State, project?: string) {
+  const autoRun = project !== undefined
 
-  const [options, customAddress] = await getOptions(state.context)
+  project = project || (await getProject(state.context, true))
+
+  const [options, customAddress] = await getOptions(state.context, autoRun)
   const address = {
-    host: 'localhost',
-    port: '8000',
+    host: config.defaultHost(),
+    port: config.defaultPort().toString(),
   }
 
   if (customAddress) {
     const custom = await getAddress()
 
     if (custom.host) {
-      options.push('--host ' + custom.host)
       address.host = custom.host
     }
 
     if (custom.port) {
-      options.push('--port ' + custom.port)
       address.port = custom.port
     }
   }
+
+  options.push('--host', address.host)
+  options.push('--port', address.port)
 
   const name = getProjectName(project)
   const [id, message] = await argon.serve(project, options)

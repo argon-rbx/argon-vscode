@@ -67,6 +67,39 @@
         "key": "f6"
       }
     ],
+    "configuration": {
+      "title": "Argon",
+      "properties": {
+        "argon.autoRun": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether Argon should serve last used project automatically",
+          "order": 0
+        },
+        "argon.hideNotifications": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether bottom-right corner notifications should be hidden",
+          "order": 1
+        },
+        "argon.defaultHost": {
+          "type": "string",
+          "default": "localhost",
+          "description": "The host that server should be running on",
+          "pattern": "[hostname]",
+          "patternErrorMessage": "This symbol is not allowed",
+          "order": 2
+        },
+        "argon.defaultPort": {
+          "type": "number",
+          "default": 8000,
+          "description": "The port that server should be running on",
+          "minimum": 0,
+          "maximum": 65535,
+          "order": 3
+        }
+      }
+    },
     "icons": {
       "argon-logo": {
         "description": "Argon logo",

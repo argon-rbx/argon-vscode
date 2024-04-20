@@ -1,5 +1,6 @@
 import * as vscode from 'vscode'
 import * as argon from './argon'
+import * as logger from './logger'
 import { Session } from './session'
 
 export class State {
@@ -27,12 +28,31 @@ export class State {
   }
 
   public addSession(session: Session) {
+    if (this.sessions.find((s) => session.equals(s))) {
+      logger.warn(
+        `Session with type: ${session.type} and project: ${session.project} is already running. Ignore this message if this is desired behavior`,
+      )
+    }
+
     this.sessions.push(session)
     this.updateItem()
+
+    this.context.workspaceState.update('lastProject', session.project)
   }
 
   public removeSession(id: number) {
-    this.sessions = this.sessions.filter((session) => session.id !== id)
+    const lastProject = this.context.workspaceState.get('lastProject')
+
+    this.sessions = this.sessions.filter((session) => {
+      const matches = session.id === id
+
+      if (matches && session.project === lastProject) {
+        this.context.workspaceState.update('lastProject', undefined)
+      }
+
+      return !matches
+    })
+
     this.updateItem()
   }
 

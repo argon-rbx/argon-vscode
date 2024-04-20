@@ -78,7 +78,7 @@ export async function handler(state: State) {
   const output = await getOutput()
 
   const options = await getOptions(state.context)
-  options.push(`--output ${output}`)
+  options.push('--output', output)
 
   const name = getProjectName(project)
   const id = await argon.sourcemap(project, options)

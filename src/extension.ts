@@ -2,6 +2,8 @@ import * as vscode from 'vscode'
 import * as commands from './commands'
 import * as installer from './installer'
 import * as logger from './logger'
+import * as config from './config'
+import * as serve from './menu/serve'
 import { getVersion } from './util'
 import { State } from './state'
 
@@ -28,6 +30,14 @@ export async function activate(context: vscode.ExtensionContext) {
   })
 
   state.show()
+
+  if (config.autoRun()) {
+    const project = context.workspaceState.get('lastProject')
+
+    if (project) {
+      serve.handler(state, project as string)
+    }
+  }
 }
 
 export function deactivate() {
