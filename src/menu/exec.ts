@@ -1,5 +1,6 @@
 import * as vscode from 'vscode'
 import * as argon from '../argon'
+import * as config from '../config'
 import { Item } from '.'
 
 export const item: Item = {
@@ -17,9 +18,11 @@ export function handler() {
     vscode.window.activeTextEditor.selection,
   )
 
+  const focus = config.focusStudio()
+
   if (selection) {
-    argon.exec(selection)
+    argon.exec(selection, focus)
   } else {
-    argon.exec(vscode.window.activeTextEditor.document.uri.fsPath)
+    argon.exec(vscode.window.activeTextEditor.document.uri.fsPath, focus)
   }
 }

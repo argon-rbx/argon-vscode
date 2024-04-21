@@ -25,6 +25,8 @@ function log(data: string) {
 }
 
 async function spawn(args: string[]) {
+  logger.info('Starting new Argon process..', true)
+
   const process = childProcess.spawn(
     'argon',
     args.concat(['-vvv', '--yes', '--color', 'never']),
@@ -98,12 +100,12 @@ export function debug(mode: string) {
   spawn(['debug', mode])
 }
 
-export function exec(code: string) {
-  spawn(['exec', `"${code}"`])
+export function exec(code: string, focus?: boolean) {
+  spawn(['exec', code, focus ? '--focus' : ''])
 }
 
-export function studio() {
-  spawn(['studio'])
+export function studio(check?: boolean) {
+  spawn(['studio', check ? '--check' : ''])
 }
 
 export function plugin() {

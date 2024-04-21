@@ -76,11 +76,29 @@
           "description": "Whether Argon should serve last used project automatically",
           "order": 0
         },
-        "argon.hideNotifications": {
+        "argon.autoLaunchStudio": {
           "type": "boolean",
           "default": false,
-          "description": "Whether bottom-right corner notifications should be hidden",
+          "description": "Whether Roblox Studio should be launched automatically when running a project",
           "order": 1
+        },
+        "argon.focusStudio": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether Roblox Studio should be focused when executing code",
+          "order": 2
+        },
+        "argon.notificationLevel": {
+          "type": "string",
+          "default": "Info",
+          "description": "Which level of notifications should be shown at the bottom right corner",
+          "enum": [
+            "Info",
+            "Warning",
+            "Error",
+            "None"
+          ],
+          "order": 3
         },
         "argon.defaultHost": {
           "type": "string",
@@ -88,7 +106,7 @@
           "description": "The host that server should be running on",
           "pattern": "[hostname]",
           "patternErrorMessage": "This symbol is not allowed",
-          "order": 2
+          "order": 4
         },
         "argon.defaultPort": {
           "type": "number",
@@ -96,7 +114,7 @@
           "description": "The port that server should be running on",
           "minimum": 0,
           "maximum": 65535,
-          "order": 3
+          "order": 5
         }
       }
     },

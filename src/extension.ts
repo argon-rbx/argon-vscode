@@ -4,6 +4,7 @@ import * as installer from './installer'
 import * as logger from './logger'
 import * as config from './config'
 import * as serve from './menu/serve'
+import * as argon from './argon'
 import { getVersion } from './util'
 import { State } from './state'
 
@@ -36,6 +37,10 @@ export async function activate(context: vscode.ExtensionContext) {
 
     if (project) {
       serve.handler(state, project as string)
+
+      if (config.autoLaunchStudio()) {
+        argon.studio(true)
+      }
     }
   }
 }

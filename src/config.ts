@@ -8,8 +8,25 @@ export function autoRun(): boolean {
   return config().get('autoRun')!
 }
 
-export function hideNotifications(): boolean {
-  return config().get('hideNotifications')!
+export function autoLaunchStudio(): boolean {
+  return config().get('autoLaunchStudio')!
+}
+
+export function focusStudio(): boolean {
+  return config().get('focusStudio')!
+}
+
+export function notificationLevel(): number {
+  switch (config().get('hideNotifications')) {
+    case 'Info':
+      return 3
+    case 'Warning':
+      return 2
+    case 'Error':
+      return 1
+    default:
+      return 0
+  }
 }
 
 export function defaultHost(): string {

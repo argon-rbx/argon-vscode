@@ -15,18 +15,10 @@ function beautify(message: string): string {
   return 'Argon: ' + message
 }
 
-function shouldShow(silent?: boolean): boolean {
-  if (silent) {
-    return false
-  }
-
-  return !config.hideNotifications()
-}
-
 export function info(message: string, silent?: boolean) {
   outputChannel.appendLine(message)
 
-  if (shouldShow(silent)) {
+  if (!silent && config.notificationLevel() >= 3) {
     window.showInformationMessage(beautify(message))
   }
 }
@@ -34,7 +26,7 @@ export function info(message: string, silent?: boolean) {
 export function warn(message: string, silent?: boolean) {
   outputChannel.appendLine(message)
 
-  if (shouldShow(silent)) {
+  if (!silent && config.notificationLevel() >= 2) {
     window.showWarningMessage(beautify(message))
   }
 }
@@ -42,7 +34,7 @@ export function warn(message: string, silent?: boolean) {
 export function error(message: string, silent?: boolean) {
   outputChannel.appendLine(message)
 
-  if (shouldShow(silent)) {
+  if (!silent && config.notificationLevel() >= 1) {
     window.showErrorMessage(beautify(message))
   }
 }
