@@ -35,7 +35,7 @@ async function spawn(args: string[]) {
     },
   )
 
-  const lastOutput: Promise<string> = new Promise((resolve) => {
+  const lastOutput: string = await new Promise((resolve) => {
     process.stdout?.on('data', (data) => {
       const output = log(data.toString())
 
@@ -53,9 +53,10 @@ async function spawn(args: string[]) {
     })
   })
 
-  return process.exitCode === 0 || process.exitCode === null
-    ? Promise.resolve(await lastOutput)
-    : Promise.reject(await lastOutput)
+  return (process.exitCode === 0 || process.exitCode === null) &&
+    !lastOutput.includes('Command execution failed')
+    ? Promise.resolve(lastOutput)
+    : Promise.reject(lastOutput)
 }
 
 export async function serve(

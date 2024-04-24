@@ -118,6 +118,20 @@
         }
       }
     },
+    "jsonValidation": [
+      {
+        "fileMatch": "*.project.json",
+        "url": "./assets/project.schema.json"
+      },
+      {
+        "fileMatch": "*.data.json",
+        "url": "./assets/data.schema.json"
+      },
+      {
+        "fileMatch": "*.meta.json",
+        "url": "./assets/data.schema.json"
+      }
+    ],
     "icons": {
       "argon-logo": {
         "description": "Argon logo",

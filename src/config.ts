@@ -17,7 +17,7 @@ export function focusStudio(): boolean {
 }
 
 export function notificationLevel(): number {
-  switch (config().get('hideNotifications')) {
+  switch (config().get('notificationLevel')) {
     case 'Info':
       return 3
     case 'Warning':

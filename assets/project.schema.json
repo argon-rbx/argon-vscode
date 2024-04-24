@@ -1,0 +1,171 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "required": ["name", "tree"],
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the project, displayed by Argon",
+      "title": "Project Name"
+    },
+    "host": {
+      "type": "string",
+      "title": "Serve Host",
+      "description": "Set the host that Argon server should be running on"
+    },
+    "port": {
+      "type": "integer",
+      "title": "Serve Port",
+      "description": "Set the port that Argon server should be running on"
+    },
+    "gameId": {
+      "type": "integer",
+      "title": "Game ID",
+      "description": "Limit Argon clients to only sync with this project when the game ID matches"
+    },
+    "placeIds": {
+      "type": "array",
+      "title": "Place IDs",
+      "description": "Limit Argon clients to only sync with this project when one of the place IDs matches",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "ignoreGlobs": {
+      "type": "array",
+      "title": "Ignore Globs",
+      "description": "Exclude files that match any of these globs from processing and syncing",
+      "items": {
+        "type": "string"
+      }
+    },
+    "syncRules": {
+      "type": "array",
+      "title": "Sync Rules",
+      "description": "Replace the default sync rules with a custom set of user-defined sync rules",
+      "items": {
+        "required": ["type"],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "Type",
+            "description": "The type of file this rule applies to",
+            "enum": [
+              "Project",
+              "InstanceData",
+              "ServerScript",
+              "ClientScript",
+              "ModuleScript",
+              "StringValue",
+              "LocalizationTable",
+              "JsonModule",
+              "TomlModule",
+              "JsonModel",
+              "RbxmModel",
+              "RbxmxModel"
+            ]
+          },
+          "pattern": {
+            "type": "string",
+            "title": "Pattern",
+            "description": "A glob pattern that matches the file path"
+          },
+          "childPattern": {
+            "type": "string",
+            "title": "Child Pattern",
+            "description": "A glob pattern that matches folder-contained file path"
+          },
+          "exclude": {
+            "type": "array",
+            "title": "Exclude",
+            "description": "A glob pattern that excludes the file path from this rule",
+            "items": {
+              "type": "string"
+            }
+          },
+          "suffix": {
+            "type": "string",
+            "title": "Suffix",
+            "description": "A suffix to stripe from the file path to get the instance name"
+          }
+        }
+      }
+    },
+    "syncback": {
+      "type": "object",
+      "title": "Syncback Settings",
+      "description": "Customize how instances are synced back to the file system",
+      "properties": {
+        "ignoreGlobs": {
+          "type": "array",
+          "title": "Ignore Globs",
+          "description": "Exclude files that match any of these globs from processing changes",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ignoreNames": {
+          "type": "array",
+          "title": "Ignore Names",
+          "description": "Exclude instances with these names from processing changes",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ignoreClasses": {
+          "type": "array",
+          "title": "Ignore Classes",
+          "description": "Exclude instances with these classes from processing changes",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ignoreProperties": {
+          "type": "array",
+          "title": "Ignore Properties",
+          "description": "Exclude these properties from being saved to the file system",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "legacyScripts": {
+      "type": "boolean",
+      "title": "Legacy Scripts",
+      "description": "Use the legacy script run context"
+    },
+    "tree": {
+      "$ref": "#/$definitions/tree"
+    }
+  },
+  "$definitions": {
+    "tree": {
+      "type": "object",
+      "properties": {
+        "$path": {
+          "type": "string"
+        },
+        "$className": {
+          "type": "string"
+        },
+        "$properties": {
+          "type": "object",
+          "properties": {
+            "Name": false,
+            "Parent": false
+          }
+        },
+        "$keepUnknowns": {
+          "type": "boolean"
+        }
+      },
+      "patternProperties": {
+        "^[^$].*": {
+          "$ref": "#/$definitions/tree"
+        }
+      }
+    }
+  }
+}

@@ -60,6 +60,30 @@ export function getProjectName(project: string): string {
   return JSON.parse(fs.readFileSync(project, 'utf8')).name
 }
 
+export function getProjectAddress(project: string): {
+  host?: string
+  port?: string
+} {
+  if (!path.isAbsolute(project)) {
+    const dir = getCurrentDir()
+
+    if (!dir) {
+      throw new Error(
+        'Cannot get project name without a workspace folder open!',
+      )
+    }
+
+    project = path.join(dir, project)
+  }
+
+  const json = JSON.parse(fs.readFileSync(project, 'utf8'))
+
+  return {
+    host: json.host,
+    port: json.port,
+  }
+}
+
 export function getVersion(): string {
   return argon.version().replace('argon ', '').trim()
 }

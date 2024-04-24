@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import * as argon from '../argon'
 import * as config from '../config'
-import { getProjectName } from '../util'
+import { getProjectAddress, getProjectName } from '../util'
 import { Item, getProject } from '.'
 import { State } from '../state'
 import { Session } from '../session'
@@ -125,23 +125,23 @@ export async function handler(state: State, project?: string) {
 
   project = project || (await getProject(state.context, true))
 
-  const [options, customAddress] = await getOptions(state.context, autoRun)
-  const address = {
-    host: config.defaultHost(),
-    port: config.defaultPort().toString(),
-  }
+  const [options, enterAddress] = await getOptions(state.context, autoRun)
+  const address = getProjectAddress(project)
 
-  if (customAddress) {
-    const custom = await getAddress()
+  if (enterAddress) {
+    const customAddress = await getAddress()
 
-    if (custom.host) {
-      address.host = custom.host
+    if (customAddress.host) {
+      address.host = customAddress.host
     }
 
-    if (custom.port) {
-      address.port = custom.port
+    if (customAddress.port) {
+      address.port = customAddress.port
     }
   }
+
+  address.host = address.host || config.defaultHost()
+  address.port = address.port || config.defaultPort().toString()
 
   options.push('--host', address.host)
   options.push('--port', address.port)
