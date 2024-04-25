@@ -33,11 +33,15 @@ export async function handler(state: State): Promise<void> {
         }
 
         if (item.id === 0) {
-          items.forEach((item) => {
-            if (item.id !== 0) {
-              state.removeSession(item.id)
-              argon.stop(item.id)
-            }
+          const ids = state
+            .getSessions()
+            .map((session) => session.id)
+            .filter((id) => id !== 0)
+
+          argon.stop(ids)
+
+          ids.forEach((id) => {
+            state.removeSession(id)
           })
         } else {
           state.removeSession(item.id)

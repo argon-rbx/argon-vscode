@@ -31,7 +31,7 @@ function getProjectName(): Promise<string> {
 
 function getProjectTemplate(): Promise<string> {
   return new Promise((resolve, reject) => {
-    const priority = ['place', 'plugin', 'package', 'model']
+    const priority = ['place', 'plugin', 'package', 'model', 'quick']
 
     const templates = fs
       .readdirSync(path.join(getArgonPath(), 'templates'))
@@ -44,6 +44,8 @@ function getProjectTemplate(): Promise<string> {
       .map((template) => {
         return {
           label: template.charAt(0).toUpperCase() + template.slice(1),
+          description:
+            template === 'quick' ? '(Recommended for beginners)' : '',
           id: template,
         }
       })

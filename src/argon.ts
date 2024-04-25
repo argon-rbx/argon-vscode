@@ -93,8 +93,12 @@ export function init(project: string, template: string, options: string[]) {
   spawn(['init', project, '--template', template, ...options])
 }
 
-export function stop(id: number) {
-  spawn(['stop', id.toString()])
+export function stop(id: number | number[]) {
+  if (typeof id === 'number') {
+    spawn(['stop', id.toString()])
+  } else {
+    spawn(['stop', ...id.map((id) => id.toString())])
+  }
 }
 
 export function debug(mode: string) {

@@ -91,12 +91,12 @@
         "argon.notificationLevel": {
           "type": "string",
           "default": "Info",
-          "description": "Which level of notifications should be shown at the bottom right corner",
+          "description": "What level of notifications should be shown at the bottom right corner",
           "enum": [
             "Info",
             "Warning",
             "Error",
-            "None"
+            "Off"
           ],
           "order": 3
         },
