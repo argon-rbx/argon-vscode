@@ -106,15 +106,17 @@ export function debug(mode: string) {
 }
 
 export function exec(code: string, focus?: boolean) {
-  spawn(['exec', code, focus ? '--focus' : ''])
+  const args = focus ? ['--focus'] : []
+  spawn(['exec', code, ...args])
 }
 
 export function studio(check?: boolean) {
-  spawn(['studio', check ? '--check' : ''])
+  const args = check ? ['--check'] : []
+  spawn(['studio', ...args])
 }
 
 export function plugin() {
-  spawn(['plugin'])
+  spawn(['plugin', 'install'])
 }
 
 export function version() {

@@ -79,7 +79,7 @@
           "exclude": {
             "type": "array",
             "title": "Exclude",
-            "description": "A glob pattern that excludes the file path from this rule",
+            "description": "A list of glob patterns that exclude the file path from this rule",
             "items": {
               "type": "string"
             }

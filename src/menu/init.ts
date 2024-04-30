@@ -35,6 +35,7 @@ function getProjectTemplate(): Promise<string> {
 
     const templates = fs
       .readdirSync(path.join(getArgonPath(), 'templates'))
+      .filter((name) => name !== '.DS_Store')
       .sort((a, b) => {
         const index1 = priority.indexOf(a)
         const index2 = priority.indexOf(b)

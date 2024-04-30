@@ -5,7 +5,7 @@ import { State } from '../state'
 
 export const item: Item = {
   label: '$(stop) Stop',
-  description: 'Stop running Argon instances',
+  description: 'Stop running Argon sessions',
   action: 'stop',
 }
 

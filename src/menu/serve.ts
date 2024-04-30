@@ -8,7 +8,7 @@ import { Session } from '../session'
 
 export const item: Item = {
   label: '$(rss) Serve',
-  description: 'Sync with Roblox Studio',
+  description: 'Live Sync with Roblox Studio',
   action: 'serve',
 }
 

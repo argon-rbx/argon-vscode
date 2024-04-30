@@ -5,7 +5,7 @@ import { Item } from '.'
 
 export const item: Item = {
   label: '$(run-all) Exec',
-  description: 'Run code snippet or file in Studio',
+  description: 'Run code snippet or file in Roblox Studio',
   action: 'exec',
 }
 
