@@ -37,15 +37,20 @@ export async function install() {
         versionIndex++
       }
 
-      return (
-        asset.name.includes(os.platform().replace('darwin', 'macos')) &&
-        asset.name.includes(
-          os.arch().replace('x64', 'x86_64').replace('arm64', 'aarch64'),
-        )
-      )
+      const platform = os
+        .platform()
+        .replace('darwin', 'macos')
+        .replace('win32', 'windows')
+
+      const arch =
+        os.platform() === 'win32'
+          ? 'x86_64'
+          : os.arch().replace('x64', 'x86_64').replace('arm64', 'aarch64')
+
+      return asset.name.includes(platform) && asset.name.includes(arch)
     },
   )
 
-  // Trigger Argon installator
+  // Trigger Argon installer
   childProcess.execFileSync(argonPath, ['--version'])
 }
