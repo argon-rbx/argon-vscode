@@ -36,9 +36,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # - name: Build
-      #   run: vsce package # Is this okay?
-
       - name: Test
         uses: coactions/setup-xvfb@v1
         with:

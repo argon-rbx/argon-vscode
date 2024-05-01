@@ -77,6 +77,9 @@ jobs:
         with:
           ref: main
 
+      - name: Install dependencies
+        run: npm ci
+
       - name: Build
         run: npx vsce package --out argon.vsix
 
@@ -99,12 +102,19 @@ jobs:
     needs: [build, draft-release]
 
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
       - name: Publish to GitHub
         uses: eregon/publish-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           release_id: ${{ needs.draft-release.outputs.release_id }}
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Publish to VS Marketplace
         run: npx vsce publish --pat ${{ secrets.MARKETPLACE_TOKEN }}
