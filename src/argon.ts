@@ -121,8 +121,8 @@ export function studio(check?: boolean) {
   spawn(['studio', ...args])
 }
 
-export function plugin() {
-  spawn(['plugin', 'install'])
+export function plugin(mode: string) {
+  spawn(['plugin', mode])
 }
 
 export function version() {

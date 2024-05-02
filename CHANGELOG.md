@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Server address preview when running `Argon Stop`, suggested by [@Arid](https://github.com/AridAjd)
 - `Verbose` mode in the extension settings to enable easier debugging
+- Option to uninstall Argon plugin
 
 ### Improved
 
