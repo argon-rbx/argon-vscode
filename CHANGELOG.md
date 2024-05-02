@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Server address preview when running `Argon Stop`, suggested by [@Arid](https://github.com/AridAjd)
+- `Verbose` mode in the extension settings to enable easier debugging
+
+### Improved
+
+- It is now possible to stop multiple Argon instances at once
+- Argon CLI output is now captured in a better way proving more up to date info
+
 ## [2.0.0] - 2024-05-01
 
 - Initial release

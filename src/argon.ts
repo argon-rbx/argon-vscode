@@ -1,5 +1,6 @@
 import * as childProcess from 'child_process'
 import * as logger from './logger'
+import * as config from './config'
 import { getCurrentDir } from './util'
 
 function log(data: string) {
@@ -16,7 +17,7 @@ function log(data: string) {
       logger.info(line, isVerbose)
     }
 
-    if (!isVerbose) {
+    if (!isVerbose && !output) {
       output = line
     }
   }
@@ -29,13 +30,18 @@ async function spawn(args: string[]) {
 
   const process = childProcess.spawn(
     'argon',
-    args.concat(['-vvv', '--yes', '--color', 'never']),
+    args.concat([
+      config.verbose() ? '-vvvv' : '-v',
+      '--yes',
+      '--color',
+      'never',
+    ]),
     {
       cwd: getCurrentDir(),
     },
   )
 
-  const lastOutput: string = await new Promise((resolve) => {
+  const firstOutput: string = await new Promise((resolve) => {
     process.stdout?.on('data', (data) => {
       const output = log(data.toString())
 
@@ -54,9 +60,9 @@ async function spawn(args: string[]) {
   })
 
   return (process.exitCode === 0 || process.exitCode === null) &&
-    !lastOutput.includes('Command execution failed')
-    ? Promise.resolve(lastOutput)
-    : Promise.reject(lastOutput)
+    !firstOutput.includes('Command execution failed')
+    ? Promise.resolve(firstOutput)
+    : Promise.reject(firstOutput)
 }
 
 export async function serve(

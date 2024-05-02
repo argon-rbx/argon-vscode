@@ -12,7 +12,13 @@ export const item: Item = {
 export async function handler(state: State): Promise<void> {
   return new Promise((resolve, reject) => {
     const items = state.getSessions().map((session) => {
-      return { label: `${session.project} [${session.type}]`, id: session.id }
+      if (session.type === 'Serve') {
+        var label = `${session.project} [${session.type} - ${session.address}]`
+      } else {
+        var label = `${session.project} [${session.type}]`
+      }
+
+      return { label, id: session.id }
     })
 
     if (items.length === 0) {
@@ -21,31 +27,24 @@ export async function handler(state: State): Promise<void> {
       })
     }
 
-    items.push({ label: '$(x)Stop all', id: 0 })
-
     vscode.window
       .showQuickPick(items, {
         title: 'Select a session to stop',
+        canPickMany: true,
       })
-      .then((item) => {
-        if (!item) {
+      .then((items) => {
+        if (!items) {
           return reject()
         }
 
-        if (item.id === 0) {
-          const ids = state
-            .getSessions()
-            .map((session) => session.id)
-            .filter((id) => id !== 0)
+        const ids = items.map((item) => item.id)
 
+        if (ids.length !== 0) {
           argon.stop(ids)
 
           ids.forEach((id) => {
             state.removeSession(id)
           })
-        } else {
-          state.removeSession(item.id)
-          argon.stop(item.id)
         }
 
         resolve()

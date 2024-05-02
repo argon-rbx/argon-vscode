@@ -36,3 +36,7 @@ export function defaultHost(): string {
 export function defaultPort(): number {
   return config().get('defaultPort')!
 }
+
+export function verbose(): boolean {
+  return config().get('verbose')!
+}
