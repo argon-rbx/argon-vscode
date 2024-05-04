@@ -3,13 +3,15 @@ import * as logger from './logger'
 import * as config from './config'
 import { getCurrentDir } from './util'
 
-function log(data: string) {
-  let output = null
+function log(data: string, logCallback?: (data: string) => void) {
+  let output = undefined
 
   for (const line of data.trim().split('\n')) {
     const isVerbose = line.endsWith(']')
 
-    if (line.startsWith('ERROR')) {
+    if (logCallback && !isVerbose) {
+      logCallback(line)
+    } else if (line.startsWith('ERROR')) {
       logger.error(line, isVerbose)
     } else if (line.startsWith('WARN')) {
       logger.warn(line, isVerbose)
@@ -25,7 +27,7 @@ function log(data: string) {
   return output
 }
 
-async function spawn(args: string[]) {
+async function spawn(args: string[], logCallback?: (data: string) => void) {
   logger.info('Starting new Argon process..', true)
 
   const process = childProcess.spawn(
@@ -43,7 +45,7 @@ async function spawn(args: string[]) {
 
   const firstOutput: string = await new Promise((resolve) => {
     process.stdout?.on('data', (data) => {
-      const output = log(data.toString())
+      const output = log(data.toString(), logCallback)
 
       if (output) {
         resolve(output)
@@ -51,7 +53,7 @@ async function spawn(args: string[]) {
     })
 
     process.stderr?.on('data', (data) => {
-      const output = log(data.toString())
+      const output = log(data.toString(), logCallback)
 
       if (output) {
         resolve(output)
@@ -123,6 +125,23 @@ export function studio(check?: boolean) {
 
 export function plugin(mode: string) {
   spawn(['plugin', mode])
+}
+
+export function update(auto?: boolean) {
+  spawn(
+    ['update'],
+    auto
+      ? (data: string) => {
+          if (data.includes('is up to date')) {
+            logger.info(data, true)
+          } else if (data.includes('error trying to connect')) {
+            logger.error(data, true)
+          } else {
+            log(data)
+          }
+        }
+      : undefined,
+  )
 }
 
 export function version() {

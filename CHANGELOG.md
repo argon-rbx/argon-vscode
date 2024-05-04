@@ -6,15 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- `Update` command to manually check for Argon updates
+
+### Changed
+
+- Argon now checks for updates automatically every time you start extension
+
 ## [2.0.1] - 2024-05-02
 
 ### Added
 
-- Server address preview when running `Argon Stop`, suggested by [@Arid](https://github.com/AridAjd)
+- Server address preview when running `Argon Stop`
 - `Verbose` mode in the extension settings to enable easier debugging
 - Option to uninstall Argon plugin
 
-### Improved
+### Changed
 
 - It is now possible to stop multiple Argon instances at once
 - Argon CLI output is now captured in a better way proving more up to date info

@@ -24,6 +24,8 @@ export async function activate(context: vscode.ExtensionContext) {
     }
   }
 
+  argon.update(true)
+
   state = new State(context, getVersion())
 
   Object.values(commands).forEach((command) => {

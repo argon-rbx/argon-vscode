@@ -11,6 +11,7 @@ import * as exec from './exec'
 import * as debug from './debug'
 import * as studio from './studio'
 import * as plugin from './plugin'
+import * as update from './update'
 import * as settings from './settings'
 import * as help from './help'
 
@@ -67,6 +68,7 @@ export function items(): (Item | Divider)[] {
     exec.item,
     studio.item,
     plugin.item,
+    update.item,
     misc(),
     settings.item,
     help.item,
@@ -106,6 +108,9 @@ export async function onDidAccept(action: string, state: State) {
       break
     case 'plugin':
       await plugin.handler()
+      break
+    case 'update':
+      update.handler()
       break
 
     case 'settings':
