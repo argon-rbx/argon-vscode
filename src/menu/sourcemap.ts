@@ -63,7 +63,7 @@ function getOptions(context: vscode.ExtensionContext): Promise<string[]> {
         options.forEach((item) => {
           context.globalState.update(
             item.id,
-            items.find((i) => i.id === item.id) !== undefined,
+            items.some((i) => i.id === item.id),
           )
         })
 

@@ -11,6 +11,8 @@ export const item: Item = {
   action: 'init',
 }
 
+const ALL_OPTIONS = ['--docs', '--git', '--wally', '--ts']
+
 function getProjectName(): Promise<string> {
   return new Promise((resolve, reject) => {
     vscode.window
@@ -113,7 +115,7 @@ function getProjectOptions(
         options.forEach((item) => {
           context.globalState.update(
             item.id,
-            items.find((i) => i.id === item.id) !== undefined,
+            items.some((i) => i.id === item.id),
           )
         })
 
@@ -125,7 +127,15 @@ function getProjectOptions(
 export async function handler(context: vscode.ExtensionContext) {
   let name = await getProjectName()
   const template = await getProjectTemplate()
-  const options = await getProjectOptions(context)
+
+  const selectedOptions = await getProjectOptions(context)
+  const options: string[] = []
+
+  ALL_OPTIONS.forEach((option) => {
+    options.push(`${option}=${selectedOptions.includes(option)}`)
+  })
+
+  console.log(options)
 
   if (!name.endsWith('.project.json')) {
     name += '.project.json'

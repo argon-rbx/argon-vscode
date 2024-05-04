@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "className": {
+      "type": "string"
+    },
+    "properties": {
+      "type": "object",
+      "properties": {
+        "Name": false,
+        "Parent": false
+      }
+    },
+    "children": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$definitions/node"
+      }
+    }
+  },
+  "$definitions": {
+    "node": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "className": {
+          "type": "string"
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "Name": false,
+            "Parent": false
+          }
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$definitions/node"
+          }
+        }
+      }
+    }
+  }
+}

@@ -9,10 +9,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 
 - `Update` command to manually check for Argon updates
+- JSON schema for `*.model.json` files
 
 ### Changed
 
 - Argon now checks for updates automatically every time you start extension
+- `Init` command now overrides the global CLI config
 
 ## [2.0.1] - 2024-05-02
 

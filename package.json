@@ -127,15 +127,19 @@
     "jsonValidation": [
       {
         "fileMatch": "*.project.json",
-        "url": "./assets/project.schema.json"
+        "url": "./assets/schemas/project.json"
       },
       {
         "fileMatch": "*.data.json",
-        "url": "./assets/data.schema.json"
+        "url": "./assets/schemas/data.json"
       },
       {
         "fileMatch": "*.meta.json",
-        "url": "./assets/data.schema.json"
+        "url": "./assets/schemas/data.json"
+      },
+      {
+        "fileMatch": "*.model.json",
+        "url": "./assets/schemas/model.json"
       }
     ],
     "icons": {
