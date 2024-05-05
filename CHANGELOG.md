@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- Made `Stop` command simpler when there is only one session running
+
 ## [2.0.2] - 2024-05-04
 
 ### Added

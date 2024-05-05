@@ -30,11 +30,17 @@ export async function handler(state: State): Promise<void> {
     vscode.window
       .showQuickPick(items, {
         title: 'Select a session to stop',
-        canPickMany: true,
+        canPickMany: items.length > 1,
       })
-      .then((items) => {
-        if (!items) {
+      .then((item: any) => {
+        if (!item) {
           return reject()
+        }
+
+        if (Array.isArray(item)) {
+          var items = item
+        } else {
+          var items = [item]
         }
 
         const ids = items.map((item) => item.id)
