@@ -44,6 +44,24 @@ export function findProjects(placesOnly?: boolean): string[] {
   return projects
 }
 
+export function findPlaces(): string[] {
+  const dir = getCurrentDir()
+
+  if (!dir) {
+    throw new Error('Cannot find places without a workspace folder open!')
+  }
+
+  let places = fs
+    .readdirSync(dir)
+    .filter(
+      (entry) =>
+        (entry.endsWith('.rbxl') || entry.endsWith('.rbxlx')) &&
+        fs.statSync(path.join(dir, entry)).isFile(),
+    )
+
+  return places
+}
+
 export function getProjectName(project: string): string {
   if (!path.isAbsolute(project)) {
     const dir = getCurrentDir()

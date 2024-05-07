@@ -104,7 +104,7 @@ export async function onDidAccept(action: string, state: State) {
       exec.handler()
       break
     case 'studio':
-      studio.handler()
+      await studio.handler()
       break
     case 'plugin':
       await plugin.handler()

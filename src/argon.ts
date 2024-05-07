@@ -101,12 +101,8 @@ export function init(project: string, template: string, options: string[]) {
   spawn(['init', project, '--template', template, ...options])
 }
 
-export function stop(id: number | number[]) {
-  if (typeof id === 'number') {
-    spawn(['stop', id.toString()])
-  } else {
-    spawn(['stop', ...id.map((id) => id.toString())])
-  }
+export function stop(ids: number[]) {
+  spawn(['stop', ...ids.map((id) => id.toString())])
 }
 
 export function debug(mode: string) {
@@ -118,8 +114,17 @@ export function exec(code: string, focus?: boolean) {
   spawn(['exec', code, ...args])
 }
 
-export function studio(check?: boolean) {
-  const args = check ? ['--check'] : []
+export function studio(check?: boolean, place?: string) {
+  const args = []
+
+  if (place) {
+    args.push(place)
+  }
+
+  if (check) {
+    args.push('--check')
+  }
+
   spawn(['studio', ...args])
 }
 

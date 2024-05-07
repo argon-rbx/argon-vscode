@@ -47,10 +47,7 @@ export async function handler(state: State): Promise<void> {
 
         if (ids.length !== 0) {
           argon.stop(ids)
-
-          ids.forEach((id) => {
-            state.removeSession(id)
-          })
+          state.removeSessions(ids)
         }
 
         resolve()

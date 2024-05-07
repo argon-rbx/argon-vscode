@@ -40,11 +40,11 @@ export class State {
     this.context.workspaceState.update('lastProject', session.project)
   }
 
-  public removeSession(id: number) {
+  public removeSessions(ids: number[]) {
     const lastProject = this.context.workspaceState.get('lastProject')
 
     this.sessions = this.sessions.filter((session) => {
-      const matches = session.id === id
+      const matches = ids.includes(session.id)
 
       if (matches && session.project === lastProject) {
         this.context.workspaceState.update('lastProject', undefined)
@@ -61,10 +61,10 @@ export class State {
   }
 
   public cleanup() {
-    this.sessions.forEach((session) => {
-      console.log(`Stopping session ${session.id}...`)
-      argon.stop(session.id)
-    })
+    const ids = this.sessions.map((session) => session.id)
+
+    console.log(`Stopping ${ids.length} sessions...`)
+    argon.stop(ids)
   }
 
   private updateItem() {
