@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - It is now possible to open `.rbxl` pr `.rbxlx` file using `Studio` command
 - Session restoring now supports `Build` and `Sourcemap` commands
+- Completion for CLI global configuration (`**/.argon/config.toml`)
 
 ### Changed
 

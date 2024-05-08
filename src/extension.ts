@@ -5,6 +5,7 @@ import * as logger from './logger'
 import * as config from './config'
 import * as argon from './argon'
 import * as menu from './menu'
+import * as completion from './completion'
 import { getVersion } from './util'
 import { State } from './state'
 import { RestorableSession, Session } from './session'
@@ -48,6 +49,8 @@ export async function activate(context: vscode.ExtensionContext) {
       }
     }
   }
+
+  completion.start()
 }
 
 export function deactivate() {
