@@ -7,6 +7,6 @@ export const item: Item = {
   action: 'help',
 }
 
-export function handler() {
+export function run() {
   vscode.env.openExternal(vscode.Uri.parse('https://argon.wiki'))
 }

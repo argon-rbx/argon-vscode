@@ -9,11 +9,12 @@ export const item: Item = {
   action: 'stop',
 }
 
-export async function handler(state: State): Promise<void> {
+export async function run(state: State): Promise<void> {
   return new Promise((resolve, reject) => {
     const items = state.getSessions().map((session) => {
       if (session.type === 'Serve') {
-        var label = `${session.project} [${session.type} - ${session.address}]`
+        const address = session.address?.replace('localhost:', '')
+        var label = `${session.project} [${session.type} - ${address}]`
       } else {
         var label = `${session.project} [${session.type}]`
       }

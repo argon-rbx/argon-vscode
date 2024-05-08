@@ -4,7 +4,7 @@ import * as config from '../config'
 import { getProjectAddress, getProjectName } from '../util'
 import { Item, getProject } from '.'
 import { State } from '../state'
-import { Session } from '../session'
+import { RestorableSession, Session } from '../session'
 
 export const item: Item = {
   label: '$(rss) Serve',
@@ -12,9 +12,27 @@ export const item: Item = {
   action: 'serve',
 }
 
+const OPTIONS = [
+  {
+    label: 'Generate sourcemap',
+    flag: '--sourcemap',
+    picked: true,
+  },
+  {
+    label: 'Use roblox-ts',
+    flag: '--ts',
+    picked: false,
+  },
+  {
+    label: 'Customize address',
+    flag: 'customAddress',
+    picked: false,
+  },
+]
+
 function getAddress(): Promise<{
-  host: string | undefined
-  port: string | undefined
+  host?: string
+  port?: string
 }> {
   return new Promise((resolve, reject) => {
     const host = config.defaultHost()
@@ -59,44 +77,27 @@ function getAddress(): Promise<{
 
 function getOptions(
   context: vscode.ExtensionContext,
-  autoRun: boolean,
+  restore: boolean,
 ): Promise<[string[], boolean]> {
   return new Promise((resolve, reject) => {
-    const options = [
-      {
-        label: 'Generate sourcemap',
-        flag: '--sourcemap',
-        id: 'sourcemap',
-        picked: true,
-      },
-      {
-        label: 'Use roblox-ts',
-        flag: '--ts',
-        id: 'tsMode',
-        picked: false,
-      },
-      {
-        label: 'Customize address',
-        id: 'customAddress',
-        picked: false,
-      },
-    ]
-
-    options.forEach((option) => {
-      option['picked'] = context.globalState.get(option.id, option.picked)
+    OPTIONS.forEach((option) => {
+      option['picked'] = context.globalState.get(
+        'Serve' + option.flag,
+        option.picked,
+      )
     })
 
-    if (autoRun) {
+    if (restore) {
       return resolve([
-        options.flatMap((option) =>
-          option.flag && option.picked ? [option.flag] : [],
+        OPTIONS.flatMap((option) =>
+          option.flag !== 'customAddress' && option.picked ? [option.flag] : [],
         ),
         false,
       ])
     }
 
     vscode.window
-      .showQuickPick(options, {
+      .showQuickPick(OPTIONS, {
         title: 'Select serve options',
         canPickMany: true,
       })
@@ -105,30 +106,43 @@ function getOptions(
           return reject()
         }
 
-        options.forEach((item) => {
+        OPTIONS.forEach((item) => {
           context.globalState.update(
-            item.id,
-            items.some((i) => i.id === item.id),
+            'Serve' + item.flag,
+            items.some((i) => i.flag === item.flag),
           )
         })
 
         resolve([
-          items.flatMap((item) => (item.flag ? [item.flag] : [])),
-          items.some((item) => item.id === 'customAddress'),
+          items.flatMap((item) =>
+            item.flag !== 'customAddress' ? [item.flag] : [],
+          ),
+          items.some((item) => item.flag === 'customAddress'),
         ])
       })
   })
 }
 
-export async function handler(state: State, project?: string) {
-  const autoRun = project !== undefined
+export async function run(state: State, session?: RestorableSession) {
+  const restore = !!session
 
-  project = project || (await getProject(state.context, true))
+  if (!restore) {
+    var project = await getProject(state.context, true)
+    var address = getProjectAddress(project)
+  } else {
+    var project = session.project
 
-  const [options, enterAddress] = await getOptions(state.context, autoRun)
-  const address = getProjectAddress(project)
+    const sessionAddress = session.address?.split(':') || []
 
-  if (enterAddress) {
+    var address: { host?: string; port?: string } = {
+      host: sessionAddress[0],
+      port: sessionAddress[1],
+    }
+  }
+
+  const [options, promptAddress] = await getOptions(state.context, restore)
+
+  if (promptAddress) {
     const customAddress = await getAddress()
 
     if (customAddress.host) {
@@ -153,9 +167,9 @@ export async function handler(state: State, project?: string) {
     address.port = message.match(/\d+/g)?.[1]!
   }
 
-  const session = new Session(name, project, id).withAddress(
-    `${address.host}:${address.port}`,
+  state.addSession(
+    new Session(name, project, id).withAddress(
+      `${address.host}:${address.port}`,
+    ),
   )
-
-  state.addSession(session)
 }

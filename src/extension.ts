@@ -3,10 +3,11 @@ import * as commands from './commands'
 import * as installer from './installer'
 import * as logger from './logger'
 import * as config from './config'
-import * as serve from './menu/serve'
 import * as argon from './argon'
+import * as menu from './menu'
 import { getVersion } from './util'
 import { State } from './state'
+import { RestorableSession, Session } from './session'
 
 let state: State
 
@@ -35,10 +36,12 @@ export async function activate(context: vscode.ExtensionContext) {
   state.show()
 
   if (config.autoRun()) {
-    const project = context.workspaceState.get('lastProject')
+    const session = new RestorableSession(
+      context.workspaceState.get('lastSession'),
+    )
 
-    if (project) {
-      serve.handler(state, project as string)
+    if (session.isRestorable()) {
+      menu.restoreSession(session, state)
 
       if (config.autoLaunchStudio()) {
         argon.studio(true)

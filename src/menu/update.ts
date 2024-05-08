@@ -7,6 +7,6 @@ export const item: Item = {
   action: 'update',
 }
 
-export function handler() {
+export function run() {
   argon.update()
 }

@@ -14,6 +14,7 @@ import * as plugin from './plugin'
 import * as update from './update'
 import * as settings from './settings'
 import * as help from './help'
+import { RestorableSession, Session } from '../session'
 
 export interface Item {
   label: string
@@ -79,45 +80,61 @@ export async function onDidAccept(action: string, state: State) {
   switch (action) {
     case 'serve':
       verify()
-      await serve.handler(state)
+      await serve.run(state)
       break
     case 'build':
       verify()
-      await build.handler(state)
+      await build.run(state)
       break
     case 'sourcemap':
       verify()
-      await sourcemap.handler(state)
+      await sourcemap.run(state)
       break
     case 'init':
       verify()
-      await init.handler(state.context)
+      await init.run(state.context)
       break
     case 'stop':
-      await stop.handler(state)
+      await stop.run(state)
       break
 
     case 'debug':
-      await debug.handler()
+      await debug.run()
       break
     case 'exec':
-      exec.handler()
+      exec.run()
       break
     case 'studio':
-      await studio.handler()
+      await studio.run()
       break
     case 'plugin':
-      await plugin.handler()
+      await plugin.run()
       break
     case 'update':
-      update.handler()
+      update.run()
       break
 
     case 'settings':
-      settings.handler()
+      settings.run()
       break
     case 'help':
-      help.handler()
+      help.run()
+      break
+  }
+}
+
+export async function restoreSession(session: RestorableSession, state: State) {
+  console.log(session.type)
+
+  switch (session.type) {
+    case 'Serve':
+      await serve.run(state, session)
+      break
+    case 'Build':
+      await build.run(state, session)
+      break
+    case 'Sourcemap':
+      await sourcemap.run(state, session)
       break
   }
 }
@@ -139,9 +156,7 @@ export function getProject(
           return reject()
         }
 
-        resolve(
-          project.endsWith('.project.json') ? project : init.handler(context),
-        )
+        resolve(project.endsWith('.project.json') ? project : init.run(context))
       })
   })
 }

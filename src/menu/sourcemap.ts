@@ -3,7 +3,7 @@ import * as argon from '../argon'
 import { getProjectName } from '../util'
 import { Item, getProject } from '.'
 import { State } from '../state'
-import { Session } from '../session'
+import { RestorableSession, Session } from '../session'
 
 export const item: Item = {
   label: '$(file-code) Sourcemap',
@@ -11,8 +11,25 @@ export const item: Item = {
   action: 'sourcemap',
 }
 
-function getOutput(): Promise<string> {
+const OPTIONS = [
+  {
+    label: 'Watch for changes',
+    flag: '--watch',
+    picked: true,
+  },
+  {
+    label: 'Include non-scripts',
+    flag: '--non-scripts',
+    picked: false,
+  },
+]
+
+function getOutput(restore: boolean): Promise<string> {
   return new Promise((resolve, reject) => {
+    if (restore) {
+      return resolve('sourcemap.json')
+    }
+
     vscode.window
       .showInputBox({
         title: 'Enter sourcemap output',
@@ -29,29 +46,26 @@ function getOutput(): Promise<string> {
   })
 }
 
-function getOptions(context: vscode.ExtensionContext): Promise<string[]> {
+function getOptions(
+  context: vscode.ExtensionContext,
+  restore: boolean,
+): Promise<string[]> {
   return new Promise((resolve, reject) => {
-    const options = [
-      {
-        label: 'Watch for changes',
-        flag: '--watch',
-        id: 'watch',
-        picked: true,
-      },
-      {
-        label: 'Include non-scripts',
-        flag: '--non-scripts',
-        id: 'nonScripts',
-        picked: false,
-      },
-    ]
-
-    options.forEach((option) => {
-      option['picked'] = context.globalState.get(option.id, option.picked)
+    OPTIONS.forEach((option) => {
+      option['picked'] = context.globalState.get(
+        'Sourcemap' + option.flag,
+        option.picked,
+      )
     })
 
+    if (restore) {
+      return resolve(
+        OPTIONS.flatMap((option) => (option.picked ? [option.flag] : [])),
+      )
+    }
+
     vscode.window
-      .showQuickPick(options, {
+      .showQuickPick(OPTIONS, {
         title: 'Select sourcemap options',
         canPickMany: true,
       })
@@ -60,10 +74,10 @@ function getOptions(context: vscode.ExtensionContext): Promise<string[]> {
           return reject()
         }
 
-        options.forEach((item) => {
+        OPTIONS.forEach((item) => {
           context.globalState.update(
-            item.id,
-            items.some((i) => i.id === item.id),
+            'Sourcemap' + item.flag,
+            items.some((i) => i.flag === item.flag),
           )
         })
 
@@ -72,12 +86,17 @@ function getOptions(context: vscode.ExtensionContext): Promise<string[]> {
   })
 }
 
-export async function handler(state: State) {
-  const project = await getProject(state.context)
+export async function run(state: State, session?: RestorableSession) {
+  const restore = !!session
 
-  const output = await getOutput()
+  if (!restore) {
+    var project = await getProject(state.context)
+  } else {
+    var project = session.project
+  }
 
-  const options = await getOptions(state.context)
+  const output = await getOutput(restore)
+  const options = await getOptions(state.context, restore)
   options.push('--output', output)
 
   const name = getProjectName(project)

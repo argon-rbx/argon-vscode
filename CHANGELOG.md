@@ -9,6 +9,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 
 - It is now possible to open `.rbxl` pr `.rbxlx` file using `Studio` command
+- Session restoring now supports `Build` and `Sourcemap` commands
+
+### Changed
+
+- Last used command options are now saved separately from each command
+- Minimum supported VS Code version is now `1.70.0`
+
+### Fixed
 
 ## [2.0.3] - 2024-05-05
 

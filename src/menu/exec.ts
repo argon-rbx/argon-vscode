@@ -9,7 +9,7 @@ export const item: Item = {
   action: 'exec',
 }
 
-export function handler() {
+export function run() {
   if (!vscode.window.activeTextEditor) {
     return
   }

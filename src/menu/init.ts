@@ -11,7 +11,28 @@ export const item: Item = {
   action: 'init',
 }
 
-const ALL_OPTIONS = ['--docs', '--git', '--wally', '--ts']
+const OPTIONS = [
+  {
+    label: 'Include docs',
+    flag: '--docs',
+    picked: true,
+  },
+  {
+    label: 'Configure Git',
+    flag: '--git',
+    picked: true,
+  },
+  {
+    label: 'Setup Wally',
+    flag: '--wally',
+    picked: false,
+  },
+  {
+    label: 'Use roblox-ts',
+    flag: '--ts',
+    picked: false,
+  },
+]
 
 function getProjectName(): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -71,39 +92,15 @@ function getProjectOptions(
   context: vscode.ExtensionContext,
 ): Promise<string[]> {
   return new Promise((resolve, reject) => {
-    const options = [
-      {
-        label: 'Include docs',
-        flag: '--docs',
-        id: 'includeDocs',
-        picked: true,
-      },
-      {
-        label: 'Configure Git',
-        flag: '--git',
-        id: 'useGit',
-        picked: true,
-      },
-      {
-        label: 'Setup Wally',
-        flag: '--wally',
-        id: 'useWally',
-        picked: false,
-      },
-      {
-        label: 'Use roblox-ts',
-        flag: '--ts',
-        id: 'tsMode',
-        picked: false,
-      },
-    ]
-
-    options.forEach((option) => {
-      option['picked'] = context.globalState.get(option.id, option.picked)
+    OPTIONS.forEach((option) => {
+      option['picked'] = context.globalState.get(
+        'Init' + option.flag,
+        option.picked,
+      )
     })
 
     vscode.window
-      .showQuickPick(options, {
+      .showQuickPick(OPTIONS, {
         title: 'Select project options',
         canPickMany: true,
       })
@@ -112,10 +109,10 @@ function getProjectOptions(
           return reject()
         }
 
-        options.forEach((item) => {
+        OPTIONS.forEach((item) => {
           context.globalState.update(
-            item.id,
-            items.some((i) => i.id === item.id),
+            'Init' + item.flag,
+            items.some((i) => i.flag === item.flag),
           )
         })
 
@@ -124,18 +121,16 @@ function getProjectOptions(
   })
 }
 
-export async function handler(context: vscode.ExtensionContext) {
+export async function run(context: vscode.ExtensionContext) {
   let name = await getProjectName()
   const template = await getProjectTemplate()
 
   const selectedOptions = await getProjectOptions(context)
   const options: string[] = []
 
-  ALL_OPTIONS.forEach((option) => {
-    options.push(`${option}=${selectedOptions.includes(option)}`)
+  OPTIONS.forEach((option) => {
+    options.push(`${option}=${selectedOptions.includes(option.flag)}`)
   })
-
-  console.log(options)
 
   if (!name.endsWith('.project.json')) {
     name += '.project.json'

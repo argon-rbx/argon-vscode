@@ -37,21 +37,29 @@ export class State {
     this.sessions.push(session)
     this.updateItem()
 
-    this.context.workspaceState.update('lastProject', session.project)
+    this.context.workspaceState.update('lastSession', session)
   }
 
   public removeSessions(ids: number[]) {
-    const lastProject = this.context.workspaceState.get('lastProject')
+    const lastSession = this.context.workspaceState.get('lastSession')
 
     this.sessions = this.sessions.filter((session) => {
       const matches = ids.includes(session.id)
 
-      if (matches && session.project === lastProject) {
-        this.context.workspaceState.update('lastProject', undefined)
+      if (
+        matches &&
+        lastSession instanceof Session &&
+        session.equals(lastSession)
+      ) {
+        this.context.workspaceState.update('lastSession', undefined)
       }
 
       return !matches
     })
+
+    if (this.sessions[0]) {
+      this.context.workspaceState.update('lastSession', this.sessions[0])
+    }
 
     this.updateItem()
   }
@@ -63,8 +71,10 @@ export class State {
   public cleanup() {
     const ids = this.sessions.map((session) => session.id)
 
-    console.log(`Stopping ${ids.length} sessions...`)
-    argon.stop(ids)
+    if (ids.length > 0) {
+      console.log('Stopping running sessions: ' + ids.join(', '))
+      argon.stop(ids)
+    }
   }
 
   private updateItem() {

@@ -14,7 +14,7 @@
     "url": "https://github.com/argon-rbx/argon-vscode/issues"
   },
   "engines": {
-    "vscode": "^1.87.0"
+    "vscode": "^1.70.0"
   },
   "categories": [
     "Other"

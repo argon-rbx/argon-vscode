@@ -7,7 +7,7 @@ export const item: Item = {
   action: 'settings',
 }
 
-export function handler() {
+export function run() {
   vscode.commands.executeCommand(
     'workbench.action.openSettings',
     '@ext:dervex.argon',

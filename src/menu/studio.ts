@@ -30,7 +30,7 @@ function getPlace(): Promise<string | undefined> {
   })
 }
 
-export async function handler() {
+export async function run() {
   const place = await getPlace()
 
   console.log(place)
