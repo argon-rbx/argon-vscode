@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Changed
 
 - Last used command options are now saved separately from each command
+- Reduced number of notifications by ignoring unimportant messages
 - Minimum supported VS Code version is now `1.70.0`
 
 ### Fixed

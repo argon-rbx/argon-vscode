@@ -107,8 +107,6 @@ function getOptions(
 export async function run(state: State, session?: RestorableSession) {
   const restore = !!session
 
-  console.log(restore)
-
   if (!restore) {
     var project = await getProject(state.context)
   } else {

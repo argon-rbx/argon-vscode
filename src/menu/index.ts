@@ -124,8 +124,6 @@ export async function onDidAccept(action: string, state: State) {
 }
 
 export async function restoreSession(session: RestorableSession, state: State) {
-  console.log(session.type)
-
   switch (session.type) {
     case 'Serve':
       await serve.run(state, session)

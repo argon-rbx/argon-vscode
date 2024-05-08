@@ -3,20 +3,18 @@ import * as logger from './logger'
 import * as config from './config'
 import { getCurrentDir } from './util'
 
-function log(data: string, logCallback?: (data: string) => void) {
+function log(data: string, silent?: boolean) {
   let output = undefined
 
   for (const line of data.trim().split('\n')) {
     const isVerbose = line.endsWith(']')
 
-    if (logCallback && !isVerbose) {
-      logCallback(line)
-    } else if (line.startsWith('ERROR')) {
+    if (line.startsWith('ERROR')) {
       logger.error(line, isVerbose)
     } else if (line.startsWith('WARN')) {
       logger.warn(line, isVerbose)
     } else {
-      logger.info(line, isVerbose)
+      logger.info(line, isVerbose || silent)
     }
 
     if (!isVerbose && !output) {
@@ -27,7 +25,7 @@ function log(data: string, logCallback?: (data: string) => void) {
   return output
 }
 
-async function spawn(args: string[], logCallback?: (data: string) => void) {
+async function spawn(args: string[], silent?: boolean) {
   logger.info('Starting new Argon process..', true)
 
   const process = childProcess.spawn(
@@ -45,7 +43,7 @@ async function spawn(args: string[], logCallback?: (data: string) => void) {
 
   const firstOutput: string = await new Promise((resolve) => {
     process.stdout?.on('data', (data) => {
-      const output = log(data.toString(), logCallback)
+      const output = log(data.toString(), silent)
 
       if (output) {
         resolve(output)
@@ -53,7 +51,7 @@ async function spawn(args: string[], logCallback?: (data: string) => void) {
     })
 
     process.stderr?.on('data', (data) => {
-      const output = log(data.toString(), logCallback)
+      const output = log(data.toString(), silent)
 
       if (output) {
         resolve(output)
@@ -102,16 +100,16 @@ export function init(project: string, template: string, options: string[]) {
 }
 
 export function stop(ids: number[]) {
-  spawn(['stop', ...ids.map((id) => id.toString())])
+  spawn(['stop', ...ids.map((id) => id.toString())], true)
 }
 
 export function debug(mode: string) {
-  spawn(['debug', mode])
+  spawn(['debug', mode], true)
 }
 
 export function exec(code: string, focus?: boolean) {
   const args = focus ? ['--focus'] : []
-  spawn(['exec', code, ...args])
+  spawn(['exec', code, ...args], true)
 }
 
 export function studio(check?: boolean, place?: string) {
@@ -125,7 +123,7 @@ export function studio(check?: boolean, place?: string) {
     args.push('--check')
   }
 
-  spawn(['studio', ...args])
+  spawn(['studio', ...args], true)
 }
 
 export function plugin(mode: string) {
@@ -133,20 +131,7 @@ export function plugin(mode: string) {
 }
 
 export function update(auto?: boolean) {
-  spawn(
-    ['update'],
-    auto
-      ? (data: string) => {
-          if (data.includes('is up to date')) {
-            logger.info(data, true)
-          } else if (data.includes('error trying to connect')) {
-            logger.error(data, true)
-          } else {
-            log(data)
-          }
-        }
-      : undefined,
-  )
+  spawn(['update'], auto)
 }
 
 export function version() {
