@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [2.0.4] - 2024-05-08
+
 ### Added
 
 - It is now possible to open `.rbxl` pr `.rbxlx` file using `Studio` command
@@ -55,7 +57,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Initial release
 
-[unreleased]: https://github.com/argon-rbx/argon-vscode/compare/2.0.3...HEAD
+[unreleased]: https://github.com/argon-rbx/argon-vscode/compare/2.0.4...HEAD
+[2.0.4]: https://github.com/argon-rbx/argon-vscode/compare/2.0.3...2.0.4
 [2.0.3]: https://github.com/argon-rbx/argon-vscode/compare/2.0.2...2.0.3
 [2.0.2]: https://github.com/argon-rbx/argon-vscode/compare/2.0.1...2.0.2
 [2.0.1]: https://github.com/argon-rbx/argon-vscode/compare/2.0.0...2.0.1
