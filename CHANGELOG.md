@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- Hot fixed `Init` command, caused by broken flag parsing
+
 ## [2.0.4] - 2024-05-08
 
 ### Added

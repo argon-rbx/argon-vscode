@@ -129,7 +129,7 @@ export async function run(context: vscode.ExtensionContext) {
   const options: string[] = []
 
   OPTIONS.forEach((option) => {
-    options.push(`${option}=${selectedOptions.includes(option.flag)}`)
+    options.push(`${option.flag}=${selectedOptions.includes(option.flag)}`)
   })
 
   if (!name.endsWith('.project.json')) {
