@@ -103,5 +103,5 @@ export function getProjectAddress(project: string): {
 }
 
 export function getVersion(): string {
-  return argon.version().replace('argon ', '').trim()
+  return argon.version().replace('argon-rbx ', '').trim()
 }

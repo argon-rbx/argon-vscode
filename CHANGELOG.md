@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- Argon version at the top of the quick pick menu is now displayed properly
+
 ## [2.0.5] - 2024-05-10
 
 ### Fixed
