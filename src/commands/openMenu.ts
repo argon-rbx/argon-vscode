@@ -1,13 +1,13 @@
-import * as vscode from 'vscode'
-import * as menu from '../menu'
-import * as logger from '../logger'
-import { State } from '../state'
+import * as vscode from "vscode"
+import * as menu from "../menu"
+import * as logger from "../logger"
+import { State } from "../state"
 
 export function openMenu(state: State) {
-  return vscode.commands.registerCommand('argon.openMenu', () => {
+  return vscode.commands.registerCommand("argon.openMenu", () => {
     vscode.window
       .showQuickPick(menu.items(), {
-        title: 'Argon ' + state.version,
+        title: "Argon " + state.version,
       })
       .then(async (item) => {
         if (!item) {

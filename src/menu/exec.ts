@@ -1,12 +1,12 @@
-import * as vscode from 'vscode'
-import * as argon from '../argon'
-import * as config from '../config'
-import { Item } from '.'
+import * as vscode from "vscode"
+import * as argon from "../argon"
+import * as config from "../config"
+import { Item } from "."
 
 export const item: Item = {
-  label: '$(run-all) Exec',
-  description: 'Run code snippet or file in Roblox Studio',
-  action: 'exec',
+  label: "$(run-all) Exec",
+  description: "Run code snippet or file in Roblox Studio",
+  action: "exec",
 }
 
 export function run() {

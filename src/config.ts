@@ -1,28 +1,28 @@
-import { workspace } from 'vscode'
+import { workspace } from "vscode"
 
 function config() {
-  return workspace.getConfiguration('argon')
+  return workspace.getConfiguration("argon")
 }
 
 export function autoRun(): boolean {
-  return config().get('autoRun')!
+  return config().get("autoRun")!
 }
 
 export function autoLaunchStudio(): boolean {
-  return config().get('autoLaunchStudio')!
+  return config().get("autoLaunchStudio")!
 }
 
 export function focusStudio(): boolean {
-  return config().get('focusStudio')!
+  return config().get("focusStudio")!
 }
 
 export function notificationLevel(): number {
-  switch (config().get('notificationLevel')) {
-    case 'Info':
+  switch (config().get("notificationLevel")) {
+    case "Info":
       return 3
-    case 'Warning':
+    case "Warning":
       return 2
-    case 'Error':
+    case "Error":
       return 1
     default:
       return 0
@@ -30,13 +30,13 @@ export function notificationLevel(): number {
 }
 
 export function defaultHost(): string {
-  return config().get('defaultHost')!
+  return config().get("defaultHost")!
 }
 
 export function defaultPort(): number {
-  return config().get('defaultPort')!
+  return config().get("defaultPort")!
 }
 
 export function verbose(): boolean {
-  return config().get('verbose')!
+  return config().get("verbose")!
 }

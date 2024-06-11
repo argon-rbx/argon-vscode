@@ -1,18 +1,18 @@
-import { window } from 'vscode'
-import * as config from './config'
+import { window } from "vscode"
+import * as config from "./config"
 
-const outputChannel = window.createOutputChannel('Argon')
-outputChannel.appendLine('Argon started')
+const outputChannel = window.createOutputChannel("Argon")
+outputChannel.appendLine("Argon started")
 
 function beautify(message: string): string {
-  const index = message.indexOf(':')
+  const index = message.indexOf(":")
 
   // Remove Argon CLI log prefix
   if (index <= 5) {
     message = message.substring(index + 1)
   }
 
-  return 'Argon: ' + message
+  return "Argon: " + message
 }
 
 export function info(message: string, silent?: boolean) {

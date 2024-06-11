@@ -1,13 +1,13 @@
-import * as os from 'os'
-import * as fs from 'fs'
-import * as path from 'path'
-import * as childProcess from 'child_process'
-import { downloadRelease } from '@terascope/fetch-github-release'
+import * as os from "os"
+import * as fs from "fs"
+import * as path from "path"
+import * as childProcess from "child_process"
+import { downloadRelease } from "@terascope/fetch-github-release"
 
 function getArgonPath(): string {
   return (
-    path.join(os.homedir(), '.argon', 'bin', 'argon') +
-    (os.platform() === 'win32' ? '.exe' : '')
+    path.join(os.homedir(), ".argon", "bin", "argon") +
+    (os.platform() === "win32" ? ".exe" : "")
   )
 }
 
@@ -22,8 +22,8 @@ export async function install() {
   fs.mkdirSync(path.dirname(argonPath), { recursive: true })
 
   await downloadRelease(
-    'argon-rbx',
-    'argon',
+    "argon-rbx",
+    "argon",
     path.dirname(argonPath),
     undefined,
     (asset) => {
@@ -33,24 +33,24 @@ export async function install() {
         )
       }
 
-      if (asset.name.endsWith('linux-x86_64.zip')) {
+      if (asset.name.endsWith("linux-x86_64.zip")) {
         versionIndex++
       }
 
       const platform = os
         .platform()
-        .replace('darwin', 'macos')
-        .replace('win32', 'windows')
+        .replace("darwin", "macos")
+        .replace("win32", "windows")
 
       const arch =
-        os.platform() === 'win32'
-          ? 'x86_64'
-          : os.arch().replace('x64', 'x86_64').replace('arm64', 'aarch64')
+        os.platform() === "win32"
+          ? "x86_64"
+          : os.arch().replace("x64", "x86_64").replace("arm64", "aarch64")
 
       return asset.name.includes(platform) && asset.name.includes(arch)
     },
   )
 
   // Trigger Argon installer
-  childProcess.execFileSync(argonPath, ['--version'])
+  childProcess.execFileSync(argonPath, ["--version"])
 }

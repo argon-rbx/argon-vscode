@@ -1,7 +1,7 @@
-import * as vscode from 'vscode'
-import * as argon from './argon'
-import * as logger from './logger'
-import { Session } from './session'
+import * as vscode from "vscode"
+import * as argon from "./argon"
+import * as logger from "./logger"
+import { Session } from "./session"
 
 export class State {
   private item: vscode.StatusBarItem
@@ -21,9 +21,9 @@ export class State {
   }
 
   public show() {
-    this.item.command = 'argon.openMenu'
-    this.item.text = '$(argon-logo) Argon'
-    this.item.tooltip = 'No running sessions'
+    this.item.command = "argon.openMenu"
+    this.item.text = "$(argon-logo) Argon"
+    this.item.tooltip = "No running sessions"
     this.item.show()
   }
 
@@ -37,11 +37,11 @@ export class State {
     this.sessions.push(session)
     this.updateItem()
 
-    this.context.workspaceState.update('lastSession', session)
+    this.context.workspaceState.update("lastSession", session)
   }
 
   public removeSessions(ids: number[]) {
-    const lastSession = this.context.workspaceState.get('lastSession')
+    const lastSession = this.context.workspaceState.get("lastSession")
 
     this.sessions = this.sessions.filter((session) => {
       const matches = ids.includes(session.id)
@@ -51,14 +51,14 @@ export class State {
         lastSession instanceof Session &&
         session.equals(lastSession)
       ) {
-        this.context.workspaceState.update('lastSession', undefined)
+        this.context.workspaceState.update("lastSession", undefined)
       }
 
       return !matches
     })
 
     if (this.sessions[0]) {
-      this.context.workspaceState.update('lastSession', this.sessions[0])
+      this.context.workspaceState.update("lastSession", this.sessions[0])
     }
 
     this.updateItem()
@@ -72,7 +72,7 @@ export class State {
     const ids = this.sessions.map((session) => session.id)
 
     if (ids.length > 0) {
-      console.log('Stopping running sessions: ' + ids.join(', '))
+      console.log("Stopping running sessions: " + ids.join(", "))
       argon.stop(ids)
     }
   }
@@ -82,7 +82,7 @@ export class State {
 
     this.item.text =
       sessionCount === 0
-        ? '$(argon-logo) Argon'
+        ? "$(argon-logo) Argon"
         : `$(argon-logo) Argon (${sessionCount})`
 
     const tooltip = new vscode.MarkdownString()
@@ -97,11 +97,11 @@ export class State {
         tooltip.appendCodeblock(`Address: ${session.address}\n`)
       }
 
-      tooltip.appendMarkdown('---\n')
+      tooltip.appendMarkdown("---\n")
     })
 
     if (sessionCount === 0) {
-      this.item.tooltip = 'No running sessions'
+      this.item.tooltip = "No running sessions"
     } else {
       this.item.tooltip = tooltip
     }

@@ -1,31 +1,31 @@
-import * as vscode from 'vscode'
-import * as argon from '../argon'
-import * as config from '../config'
-import { getProjectAddress, getProjectName } from '../util'
-import { Item, getProject } from '.'
-import { State } from '../state'
-import { RestorableSession, Session } from '../session'
+import * as vscode from "vscode"
+import * as argon from "../argon"
+import * as config from "../config"
+import { getProjectAddress, getProjectName } from "../util"
+import { Item, getProject } from "."
+import { State } from "../state"
+import { RestorableSession, Session } from "../session"
 
 export const item: Item = {
-  label: '$(rss) Serve',
-  description: 'Live Sync with Roblox Studio',
-  action: 'serve',
+  label: "$(rss) Serve",
+  description: "Live Sync with Roblox Studio",
+  action: "serve",
 }
 
 const OPTIONS = [
   {
-    label: 'Generate sourcemap',
-    flag: '--sourcemap',
+    label: "Generate sourcemap",
+    flag: "--sourcemap",
     picked: true,
   },
   {
-    label: 'Use roblox-ts',
-    flag: '--ts',
+    label: "Use roblox-ts",
+    flag: "--ts",
     picked: false,
   },
   {
-    label: 'Customize address',
-    flag: 'customAddress',
+    label: "Customize address",
+    flag: "customAddress",
     picked: false,
   },
 ]
@@ -40,7 +40,7 @@ function getAddress(): Promise<{
 
     vscode.window
       .showInputBox({
-        title: 'Enter full address or part of it',
+        title: "Enter full address or part of it",
         placeHolder: `${host}:${port}`,
         value: port,
       })
@@ -49,7 +49,7 @@ function getAddress(): Promise<{
           return reject()
         }
 
-        const comps = address.split(':')
+        const comps = address.split(":")
 
         if (comps.length === 1) {
           const comp = comps[0]
@@ -81,8 +81,8 @@ function getOptions(
 ): Promise<[string[], boolean]> {
   return new Promise((resolve, reject) => {
     OPTIONS.forEach((option) => {
-      option['picked'] = context.globalState.get(
-        'Serve' + option.flag,
+      option["picked"] = context.globalState.get(
+        "Serve" + option.flag,
         option.picked,
       )
     })
@@ -90,7 +90,7 @@ function getOptions(
     if (restore) {
       return resolve([
         OPTIONS.flatMap((option) =>
-          option.flag !== 'customAddress' && option.picked ? [option.flag] : [],
+          option.flag !== "customAddress" && option.picked ? [option.flag] : [],
         ),
         false,
       ])
@@ -98,7 +98,7 @@ function getOptions(
 
     vscode.window
       .showQuickPick(OPTIONS, {
-        title: 'Select serve options',
+        title: "Select serve options",
         canPickMany: true,
       })
       .then(async (items) => {
@@ -108,16 +108,16 @@ function getOptions(
 
         OPTIONS.forEach((item) => {
           context.globalState.update(
-            'Serve' + item.flag,
+            "Serve" + item.flag,
             items.some((i) => i.flag === item.flag),
           )
         })
 
         resolve([
           items.flatMap((item) =>
-            item.flag !== 'customAddress' ? [item.flag] : [],
+            item.flag !== "customAddress" ? [item.flag] : [],
           ),
-          items.some((item) => item.flag === 'customAddress'),
+          items.some((item) => item.flag === "customAddress"),
         ])
       })
   })
@@ -132,7 +132,7 @@ export async function run(state: State, session?: RestorableSession) {
   } else {
     var project = session.project
 
-    const sessionAddress = session.address?.split(':') || []
+    const sessionAddress = session.address?.split(":") || []
 
     var address: { host?: string; port?: string } = {
       host: sessionAddress[0],
@@ -157,13 +157,13 @@ export async function run(state: State, session?: RestorableSession) {
   address.host = address.host || config.defaultHost()
   address.port = address.port || config.defaultPort().toString()
 
-  options.push('--host', address.host)
-  options.push('--port', address.port)
+  options.push("--host", address.host)
+  options.push("--port", address.port)
 
   const name = getProjectName(project)
   const [id, message] = await argon.serve(project, options)
 
-  if (message.includes('already in use')) {
+  if (message.includes("already in use")) {
     address.port = message.match(/\d+/g)?.[1]!
   }
 

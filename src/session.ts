@@ -1,7 +1,7 @@
-export type SessionType = 'Serve' | 'Build' | 'Sourcemap'
+export type SessionType = "Serve" | "Build" | "Sourcemap"
 
 export class Session {
-  public type: SessionType = 'Serve'
+  public type: SessionType = "Serve"
   public name: string
   public project: string
   public id: number
@@ -43,8 +43,8 @@ export class RestorableSession {
     } else {
       if (!session || !session.type || !session.project) {
         this.isComplete = false
-        this.type = 'Serve'
-        this.project = ''
+        this.type = "Serve"
+        this.project = ""
 
         return
       }

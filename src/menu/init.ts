@@ -1,35 +1,35 @@
-import * as vscode from 'vscode'
-import * as path from 'path'
-import * as fs from 'fs'
-import * as argon from '../argon'
-import { Item } from '.'
-import { getArgonPath } from '../util'
+import * as vscode from "vscode"
+import * as path from "path"
+import * as fs from "fs"
+import * as argon from "../argon"
+import { Item } from "."
+import { getArgonPath } from "../util"
 
 export const item: Item = {
-  label: '$(file-add) Init',
-  description: 'Create a new project',
-  action: 'init',
+  label: "$(file-add) Init",
+  description: "Create a new project",
+  action: "init",
 }
 
 const OPTIONS = [
   {
-    label: 'Include docs',
-    flag: '--docs',
+    label: "Include docs",
+    flag: "--docs",
     picked: true,
   },
   {
-    label: 'Configure Git',
-    flag: '--git',
+    label: "Configure Git",
+    flag: "--git",
     picked: true,
   },
   {
-    label: 'Setup Wally',
-    flag: '--wally',
+    label: "Setup Wally",
+    flag: "--wally",
     picked: false,
   },
   {
-    label: 'Use roblox-ts',
-    flag: '--ts',
+    label: "Use roblox-ts",
+    flag: "--ts",
     picked: false,
   },
 ]
@@ -38,9 +38,9 @@ function getProjectName(): Promise<string> {
   return new Promise((resolve, reject) => {
     vscode.window
       .showInputBox({
-        title: 'Enter project name',
-        placeHolder: 'default.project.json',
-        value: 'default',
+        title: "Enter project name",
+        placeHolder: "default.project.json",
+        value: "default",
       })
       .then((name) => {
         if (!name) {
@@ -54,11 +54,11 @@ function getProjectName(): Promise<string> {
 
 function getProjectTemplate(): Promise<string> {
   return new Promise((resolve, reject) => {
-    const priority = ['place', 'plugin', 'package', 'model', 'quick']
+    const priority = ["place", "plugin", "package", "model", "quick"]
 
     const templates = fs
-      .readdirSync(path.join(getArgonPath(), 'templates'))
-      .filter((name) => name !== '.DS_Store')
+      .readdirSync(path.join(getArgonPath(), "templates"))
+      .filter((name) => name !== ".DS_Store")
       .sort((a, b) => {
         const index1 = priority.indexOf(a)
         const index2 = priority.indexOf(b)
@@ -69,14 +69,14 @@ function getProjectTemplate(): Promise<string> {
         return {
           label: template.charAt(0).toUpperCase() + template.slice(1),
           description:
-            template === 'quick' ? '(Recommended for beginners)' : '',
+            template === "quick" ? "(Recommended for beginners)" : "",
           id: template,
         }
       })
 
     vscode.window
       .showQuickPick(templates, {
-        title: 'Select project template',
+        title: "Select project template",
       })
       .then((template) => {
         if (!template) {
@@ -93,15 +93,15 @@ function getProjectOptions(
 ): Promise<string[]> {
   return new Promise((resolve, reject) => {
     OPTIONS.forEach((option) => {
-      option['picked'] = context.globalState.get(
-        'Init' + option.flag,
+      option["picked"] = context.globalState.get(
+        "Init" + option.flag,
         option.picked,
       )
     })
 
     vscode.window
       .showQuickPick(OPTIONS, {
-        title: 'Select project options',
+        title: "Select project options",
         canPickMany: true,
       })
       .then((items) => {
@@ -111,7 +111,7 @@ function getProjectOptions(
 
         OPTIONS.forEach((item) => {
           context.globalState.update(
-            'Init' + item.flag,
+            "Init" + item.flag,
             items.some((i) => i.flag === item.flag),
           )
         })
@@ -132,8 +132,8 @@ export async function run(context: vscode.ExtensionContext) {
     options.push(`${option.flag}=${selectedOptions.includes(option.flag)}`)
   })
 
-  if (!name.endsWith('.project.json')) {
-    name += '.project.json'
+  if (!name.endsWith(".project.json")) {
+    name += ".project.json"
   }
 
   argon.init(name, template, options)

@@ -1,40 +1,40 @@
-import * as vscode from 'vscode'
-import * as argon from '../argon'
-import { getProjectName } from '../util'
-import { Item, getProject } from '.'
-import { State } from '../state'
-import { RestorableSession, Session } from '../session'
+import * as vscode from "vscode"
+import * as argon from "../argon"
+import { getProjectName } from "../util"
+import { Item, getProject } from "."
+import { State } from "../state"
+import { RestorableSession, Session } from "../session"
 
 export const item: Item = {
-  label: '$(file-binary) Build',
-  description: 'Compile project to binary or XML',
-  action: 'build',
+  label: "$(file-binary) Build",
+  description: "Compile project to binary or XML",
+  action: "build",
 }
 
 const OPTIONS = [
   {
-    label: 'Watch for changes',
-    flag: '--watch',
+    label: "Watch for changes",
+    flag: "--watch",
     picked: true,
   },
   {
-    label: 'Generate sourcemap',
-    flag: '--sourcemap',
+    label: "Generate sourcemap",
+    flag: "--sourcemap",
     picked: true,
   },
   {
-    label: 'Build plugin',
-    flag: '--plugin',
+    label: "Build plugin",
+    flag: "--plugin",
     picked: false,
   },
   {
-    label: 'Use XML format',
-    flag: '--xml',
+    label: "Use XML format",
+    flag: "--xml",
     picked: false,
   },
   {
-    label: 'Use roblox-ts',
-    flag: '--ts',
+    label: "Use roblox-ts",
+    flag: "--ts",
     picked: false,
   },
 ]
@@ -50,7 +50,7 @@ function getOutput(
 
     vscode.window
       .showInputBox({
-        title: 'Enter build output',
+        title: "Enter build output",
         placeHolder: `${name}.rbxl`,
         value: name,
       })
@@ -70,8 +70,8 @@ function getOptions(
 ): Promise<string[]> {
   return new Promise((resolve, reject) => {
     OPTIONS.forEach((option) => {
-      option['picked'] = context.globalState.get(
-        'Build' + option.flag,
+      option["picked"] = context.globalState.get(
+        "Build" + option.flag,
         option.picked,
       )
     })
@@ -84,7 +84,7 @@ function getOptions(
 
     vscode.window
       .showQuickPick(OPTIONS, {
-        title: 'Select build options',
+        title: "Select build options",
         canPickMany: true,
       })
       .then(async (items) => {
@@ -94,7 +94,7 @@ function getOptions(
 
         OPTIONS.forEach((item) => {
           context.globalState.update(
-            'Build' + item.flag,
+            "Build" + item.flag,
             items.some((i) => i.flag === item.flag),
           )
         })
@@ -118,12 +118,12 @@ export async function run(state: State, session?: RestorableSession) {
   const options = await getOptions(state.context, restore)
 
   if (output) {
-    options.push('--output', output)
+    options.push("--output", output)
   }
 
   const id = await argon.build(project, options)
 
   if (id) {
-    state.addSession(new Session(name, project, id).withType('Build'))
+    state.addSession(new Session(name, project, id).withType("Build"))
   }
 }

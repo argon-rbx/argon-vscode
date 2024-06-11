@@ -1,25 +1,25 @@
-import * as vscode from 'vscode'
-import * as argon from '../argon'
-import { getProjectName } from '../util'
-import { Item, getProject } from '.'
-import { State } from '../state'
-import { RestorableSession, Session } from '../session'
+import * as vscode from "vscode"
+import * as argon from "../argon"
+import { getProjectName } from "../util"
+import { Item, getProject } from "."
+import { State } from "../state"
+import { RestorableSession, Session } from "../session"
 
 export const item: Item = {
-  label: '$(file-code) Sourcemap',
-  description: 'Map project files into JSON file',
-  action: 'sourcemap',
+  label: "$(file-code) Sourcemap",
+  description: "Map project files into JSON file",
+  action: "sourcemap",
 }
 
 const OPTIONS = [
   {
-    label: 'Watch for changes',
-    flag: '--watch',
+    label: "Watch for changes",
+    flag: "--watch",
     picked: true,
   },
   {
-    label: 'Include non-scripts',
-    flag: '--non-scripts',
+    label: "Include non-scripts",
+    flag: "--non-scripts",
     picked: false,
   },
 ]
@@ -27,21 +27,21 @@ const OPTIONS = [
 function getOutput(restore: boolean): Promise<string> {
   return new Promise((resolve, reject) => {
     if (restore) {
-      return resolve('sourcemap.json')
+      return resolve("sourcemap.json")
     }
 
     vscode.window
       .showInputBox({
-        title: 'Enter sourcemap output',
-        placeHolder: 'sourcemap.json',
-        value: 'sourcemap',
+        title: "Enter sourcemap output",
+        placeHolder: "sourcemap.json",
+        value: "sourcemap",
       })
       .then((output) => {
         if (!output) {
           return reject()
         }
 
-        resolve(output.endsWith('.json') ? output : `${output}.json`)
+        resolve(output.endsWith(".json") ? output : `${output}.json`)
       })
   })
 }
@@ -52,8 +52,8 @@ function getOptions(
 ): Promise<string[]> {
   return new Promise((resolve, reject) => {
     OPTIONS.forEach((option) => {
-      option['picked'] = context.globalState.get(
-        'Sourcemap' + option.flag,
+      option["picked"] = context.globalState.get(
+        "Sourcemap" + option.flag,
         option.picked,
       )
     })
@@ -66,7 +66,7 @@ function getOptions(
 
     vscode.window
       .showQuickPick(OPTIONS, {
-        title: 'Select sourcemap options',
+        title: "Select sourcemap options",
         canPickMany: true,
       })
       .then(async (items) => {
@@ -76,7 +76,7 @@ function getOptions(
 
         OPTIONS.forEach((item) => {
           context.globalState.update(
-            'Sourcemap' + item.flag,
+            "Sourcemap" + item.flag,
             items.some((i) => i.flag === item.flag),
           )
         })
@@ -97,13 +97,13 @@ export async function run(state: State, session?: RestorableSession) {
 
   const output = await getOutput(restore)
   const options = await getOptions(state.context, restore)
-  options.push('--output', output)
+  options.push("--output", output)
 
   const name = getProjectName(project)
   const id = await argon.sourcemap(project, options)
 
   if (id) {
-    const session = new Session(name, project, id).withType('Sourcemap')
+    const session = new Session(name, project, id).withType("Sourcemap")
     state.addSession(session)
   }
 }
