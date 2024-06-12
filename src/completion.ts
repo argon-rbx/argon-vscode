@@ -88,11 +88,6 @@ const SETTINGS = [
     doc: "Use roblox-ts by default",
   },
   {
-    field: "relative_paths",
-    value: "relative_paths = ${1|false,true|}",
-    doc: "Work on relative paths instead of absolute ones",
-  },
-  {
     field: "move_to_bin",
     value: "move_to_bin = ${1|false,true|}",
     doc: "Move files to the bin instead of deleting them (two-way sync)",
