@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [2.0.6] - 2024-06-16
+
 ### Added
 
 - Automatic completion for `lua_extension` setting
@@ -71,7 +73,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Initial release
 
-[unreleased]: https://github.com/argon-rbx/argon-vscode/compare/2.0.5...HEAD
+[unreleased]: https://github.com/argon-rbx/argon-vscode/compare/2.0.6...HEAD
+[2.0.6]: https://github.com/argon-rbx/argon-vscode/compare/2.0.5...2.0.6
 [2.0.5]: https://github.com/argon-rbx/argon-vscode/compare/2.0.4...2.0.5
 [2.0.4]: https://github.com/argon-rbx/argon-vscode/compare/2.0.3...2.0.4
 [2.0.3]: https://github.com/argon-rbx/argon-vscode/compare/2.0.2...2.0.3
