@@ -88,6 +88,11 @@ const SETTINGS = [
     doc: "Use roblox-ts by default",
   },
   {
+    field: "lua_extension",
+    value: "lua_extension = ${1|false,true|}",
+    doc: "Use .lua file extension instead of .luau when writing scripts",
+  },
+  {
     field: "move_to_bin",
     value: "move_to_bin = ${1|false,true|}",
     doc: "Move files to the bin instead of deleting them (two-way sync)",

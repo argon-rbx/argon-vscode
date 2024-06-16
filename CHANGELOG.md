@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Automatic completion for `lua_extension` setting
+
 ### Fixed
 
 - Argon version at the top of the quick pick menu is now displayed properly
