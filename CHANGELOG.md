@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- Global configuration completion no longer suggests settings that already exist
+- Argon no longer displays `npm` verbose information in notifications
+
 ## [2.0.6] - 2024-06-16
 
 ### Added

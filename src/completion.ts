@@ -104,6 +104,20 @@ const SETTINGS = [
   },
 ]
 
+function hasSetting(document: vscode.TextDocument, setting: string) {
+  const text = document.getText()
+
+  if (text.includes(setting)) {
+    for (const line of text.split("\n")) {
+      if (line.includes(setting)) {
+        return !line.includes("#")
+      }
+    }
+  }
+
+  return false
+}
+
 export function start() {
   const selector: vscode.DocumentSelector = {
     language: "toml",
@@ -112,8 +126,12 @@ export function start() {
   }
 
   vscode.languages.registerCompletionItemProvider(selector, {
-    provideCompletionItems() {
-      return SETTINGS.map((setting) => {
+    provideCompletionItems(document) {
+      return SETTINGS.flatMap((setting) => {
+        if (hasSetting(document, setting.field)) {
+          return []
+        }
+
         const item = new vscode.CompletionItem(
           setting.field,
           vscode.CompletionItemKind.Field,
@@ -122,7 +140,7 @@ export function start() {
         item.insertText = new vscode.SnippetString(setting.value)
         item.documentation = new vscode.MarkdownString(setting.doc)
 
-        return item
+        return [item]
       })
     },
   })

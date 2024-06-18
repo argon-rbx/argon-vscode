@@ -7,7 +7,7 @@ function log(data: string, silent?: boolean) {
   let output = undefined
 
   for (const line of data.trim().split("\n")) {
-    const isVerbose = line.endsWith("]")
+    const isVerbose = line.endsWith("]") || !/^.{0,5}:/.test(line)
 
     if (line.startsWith("ERROR")) {
       logger.error(line, isVerbose)
