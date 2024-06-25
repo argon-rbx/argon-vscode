@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Automatic completion for `package_manager` setting
+
 ### Fixed
 
 - Global configuration completion no longer suggests settings that already exist
