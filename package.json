@@ -182,6 +182,6 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "@terascope/fetch-github-release": "^0.8.7"
+    "@terascope/fetch-github-release": "^0.8.10"
   }
 }
