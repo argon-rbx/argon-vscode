@@ -1,6 +1,7 @@
 import * as vscode from "vscode"
 import * as argon from "../argon"
 import * as config from "../config"
+import { sep } from "path"
 import { Item } from "."
 
 export const item: Item = {
@@ -14,15 +15,21 @@ export function run() {
     return
   }
 
-  const selection = vscode.window.activeTextEditor.document.getText(
-    vscode.window.activeTextEditor.selection,
-  )
+  const document = vscode.window.activeTextEditor.document
+  const selection = document.getText(vscode.window.activeTextEditor.selection)
 
   const focus = config.focusStudio()
 
   if (selection) {
     argon.exec(selection, focus)
   } else {
-    argon.exec(vscode.window.activeTextEditor.document.uri.fsPath, focus)
+    const path = document.uri.fsPath
+
+    if (!path.includes(sep)) {
+      argon.exec(document.getText(), focus)
+      return
+    }
+
+    argon.exec(path, focus)
   }
 }
