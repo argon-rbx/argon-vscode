@@ -12,7 +12,7 @@ export const item: Item = {
 function getPlace(): Promise<string | undefined> {
   return new Promise((resolve, reject) => {
     const places = findPlaces()
-    places.unshift("$(window) Launch empty")
+    places.push("$(window) Launch empty")
 
     vscode.window
       .showQuickPick(places, {

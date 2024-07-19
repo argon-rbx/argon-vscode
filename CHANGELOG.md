@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Support for executing unsaved files without selection
 
+### Changed
+
+- Moved option to launch empty Roblox Studio instance to the end in `Studio` command
+
 ## [2.0.7] - 2024-06-25
 
 ### Added
