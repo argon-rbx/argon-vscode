@@ -37,28 +37,29 @@ export class State {
     this.sessions.push(session)
     this.updateItem()
 
-    this.context.workspaceState.update("lastSession", session)
+    this.context.workspaceState.update("lastSessions", this.sessions)
   }
 
   public removeSessions(ids: number[]) {
-    const lastSession = this.context.workspaceState.get("lastSession")
+    const lastSessions = this.context.workspaceState.get("lastSessions")
 
     this.sessions = this.sessions.filter((session) => {
       const matches = ids.includes(session.id)
 
-      if (
-        matches &&
-        lastSession instanceof Session &&
-        session.equals(lastSession)
-      ) {
-        this.context.workspaceState.update("lastSession", undefined)
+      if (matches && Array.isArray(lastSessions)) {
+        const index = lastSessions.findIndex(
+          (value: Session) => value === session,
+        )
+        if (index > -1) {
+          lastSessions[index] = undefined
+        }
       }
 
       return !matches
     })
 
-    if (this.sessions[0]) {
-      this.context.workspaceState.update("lastSession", this.sessions[0])
+    if (this.sessions.length === 0) {
+      this.context.workspaceState.update("lastSessions", undefined)
     }
 
     this.updateItem()
