@@ -23,7 +23,7 @@ export class Session {
     return this
   }
 
-  public equals(other: Session) {
+  public isSimilar(other: Session) {
     return this.type === other.type && this.project === other.project
   }
 }
@@ -57,5 +57,9 @@ export class RestorableSession {
 
   public isRestorable() {
     return this.isComplete
+  }
+
+  public needsStudio() {
+    return this.type === "Serve" || this.type === "Build"
   }
 }

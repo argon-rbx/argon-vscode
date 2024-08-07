@@ -28,7 +28,7 @@ export class State {
   }
 
   public addSession(session: Session) {
-    if (this.sessions.find((s) => session.equals(s))) {
+    if (this.sessions.find((s) => session.isSimilar(s))) {
       logger.warn(
         `Session with type: ${session.type} and project: ${session.project} is already running. Ignore this message if this is desired behavior`,
       )
@@ -47,9 +47,8 @@ export class State {
       const matches = ids.includes(session.id)
 
       if (matches && Array.isArray(lastSessions)) {
-        const index = lastSessions.findIndex(
-          (value: Session) => value === session,
-        )
+        const index = lastSessions.findIndex((s) => s === session)
+
         if (index > -1) {
           lastSessions[index] = undefined
         }
@@ -58,10 +57,7 @@ export class State {
       return !matches
     })
 
-    if (this.sessions.length === 0) {
-      this.context.workspaceState.update("lastSessions", undefined)
-    }
-
+    this.context.workspaceState.update("lastSessions", lastSessions)
     this.updateItem()
   }
 

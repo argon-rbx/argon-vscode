@@ -38,13 +38,15 @@ export async function activate(context: vscode.ExtensionContext) {
 
   if (config.autoRun()) {
     const lastSessions = context.workspaceState.get("lastSessions")
+
     if (Array.isArray(lastSessions)) {
       for (const lastSession of lastSessions) {
         const session = new RestorableSession(lastSession)
+
         if (session.isRestorable()) {
           menu.restoreSession(session, state)
 
-          if (config.autoLaunchStudio()) {
+          if (session.needsStudio() && config.autoLaunchStudio()) {
             argon.studio(true)
           }
         }
