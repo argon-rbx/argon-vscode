@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- `AutoRun` option can now restore multiple sessions ([#28](https://github.com/argon-rbx/argon-vscode/pull/28))
+
 ## [2.0.8] - 2024-07-19
 
 ### Added

@@ -28,7 +28,7 @@ export class State {
   }
 
   public addSession(session: Session) {
-    if (this.sessions.find((s) => session.equals(s))) {
+    if (this.sessions.find((s) => session.isSimilar(s))) {
       logger.warn(
         `Session with type: ${session.type} and project: ${session.project} is already running. Ignore this message if this is desired behavior`,
       )
@@ -37,30 +37,27 @@ export class State {
     this.sessions.push(session)
     this.updateItem()
 
-    this.context.workspaceState.update("lastSession", session)
+    this.context.workspaceState.update("lastSessions", this.sessions)
   }
 
   public removeSessions(ids: number[]) {
-    const lastSession = this.context.workspaceState.get("lastSession")
+    const lastSessions = this.context.workspaceState.get("lastSessions")
 
     this.sessions = this.sessions.filter((session) => {
       const matches = ids.includes(session.id)
 
-      if (
-        matches &&
-        lastSession instanceof Session &&
-        session.equals(lastSession)
-      ) {
-        this.context.workspaceState.update("lastSession", undefined)
+      if (matches && Array.isArray(lastSessions)) {
+        const index = lastSessions.findIndex((s) => s === session)
+
+        if (index > -1) {
+          lastSessions[index] = undefined
+        }
       }
 
       return !matches
     })
 
-    if (this.sessions[0]) {
-      this.context.workspaceState.update("lastSession", this.sessions[0])
-    }
-
+    this.context.workspaceState.update("lastSessions", lastSessions)
     this.updateItem()
   }
 
