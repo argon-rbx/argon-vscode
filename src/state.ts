@@ -57,8 +57,9 @@ export class State {
       return !matches
     })
 
-    this.context.workspaceState.update("lastSessions", lastSessions)
     this.updateItem()
+
+    this.context.workspaceState.update("lastSessions", lastSessions)
   }
 
   public getSessions() {

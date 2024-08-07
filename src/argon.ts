@@ -3,6 +3,8 @@ import * as logger from "./logger"
 import * as config from "./config"
 import { getCurrentDir } from "./util"
 
+let lastId = 0
+
 function log(data: string, silent?: boolean) {
   let output = undefined
 
@@ -65,11 +67,23 @@ async function spawn(args: string[], silent?: boolean) {
     : Promise.reject(firstOutput)
 }
 
+function generateId() {
+  let id = Date.now()
+
+  if (id === lastId) {
+    id++
+  }
+
+  lastId = id
+
+  return id
+}
+
 export async function serve(
   project: string,
   options: string[],
 ): Promise<[number, string]> {
-  const id = Date.now()
+  const id = generateId()
   const message = await spawn(["serve", project, id.toString(), ...options])
 
   return [id, message]
@@ -77,8 +91,9 @@ export async function serve(
 
 export async function build(project: string, options: string[]) {
   if (options.includes("--watch")) {
-    const id = Date.now()
+    const id = generateId()
     await spawn(["build", project, id.toString(), ...options])
+
     return id
   }
 
@@ -87,8 +102,9 @@ export async function build(project: string, options: string[]) {
 
 export async function sourcemap(project: string, options: string[]) {
   if (options.includes("--watch")) {
-    const id = Date.now()
+    const id = generateId()
     await spawn(["sourcemap", project, id.toString(), ...options])
+
     return id
   }
 
