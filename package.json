@@ -168,7 +168,7 @@
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "format:write": "npx prettier --write .",
     "format:check": "npx prettier --check .",
-    "lint": "eslint src --ext ts",
+    "lint": "eslint src --max-warnings 0 --ext ts",
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
