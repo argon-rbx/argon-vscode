@@ -15,7 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Fixed
 
-- When critical error occurs, Argon will now display special menu instead of throwing "command `argon.openMenu` not found" error
+- When critical error occurs, Argon will now display special menu instead of "command `argon.openMenu` not found"
 
 ## [2.0.8] - 2024-07-19
 
