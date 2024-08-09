@@ -37,6 +37,10 @@ export function defaultPort(): number {
   return config().get("defaultPort")!
 }
 
+export function customPath(): string {
+  return config().get("customPath")!
+}
+
 export function verbose(): boolean {
   return config().get("verbose")!
 }

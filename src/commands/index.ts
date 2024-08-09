@@ -1,4 +1,4 @@
-export * from "./openMenu"
+export { openMenu } from "./openMenu"
 export * from "./play"
 export * from "./run"
 export * from "./start"

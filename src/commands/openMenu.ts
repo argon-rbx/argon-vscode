@@ -26,3 +26,23 @@ export function openMenu(state: State) {
       })
   })
 }
+
+export function openMenuError(context: vscode.ExtensionContext, err: string) {
+  vscode.window.showErrorMessage(err)
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("argon.openMenu", () => {
+      vscode.window.showErrorMessage(err)
+
+      vscode.window.showQuickPick(
+        [
+          {
+            label: "$(warning) Critical error occurred!",
+            description: "See the error message for more details",
+          },
+        ],
+        { title: "Argon" },
+      )
+    }),
+  )
+}

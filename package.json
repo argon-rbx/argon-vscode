@@ -116,11 +116,17 @@
           "maximum": 65535,
           "order": 5
         },
+        "argon.customPath": {
+          "type": "string",
+          "default": "",
+          "description": "The custom path to the Argon CLI",
+          "order": 6
+        },
         "argon.verbose": {
           "type": "boolean",
           "default": false,
           "description": "Whether Argon should log verbose tracing to the output panel",
-          "order": 6
+          "order": 7
         }
       }
     },

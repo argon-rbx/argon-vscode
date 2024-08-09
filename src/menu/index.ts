@@ -14,7 +14,7 @@ import * as plugin from "./plugin"
 import * as update from "./update"
 import * as settings from "./settings"
 import * as help from "./help"
-import { RestorableSession, Session } from "../session"
+import { RestorableSession } from "../session"
 
 export interface Item {
   label: string

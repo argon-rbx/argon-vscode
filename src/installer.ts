@@ -1,30 +1,47 @@
 import * as os from "os"
 import * as fs from "fs"
 import * as path from "path"
+import * as config from "./config"
 import * as childProcess from "child_process"
 import { downloadRelease } from "@terascope/fetch-github-release"
 
-function getArgonPath(): string {
-  return (
+type InstallationState = "Installed" | "NotInstalled" | "Unknown"
+
+function getExecPath(): [string, boolean] {
+  const customPath = config.customPath()
+
+  if (customPath.length > 0) {
+    return [customPath, true]
+  }
+
+  return [
     path.join(os.homedir(), ".argon", "bin", "argon") +
-    (os.platform() === "win32" ? ".exe" : "")
-  )
+      (os.platform() === "win32" ? ".exe" : ""),
+    false,
+  ]
 }
 
-export function verify(): boolean {
-  return fs.existsSync(getArgonPath())
+export function verify(): InstallationState {
+  const [execPath, isCustom] = getExecPath()
+  const exists = fs.existsSync(execPath)
+
+  if (exists) {
+    return "Installed"
+  }
+
+  return isCustom ? "Unknown" : "NotInstalled"
 }
 
 export async function install() {
-  const argonPath = getArgonPath()
+  const [execPath] = getExecPath()
   let versionIndex = 0
 
-  fs.mkdirSync(path.dirname(argonPath), { recursive: true })
+  fs.mkdirSync(path.dirname(execPath), { recursive: true })
 
   await downloadRelease(
     "argon-rbx",
     "argon",
-    path.dirname(argonPath),
+    path.dirname(execPath),
     undefined,
     (asset) => {
       if (versionIndex > 1) {
@@ -52,5 +69,5 @@ export async function install() {
   )
 
   // Trigger Argon installer
-  childProcess.execFileSync(argonPath, ["--version"])
+  childProcess.execFileSync(execPath, ["--version"])
 }

@@ -9,6 +9,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 
 - `AutoRun` option can now restore multiple sessions ([#28](https://github.com/argon-rbx/argon-vscode/pull/28))
+- `CustomPath` setting which enables specifying custom Argon CLI installation path
+
+### Fixed
+
+- When critical error occurs, Argon will now display special menu instead of throwing "command `argon.openMenu` not found" error
 
 ## [2.0.8] - 2024-07-19
 

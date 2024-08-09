@@ -8,22 +8,35 @@ import * as menu from "./menu"
 import * as completion from "./completion"
 import { getVersion } from "./util"
 import { State } from "./state"
-import { RestorableSession, Session } from "./session"
+import { RestorableSession } from "./session"
+import { openMenuError } from "./commands/openMenu"
 
 let state: State
 
 export async function activate(context: vscode.ExtensionContext) {
   console.log("Argon activated")
 
-  if (!installer.verify()) {
-    logger.info("Installing Argon...")
+  switch (installer.verify()) {
+    case "Installed":
+      // Do nothing
+      break
 
-    try {
-      await installer.install()
-    } catch (err) {
-      logger.error(`Argon failed to install: ${err}`)
-      return
-    }
+    case "NotInstalled":
+      logger.info("Installing Argon...")
+
+      try {
+        await installer.install()
+      } catch (err) {
+        return openMenuError(context, `Argon failed to install: ${err}`)
+      }
+
+      break
+
+    case "Unknown":
+      return openMenuError(
+        context,
+        "Argon failed to install because custom path is set. Please install Argon manually or remove the custom path",
+      )
   }
 
   argon.update(true)
@@ -59,5 +72,8 @@ export async function activate(context: vscode.ExtensionContext) {
 
 export function deactivate() {
   console.log("Argon deactivating")
-  state.cleanup()
+
+  if (state) {
+    state.cleanup()
+  }
 }
