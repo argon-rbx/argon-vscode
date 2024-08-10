@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [2.0.10] - 2024-08-10
+
 ### Added
 
 - Compatibility with Rojo's `serveAddress` and `servePort` project fields
@@ -113,7 +115,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Initial release
 
-[unreleased]: https://github.com/argon-rbx/argon-vscode/compare/2.0.9...HEAD
+[unreleased]: https://github.com/argon-rbx/argon-vscode/compare/2.0.10...HEAD
+[2.0.10]: https://github.com/argon-rbx/argon-vscode/compare/2.0.9...2.0.10
 [2.0.9]: https://github.com/argon-rbx/argon-vscode/compare/2.0.8...2.0.9
 [2.0.8]: https://github.com/argon-rbx/argon-vscode/compare/2.0.7...2.0.8
 [2.0.7]: https://github.com/argon-rbx/argon-vscode/compare/2.0.6...2.0.7
