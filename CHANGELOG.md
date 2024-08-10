@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Compatibility with Rojo's `serveAddress` and `servePort` project fields
+
+### Fixed
+
+- Parsing corrupted `project.json` files no longer makes some commands unusable
+
 ## [2.0.9] - 2024-08-09
 
 ### Added

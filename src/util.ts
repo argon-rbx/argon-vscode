@@ -3,6 +3,7 @@ import * as path from "path"
 import * as os from "os"
 import * as fs from "fs"
 import * as argon from "./argon"
+import * as logger from "./logger"
 
 export function getArgonPath(): string {
   return path.join(os.homedir(), ".argon")
@@ -29,9 +30,14 @@ export function findProjects(placesOnly?: boolean): string[] {
 
   if (placesOnly) {
     projects = projects.filter((project) => {
-      const tree = JSON.parse(
-        fs.readFileSync(path.join(dir, project), "utf8"),
-      ).tree
+      try {
+        var tree = JSON.parse(
+          fs.readFileSync(path.join(dir, project), "utf8"),
+        ).tree
+      } catch (err) {
+        logger.error(`Failed to parse ${project}: ${err}`)
+        return false
+      }
 
       if (!tree) {
         return false
@@ -75,7 +81,11 @@ export function getProjectName(project: string): string {
     project = path.join(dir, project)
   }
 
-  return JSON.parse(fs.readFileSync(project, "utf8")).name
+  try {
+    return JSON.parse(fs.readFileSync(project, "utf8")).name
+  } catch {
+    return path.basename(project, ".project.json")
+  }
 }
 
 export function getProjectAddress(project: string): {
@@ -94,11 +104,15 @@ export function getProjectAddress(project: string): {
     project = path.join(dir, project)
   }
 
-  const json = JSON.parse(fs.readFileSync(project, "utf8"))
+  try {
+    var json = JSON.parse(fs.readFileSync(project, "utf8"))
+  } catch {
+    return {}
+  }
 
   return {
-    host: json.host,
-    port: json.port,
+    host: json.host || json.serveAddress,
+    port: json.port || json.servePort,
   }
 }
 
