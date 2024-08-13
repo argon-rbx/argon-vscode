@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Completion for optional paths in projects
+
 ## [2.0.10] - 2024-08-10
 
 ### Added

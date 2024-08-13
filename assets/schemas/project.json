@@ -145,7 +145,7 @@
       "type": "object",
       "properties": {
         "$path": {
-          "type": "string"
+          "type": ["string", "object"]
         },
         "$className": {
           "type": "string"
