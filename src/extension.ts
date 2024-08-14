@@ -39,7 +39,7 @@ export async function activate(context: vscode.ExtensionContext) {
       )
   }
 
-  argon.update(true)
+  argon.update("both", true)
 
   state = new State(context, getVersion())
 
@@ -68,6 +68,13 @@ export async function activate(context: vscode.ExtensionContext) {
   }
 
   completion.start()
+  config.loadGlobalConfig()
+
+  vscode.workspace.onDidChangeConfiguration((event) => {
+    if (event.affectsConfiguration("argon.globalConfig")) {
+      config.saveGlobalConfig()
+    }
+  })
 }
 
 export function deactivate() {

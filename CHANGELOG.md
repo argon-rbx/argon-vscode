@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Completion for optional paths in projects
 - Support for refreshed CLI `update` command
+- Setting sync with CLI's [global config](https://argon.wiki/docs/configuration#global-config)
 
 ## [2.0.10] - 2024-08-10
 

@@ -116,17 +116,26 @@
           "maximum": 65535,
           "order": 5
         },
+        "argon.globalConfig": {
+          "type": "object",
+          "default": {},
+          "description": "Contents of the CLI global configuration file",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "order": 6
+        },
         "argon.customPath": {
           "type": "string",
           "default": "",
           "description": "The custom path to the Argon CLI",
-          "order": 6
+          "order": 7
         },
         "argon.verbose": {
           "type": "boolean",
           "default": false,
           "description": "Whether Argon should log verbose tracing to the output panel",
-          "order": 7
+          "order": 8
         }
       }
     },

@@ -1,4 +1,10 @@
+import * as os from "os"
+import * as fs from "fs"
+import * as path from "path"
+import * as logger from "./logger"
 import { workspace } from "vscode"
+
+let loaded = false
 
 function config() {
   return workspace.getConfiguration("argon")
@@ -43,4 +49,62 @@ export function customPath(): string {
 
 export function verbose(): boolean {
   return config().get("verbose")!
+}
+
+export async function loadGlobalConfig() {
+  try {
+    const configPath = path.join(os.homedir(), ".argon", "config.toml")
+
+    if (!fs.existsSync(configPath)) {
+      return
+    }
+
+    const contents = fs.readFileSync(configPath, "utf-8").split("\n")
+    const globalConfig: Record<string, string> = {}
+
+    for (const line of contents) {
+      const parts = line.split("=", 2)
+
+      if (parts.length !== 2 || line.startsWith("#")) {
+        continue
+      }
+
+      const key = parts[0].trim()
+      const value = parts[1].trim().replaceAll('"', "")
+
+      globalConfig[key] = value
+    }
+
+    config().update("globalConfig", globalConfig, true)
+
+    loaded = true
+  } catch (err) {
+    logger.warn(`Failed to load global config: ${err}`)
+  }
+}
+
+export async function saveGlobalConfig() {
+  if (!loaded) {
+    return
+  }
+
+  try {
+    const configPath = path.join(os.homedir(), ".argon", "config.toml")
+    const globalConfig = config().get("globalConfig")!
+
+    const contents =
+      Object.entries(globalConfig)
+        .map(([key, value]) => {
+          if (isNaN(Number(value)) && value !== "true" && value !== "false") {
+            value = `"${value}"`
+          }
+
+          return `${key} = ${value}`
+        })
+        .join("\n") + "\n"
+
+    fs.writeFileSync(configPath, contents)
+  } catch (err) {
+    logger.error(`Failed to save global config: ${err}`)
+  }
 }
