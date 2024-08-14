@@ -111,7 +111,7 @@ export async function onDidAccept(action: string, state: State) {
       await plugin.run()
       break
     case "update":
-      update.run()
+      await update.run()
       break
 
     case "settings":

@@ -36,7 +36,5 @@ function getMode(): Promise<string> {
 }
 
 export async function run() {
-  const mode = await getMode()
-
-  argon.plugin(mode)
+  argon.plugin(await getMode())
 }

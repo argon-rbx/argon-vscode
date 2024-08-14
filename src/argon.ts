@@ -146,8 +146,8 @@ export function plugin(mode: string) {
   spawn(["plugin", mode])
 }
 
-export function update(auto?: boolean) {
-  spawn(["update"], auto)
+export function update(mode: string, auto?: boolean) {
+  spawn(["update", mode], auto)
 }
 
 export function version() {

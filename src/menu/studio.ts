@@ -31,7 +31,5 @@ function getPlace(): Promise<string | undefined> {
 }
 
 export async function run() {
-  const place = await getPlace()
-
-  argon.studio(false, place)
+  argon.studio(false, await getPlace())
 }
