@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
-- Completion for optional paths in projects
+- Completion for optional paths in projects and workspace config
 - Support for refreshed CLI `update` command
 - Setting sync with CLI's [global config](https://argon.wiki/docs/configuration#global-config)
 

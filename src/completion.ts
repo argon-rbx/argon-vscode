@@ -124,11 +124,18 @@ function hasSetting(document: vscode.TextDocument, setting: string) {
 }
 
 export function start() {
-  const selector: vscode.DocumentSelector = {
-    language: "toml",
-    scheme: "file",
-    pattern: "**/.argon/config.toml",
-  }
+  const selector: vscode.DocumentSelector = [
+    {
+      language: "toml",
+      scheme: "file",
+      pattern: "**/.argon/config.toml",
+    },
+    {
+      language: "toml",
+      scheme: "file",
+      pattern: "**/argon.toml",
+    },
+  ]
 
   vscode.languages.registerCompletionItemProvider(selector, {
     provideCompletionItems(document) {

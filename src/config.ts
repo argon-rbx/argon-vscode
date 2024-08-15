@@ -56,6 +56,7 @@ export async function loadGlobalConfig() {
     const configPath = path.join(os.homedir(), ".argon", "config.toml")
 
     if (!fs.existsSync(configPath)) {
+      loaded = true
       return
     }
 
@@ -76,11 +77,11 @@ export async function loadGlobalConfig() {
     }
 
     config().update("globalConfig", globalConfig, true)
-
-    loaded = true
   } catch (err) {
     logger.warn(`Failed to load global config: ${err}`)
   }
+
+  loaded = true
 }
 
 export async function saveGlobalConfig() {
