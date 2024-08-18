@@ -12,8 +12,8 @@ function getMode(): Promise<string> {
   return new Promise((resolve, reject) => {
     const items = [
       {
-        label: "$(multiple-windows) Both",
-        mode: "both",
+        label: "$(check-all) All",
+        mode: "all",
       },
       {
         label: "$(terminal) CLI",
@@ -22,6 +22,10 @@ function getMode(): Promise<string> {
       {
         label: "$(plug) Plugin",
         mode: "plugin",
+      },
+      {
+        label: "$(folder) Templates",
+        mode: "templates",
       },
     ]
 
