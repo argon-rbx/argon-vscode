@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- Automatic updates on extension startup work again (`invalid value` error)
+
 ## [2.0.11] - 2024-08-18
 
 ### Added

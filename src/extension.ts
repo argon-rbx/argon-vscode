@@ -39,7 +39,7 @@ export async function activate(context: vscode.ExtensionContext) {
       )
   }
 
-  argon.update("both", true)
+  argon.update("all", true)
 
   state = new State(context, getVersion())
 

@@ -8,9 +8,13 @@ export const item: Item = {
   action: "debug",
 }
 
-function getMode(): Promise<string> {
+function getMode(): Promise<argon.DebugMode> {
   return new Promise((resolve, reject) => {
-    const items = [
+    const items: {
+      label: string
+      description: string
+      mode: argon.DebugMode
+    }[] = [
       {
         label: "$(vm) Play",
         description: "F5",

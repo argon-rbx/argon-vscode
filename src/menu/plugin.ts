@@ -8,9 +8,9 @@ export const item: Item = {
   action: "plugin",
 }
 
-function getMode(): Promise<string> {
+function getMode(): Promise<argon.PluginMode> {
   return new Promise((resolve, reject) => {
-    const items = [
+    const items: { label: string; mode: argon.PluginMode }[] = [
       {
         label: "$(arrow-down) Install",
         mode: "install",

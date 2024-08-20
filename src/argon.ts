@@ -5,6 +5,10 @@ import { getCurrentDir } from "./util"
 
 let lastId = 0
 
+export type DebugMode = "play" | "run" | "start" | "stop"
+export type PluginMode = "install" | "uninstall"
+export type UpdateMode = "all" | "cli" | "plugin" | "templates"
+
 function log(data: string, silent?: boolean) {
   let output = undefined
 
@@ -119,7 +123,7 @@ export function stop(ids: number[]) {
   spawn(["stop", ...ids.map((id) => id.toString())], true)
 }
 
-export function debug(mode: string) {
+export function debug(mode: DebugMode) {
   spawn(["debug", mode], true)
 }
 
@@ -142,11 +146,11 @@ export function studio(check?: boolean, place?: string) {
   spawn(["studio", ...args], true)
 }
 
-export function plugin(mode: string) {
+export function plugin(mode: PluginMode) {
   spawn(["plugin", mode])
 }
 
-export function update(mode: string, auto?: boolean) {
+export function update(mode: UpdateMode, auto?: boolean) {
   spawn(["update", mode], auto)
 }
 

@@ -8,9 +8,9 @@ export const item: Item = {
   action: "update",
 }
 
-function getMode(): Promise<string> {
+function getMode(): Promise<argon.UpdateMode> {
   return new Promise((resolve, reject) => {
-    const items = [
+    const items: { label: string; mode: argon.UpdateMode }[] = [
       {
         label: "$(check-all) All",
         mode: "all",
