@@ -53,6 +53,11 @@ const SETTINGS = [
     doc: "Automatically detect project type",
   },
   {
+    field: "smart_paths",
+    value: "${1|false,true|}",
+    doc: "Use smart path resolver when running commands",
+  },
+  {
     field: "with_sourcemap",
     value: "${1|false,true|}",
     doc: "Always run commands with sourcemap generation",
@@ -76,6 +81,11 @@ const SETTINGS = [
     field: "install_plugin",
     value: "${1|true,false|}",
     doc: "Install Roblox plugin locally and keep it updated",
+  },
+  {
+    field: "update_templates",
+    value: "${1|true,false|}",
+    doc: "Update default project templates when available",
   },
   {
     field: "rojo_mode",

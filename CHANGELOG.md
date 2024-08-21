@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Completion for new settings in Argon's global and workspace config
+
 ### Fixed
 
 - Automatic updates on extension startup work again (`invalid value` error)
