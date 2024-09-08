@@ -108,6 +108,16 @@ const SETTINGS = [
     doc: "Use .lua file extension instead of .luau when writing scripts",
   },
   {
+    field: "line_ending",
+    value: "${1|LF,CRLF,CR|}",
+    doc: "Line ending to use when writing files (LF, CRLF, CR)",
+  },
+  {
+    field: "rename_instances",
+    value: "${1|true,false|}",
+    doc: "Automatically rename corrupted or duplicate instances when syncing back",
+  },
+  {
     field: "move_to_bin",
     value: "${1|false,true|}",
     doc: "Move files to the bin instead of deleting them (two-way sync)",

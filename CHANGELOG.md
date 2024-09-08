@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Completion for `line_ending` and `rename_instances` settings
+
 ## [2.0.12] - 2024-08-21
 
 ### Added
