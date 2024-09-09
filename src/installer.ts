@@ -1,39 +1,14 @@
 import * as os from "os"
 import * as fs from "fs"
 import * as path from "path"
-import * as config from "./config"
 import * as childProcess from "child_process"
 import { downloadRelease } from "@terascope/fetch-github-release"
 
-type InstallationState = "Installed" | "NotInstalled" | "Unknown"
-
-function getExecPath(): [string, boolean] {
-  const customPath = config.customPath()
-
-  if (customPath.length > 0) {
-    return [customPath, true]
-  }
-
-  return [
-    path.join(os.homedir(), ".argon", "bin", "argon") +
-      (os.platform() === "win32" ? ".exe" : ""),
-    false,
-  ]
-}
-
-export function verify(): InstallationState {
-  const [execPath, isCustom] = getExecPath()
-  const exists = fs.existsSync(execPath)
-
-  if (exists) {
-    return "Installed"
-  }
-
-  return isCustom ? "Unknown" : "NotInstalled"
-}
-
 export async function install() {
-  const [execPath] = getExecPath()
+  const execPath =
+    path.join(os.homedir(), ".argon", "bin", "argon") +
+    (os.platform() === "win32" ? ".exe" : "")
+
   let versionIndex = 0
 
   fs.mkdirSync(path.dirname(execPath), { recursive: true })

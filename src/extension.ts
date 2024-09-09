@@ -1,7 +1,6 @@
 import * as vscode from "vscode"
 import * as commands from "./commands"
 import * as installer from "./installer"
-import * as logger from "./logger"
 import * as config from "./config"
 import * as argon from "./argon"
 import * as menu from "./menu"
@@ -16,32 +15,20 @@ let state: State
 export async function activate(context: vscode.ExtensionContext) {
   console.log("Argon activated")
 
-  switch (installer.verify()) {
-    case "Installed":
-      // Do nothing
-      break
+  let version = getVersion()
 
-    case "NotInstalled":
-      logger.info("Installing Argon...")
-
-      try {
-        await installer.install()
-      } catch (err) {
-        return openMenuError(context, `Argon failed to install: ${err}`)
-      }
-
-      break
-
-    case "Unknown":
-      return openMenuError(
-        context,
-        "Argon failed to install because custom path is set. Please install Argon manually or remove the custom path",
-      )
+  if (version) {
+    argon.update("all", true)
+  } else {
+    try {
+      await installer.install()
+      version = getVersion()!
+    } catch (err) {
+      return openMenuError(context, `Argon failed to install: ${err}`)
+    }
   }
 
-  argon.update("all", true)
-
-  state = new State(context, getVersion())
+  state = new State(context, version)
 
   Object.values(commands).forEach((command) => {
     context.subscriptions.push(command(state))

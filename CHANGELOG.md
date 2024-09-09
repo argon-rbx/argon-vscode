@@ -8,7 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Proper support for custom Argon installations
 - Completion for `line_ending` and `rename_instances` settings
+
+### Changed
+
+- Removed `customPath` setting as it's no longer needed
 
 ## [2.0.12] - 2024-08-21
 

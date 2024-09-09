@@ -125,17 +125,11 @@
           },
           "order": 6
         },
-        "argon.customPath": {
-          "type": "string",
-          "default": "",
-          "description": "The custom path to the Argon CLI",
-          "order": 7
-        },
         "argon.verbose": {
           "type": "boolean",
           "default": false,
           "description": "Whether Argon should log verbose tracing to the output panel",
-          "order": 8
+          "order": 7
         }
       }
     },
