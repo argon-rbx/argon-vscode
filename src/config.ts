@@ -72,7 +72,11 @@ export async function loadGlobalConfig() {
       globalConfig[key] = value
     }
 
-    config().update("globalConfig", globalConfig, true)
+    config().update(
+      "globalConfig",
+      Object.keys(globalConfig).length > 0 ? globalConfig : undefined,
+      true,
+    )
   } catch (err) {
     logger.warn(`Failed to load global config: ${err}`)
   }

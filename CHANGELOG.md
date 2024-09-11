@@ -11,6 +11,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Proper support for custom Argon installations
 - Completion for `line_ending` and `rename_instances` settings
 
+### Fixed
+
+- `Global Config` setting no longer shows as changed when it's empty
+
 ### Changed
 
 - Removed `customPath` setting as it's no longer needed
