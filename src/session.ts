@@ -6,6 +6,7 @@ export class Session {
   public project: string
   public id: number
   public address?: string
+  public originalPort?: number
 
   public constructor(name: string, project: string, id: number) {
     this.name = name
@@ -15,11 +16,14 @@ export class Session {
 
   public withType(type: SessionType) {
     this.type = type
+
     return this
   }
 
-  public withAddress(address: string) {
+  public withAddress(address: string, originalPort?: number) {
     this.address = address
+    this.originalPort = originalPort
+
     return this
   }
 
@@ -32,6 +36,7 @@ export class RestorableSession {
   public type: SessionType
   public project: string
   public address?: string
+  public originalPort?: number
 
   private isComplete: boolean = true
 
@@ -40,6 +45,7 @@ export class RestorableSession {
       this.type = session.type
       this.project = session.project
       this.address = session.address
+      this.originalPort = session.originalPort
     } else {
       if (!session || !session.type || !session.project) {
         this.isComplete = false
@@ -52,6 +58,7 @@ export class RestorableSession {
       this.type = session.type
       this.project = session.project
       this.address = session.address
+      this.originalPort = session.originalPort
     }
   }
 

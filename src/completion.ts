@@ -38,6 +38,11 @@ const SETTINGS = [
     doc: "Use Wally for package management",
   },
   {
+    field: "use_selene",
+    value: "${1|false,true|}",
+    doc: "Use selene for codebase linting",
+  },
+  {
     field: "run_async",
     value: "${1|false,true|}",
     doc: "Run Argon asynchronously, freeing up the terminal",
@@ -116,6 +121,11 @@ const SETTINGS = [
     field: "rename_instances",
     value: "${1|true,false|}",
     doc: "Automatically rename corrupted or duplicate instances when syncing back",
+  },
+  {
+    field: "max_unsynced_changes",
+    value: "${1:10}",
+    doc: "Maximum number of unsynced changes before showing a warning",
   },
   {
     field: "move_to_bin",

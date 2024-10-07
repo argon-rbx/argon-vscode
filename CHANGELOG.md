@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- `Setup selene` option when initializing a new project
+- Completion for `use_selene` and `max_unsynced_changes` settings
+
+### Changed
+
+- When restoring last session, the original port is used (if previously it was in use)
+
 ## [2.0.13] - 2024-09-11
 
 ### Added

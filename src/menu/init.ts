@@ -28,6 +28,11 @@ const OPTIONS = [
     picked: false,
   },
   {
+    label: "Setup selene",
+    flag: "--selene",
+    picked: false,
+  },
+  {
     label: "Use roblox-ts",
     flag: "--ts",
     picked: false,

@@ -136,7 +136,7 @@ export async function run(state: State, session?: RestorableSession) {
 
     var address: { host?: string; port?: string } = {
       host: sessionAddress[0],
-      port: sessionAddress[1],
+      port: String(session.originalPort) || sessionAddress[1],
     }
   }
 
@@ -162,14 +162,17 @@ export async function run(state: State, session?: RestorableSession) {
 
   const name = getProjectName(project)
   const [id, message] = await argon.serve(project, options)
+  let originalPort
 
   if (message.includes("already in use")) {
+    originalPort = Number(address.port)
     address.port = message.match(/\d+/g)?.[1]!
   }
 
   state.addSession(
     new Session(name, project, id).withAddress(
       `${address.host}:${address.port}`,
+      originalPort,
     ),
   )
 }
