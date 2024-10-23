@@ -103,9 +103,24 @@ const SETTINGS = [
     doc: "Use roblox-ts by default",
   },
   {
-    field: "package_manager",
-    value: '"${1|bun,npm,pnpm,yarn|}"',
-    doc: "Package manager to use when running roblox-ts scripts (npm, yarn, etc.)",
+    field: "rename_instances",
+    value: "${1|true,false|}",
+    doc: "Automatically rename corrupted or duplicate instances when syncing back",
+  },
+  {
+    field: "move_to_bin",
+    value: "${1|false,true|}",
+    doc: "Move files to the bin instead of deleting them (two-way sync)",
+  },
+  {
+    field: "changes_threshold",
+    value: "${1:5}",
+    doc: "Number of changes allowed before prompting user for confirmation",
+  },
+  {
+    field: "max_unsynced_changes",
+    value: "${1:10}",
+    doc: "Maximum number of unsynced changes before showing a warning",
   },
   {
     field: "lua_extension",
@@ -118,19 +133,9 @@ const SETTINGS = [
     doc: "Line ending to use when writing files (LF, CRLF, CR)",
   },
   {
-    field: "rename_instances",
-    value: "${1|true,false|}",
-    doc: "Automatically rename corrupted or duplicate instances when syncing back",
-  },
-  {
-    field: "max_unsynced_changes",
-    value: "${1:10}",
-    doc: "Maximum number of unsynced changes before showing a warning",
-  },
-  {
-    field: "move_to_bin",
-    value: "${1|false,true|}",
-    doc: "Move files to the bin instead of deleting them (two-way sync)",
+    field: "package_manager",
+    value: '"${1|bun,npm,pnpm,yarn|}"',
+    doc: "Package manager to use when running roblox-ts scripts (npm, yarn, etc.)",
   },
   {
     field: "share_stats",

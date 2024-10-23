@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 
 - `Setup selene` option when initializing a new project
-- Completion for `use_selene` and `max_unsynced_changes` settings
+- Completion for `use_selene`, `max_unsynced_changes` and `changes_threshold` settings
 
 ### Changed
 
