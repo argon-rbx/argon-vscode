@@ -136,7 +136,9 @@ export async function run(state: State, session?: RestorableSession) {
 
     var address: { host?: string; port?: string } = {
       host: sessionAddress[0],
-      port: String(session.originalPort) || sessionAddress[1],
+      port: session.originalPort
+        ? String(session.originalPort)
+        : sessionAddress[1],
     }
   }
 
