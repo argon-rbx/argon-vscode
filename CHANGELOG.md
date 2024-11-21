@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- `name` field in project file is now optional
+- `Stop` command will now run immediately if there is only one session to stop
+- `Studio` command will now run without extra prompt if there are no places to choose from
+
 ## [2.0.15] - 2024-10-25
 
 ### Fixed

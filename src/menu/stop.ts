@@ -26,12 +26,19 @@ export async function run(state: State): Promise<void> {
       return vscode.window.showQuickPick([], {
         title: "No sessions to stop",
       })
+    } else if (items.length === 1) {
+      const ids = items.map((item) => item.id)
+
+      argon.stop(ids)
+      state.removeSessions(ids)
+
+      return resolve()
     }
 
     vscode.window
       .showQuickPick(items, {
         title: "Select a session to stop",
-        canPickMany: items.length > 1,
+        canPickMany: true,
       })
       .then((item: any) => {
         if (!item) {

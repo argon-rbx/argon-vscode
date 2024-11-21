@@ -12,6 +12,11 @@ export const item: Item = {
 function getPlace(): Promise<string | undefined> {
   return new Promise((resolve, reject) => {
     const places = findPlaces()
+
+    if (places.length === 0) {
+      return resolve(undefined)
+    }
+
     places.push("$(window) Launch empty")
 
     vscode.window

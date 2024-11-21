@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "required": ["name", "tree"],
+  "required": ["tree"],
   "type": "object",
   "properties": {
     "name": {
