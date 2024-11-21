@@ -6,7 +6,8 @@
     "lib": ["ES2021"],
     "sourceMap": true,
     "strict": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "skipLibCheck": true
     /* Additional Checks */
     // "rootDir": "src",
     // "noImplicitReturns": true, /* Report error when not all code paths in function return a value. */
