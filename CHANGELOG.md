@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [2.0.16] - 2024-11-22
+
 ### Changed
 
 - `name` field in project file is now optional
@@ -171,7 +173,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Initial release
 
-[unreleased]: https://github.com/argon-rbx/argon-vscode/compare/2.0.15...HEAD
+[unreleased]: https://github.com/argon-rbx/argon-vscode/compare/2.0.16...HEAD
+[2.0.16]: https://github.com/argon-rbx/argon-vscode/compare/2.0.15...2.0.16
 [2.0.15]: https://github.com/argon-rbx/argon-vscode/compare/2.0.14...2.0.15
 [2.0.14]: https://github.com/argon-rbx/argon-vscode/compare/2.0.13...2.0.14
 [2.0.13]: https://github.com/argon-rbx/argon-vscode/compare/2.0.12...2.0.13
