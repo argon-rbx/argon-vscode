@@ -94,7 +94,7 @@ const SETTINGS = [
   },
   {
     field: "rojo_mode",
-    value: "${1|false,true|}",
+    value: "${1|true,false|}",
     doc: "Use Rojo namespace by default",
   },
   {
@@ -105,7 +105,12 @@ const SETTINGS = [
   {
     field: "rename_instances",
     value: "${1|true,false|}",
-    doc: "Automatically rename corrupted or duplicate instances when syncing back",
+    doc: "Automatically rename corrupted instances when syncing back",
+  },
+  {
+    field: "keep_duplicates",
+    value: "${1|false,true|}",
+    doc: "Keep duplicate instances (by adding UUID suffixes) when syncing back",
   },
   {
     field: "move_to_bin",

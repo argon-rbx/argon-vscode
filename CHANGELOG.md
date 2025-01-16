@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Completion for `rename_instances` setting
+
 ### Fixed
 
 - Argon CLI installation issue that occurred only for some Windows users ([#52](https://github.com/argon-rbx/argon-vscode/issues/52))
