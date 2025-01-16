@@ -3,6 +3,7 @@ import * as fs from "fs"
 import * as path from "path"
 import * as childProcess from "child_process"
 import { downloadRelease } from "@terascope/fetch-github-release"
+import { updatePathVariable } from "./util"
 
 export async function install() {
   const execPath =
@@ -45,4 +46,6 @@ export async function install() {
 
   // Trigger Argon installer
   childProcess.execFileSync(execPath, ["--version"])
+
+  updatePathVariable()
 }

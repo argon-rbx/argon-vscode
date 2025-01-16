@@ -2,6 +2,7 @@ import * as vscode from "vscode"
 import * as path from "path"
 import * as os from "os"
 import * as fs from "fs"
+import * as childProcess from "child_process"
 import * as argon from "./argon"
 import * as logger from "./logger"
 
@@ -120,4 +121,22 @@ export function getVersion(): string | undefined {
   try {
     return argon.version().replace("argon-rbx ", "").trim()
   } catch {}
+}
+
+export function updatePathVariable() {
+  if (os.platform() !== "win32") {
+    return
+  }
+
+  let paths = childProcess
+    .execSync("reg query HKEY_CURRENT_USER\\Environment /v PATH")
+    .toString()
+
+  const index = paths.indexOf("_SZ")
+
+  if (index !== -1) {
+    paths = paths.substring(index + 3)
+  }
+
+  process.env.PATH = paths.trim()
 }

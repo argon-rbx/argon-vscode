@@ -5,7 +5,7 @@ import * as config from "./config"
 import * as argon from "./argon"
 import * as menu from "./menu"
 import * as completion from "./completion"
-import { getVersion } from "./util"
+import { updatePathVariable, getVersion } from "./util"
 import { State } from "./state"
 import { RestorableSession } from "./session"
 import { openMenuError } from "./commands/openMenu"
@@ -14,6 +14,8 @@ let state: State
 
 export async function activate(context: vscode.ExtensionContext) {
   console.log("Argon activated")
+
+  updatePathVariable()
 
   let version = getVersion()
 

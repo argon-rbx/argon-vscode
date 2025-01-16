@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- Argon CLI installation issue that occurred only for some Windows users ([#52](https://github.com/argon-rbx/argon-vscode/issues/52))
+
 ## [2.0.16] - 2024-11-22
 
 ### Changed
