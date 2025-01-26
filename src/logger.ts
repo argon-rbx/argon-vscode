@@ -18,23 +18,33 @@ function beautify(message: string): string {
 export function info(message: string, silent?: boolean) {
   outputChannel.appendLine(message)
 
-  if (!silent && config.notificationLevel() >= 3) {
-    window.showInformationMessage(beautify(message))
+  if (silent || config.notificationLevel() < 3) {
+    return
   }
+
+  window.showInformationMessage(beautify(message))
 }
 
 export function warn(message: string, silent?: boolean) {
   outputChannel.appendLine(message)
 
-  if (!silent && config.notificationLevel() >= 2) {
-    window.showWarningMessage(beautify(message))
+  if (silent || config.notificationLevel() < 2) {
+    return
   }
+
+  window.showWarningMessage(beautify(message))
 }
 
-export function error(message: string, silent?: boolean) {
+export function error(message: string, silent?: boolean, bypass?: boolean) {
   outputChannel.appendLine(message)
 
-  if (!silent && config.notificationLevel() >= 1) {
-    window.showErrorMessage(beautify(message))
+  if ((silent || config.notificationLevel() < 1) && !bypass) {
+    return
   }
+
+  window.showErrorMessage(beautify(message), "Show Output").then((action) => {
+    if (action === "Show Output") {
+      outputChannel.show()
+    }
+  })
 }

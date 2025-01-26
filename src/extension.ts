@@ -24,7 +24,13 @@ export async function activate(context: vscode.ExtensionContext) {
   } else {
     try {
       await installer.install()
-      version = getVersion()!
+      version = getVersion()
+
+      if (!version) {
+        throw new Error(
+          "Try running VS Code as an administrator or restarting your computer!",
+        )
+      }
     } catch (err) {
       return openMenuError(context, `Argon failed to install: ${err}`)
     }

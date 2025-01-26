@@ -28,11 +28,11 @@ export function openMenu(state: State) {
 }
 
 export function openMenuError(context: vscode.ExtensionContext, err: string) {
-  vscode.window.showErrorMessage(err)
+  logger.error(err, false, true)
 
   context.subscriptions.push(
     vscode.commands.registerCommand("argon.openMenu", () => {
-      vscode.window.showErrorMessage(err)
+      logger.error(err, false, true)
 
       vscode.window.showQuickPick(
         [

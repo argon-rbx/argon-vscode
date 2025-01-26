@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 
 - Completion for `rename_instances` setting
+- `Show Output` button in error notifications
 
 ### Fixed
 
