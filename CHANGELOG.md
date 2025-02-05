@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [2.0.18] - 2025-02-05
+
 ### Added
 
 - Option to disable auto-update of the Argon CLI
@@ -188,7 +190,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Initial release
 
-[unreleased]: https://github.com/argon-rbx/argon-vscode/compare/2.0.17...HEAD
+[unreleased]: https://github.com/argon-rbx/argon-vscode/compare/2.0.18...HEAD
+[2.0.18]: https://github.com/argon-rbx/argon-vscode/compare/2.0.17...2.0.18
 [2.0.17]: https://github.com/argon-rbx/argon-vscode/compare/2.0.16...2.0.17
 [2.0.16]: https://github.com/argon-rbx/argon-vscode/compare/2.0.15...2.0.16
 [2.0.15]: https://github.com/argon-rbx/argon-vscode/compare/2.0.14...2.0.15
