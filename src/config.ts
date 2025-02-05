@@ -10,6 +10,10 @@ function config() {
   return workspace.getConfiguration("argon")
 }
 
+export function autoUpdate(): boolean {
+  return config().get("autoUpdate")!
+}
+
 export function autoRun(): boolean {
   return config().get("autoRun")!
 }

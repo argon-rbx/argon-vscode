@@ -70,51 +70,57 @@
     "configuration": {
       "title": "Argon",
       "properties": {
+        "argon.autoUpdate": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether Argon should update the CLI automatically",
+          "order": 0
+        },
         "argon.autoRun": {
           "type": "boolean",
           "default": true,
-          "description": "Whether Argon should serve last used project automatically",
-          "order": 0
+          "description": "Whether Argon should serve the last used project when launching VS Code",
+          "order": 1
         },
         "argon.autoLaunchStudio": {
           "type": "boolean",
           "default": false,
           "description": "Whether Roblox Studio should be launched automatically when running a project",
-          "order": 1
+          "order": 2
         },
         "argon.focusStudio": {
           "type": "boolean",
           "default": true,
-          "description": "Whether Roblox Studio should be focused when executing code",
-          "order": 2
+          "description": "Whether Roblox Studio window should get focused when executing code",
+          "order": 3
         },
         "argon.notificationLevel": {
           "type": "string",
           "default": "Info",
-          "description": "What level of notifications should be shown at the bottom right corner",
+          "description": "Level of notifications to show in the bottom right corner",
           "enum": [
             "Info",
             "Warning",
             "Error",
             "Off"
           ],
-          "order": 3
+          "order": 4
         },
         "argon.defaultHost": {
           "type": "string",
           "default": "localhost",
-          "description": "The host that server should be running on",
+          "description": "Host name of the serve address",
           "pattern": "[hostname]",
           "patternErrorMessage": "This symbol is not allowed",
-          "order": 4
+          "order": 5
         },
         "argon.defaultPort": {
           "type": "number",
           "default": 8000,
-          "description": "The port that server should be running on",
+          "description": "Port number of the serve address",
           "minimum": 0,
           "maximum": 65535,
-          "order": 5
+          "order": 6
         },
         "argon.globalConfig": {
           "type": "object",
@@ -123,13 +129,13 @@
           "additionalProperties": {
             "type": "string"
           },
-          "order": 6
+          "order": 7
         },
         "argon.verbose": {
           "type": "boolean",
           "default": false,
-          "description": "Whether Argon should log verbose tracing to the output panel",
-          "order": 7
+          "description": "Log verbose tracing of the CLI to the output panel",
+          "order": 8
         }
       }
     },

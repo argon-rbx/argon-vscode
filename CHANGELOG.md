@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Option to disable auto-update of the Argon CLI
+
 ## [2.0.17] - 2025-01-26
 
 ### Added

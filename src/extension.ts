@@ -19,9 +19,9 @@ export async function activate(context: vscode.ExtensionContext) {
 
   let version = getVersion()
 
-  if (version) {
+  if (version && config.autoUpdate()) {
     argon.update("all", true)
-  } else {
+  } else if (!version) {
     try {
       await installer.install()
       version = getVersion()
