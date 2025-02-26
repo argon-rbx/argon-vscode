@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- New `Output` command to quickly see Argon output channel
+
 ## [2.0.18] - 2025-02-05
 
 ### Added

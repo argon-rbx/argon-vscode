@@ -1,7 +1,7 @@
 import { window } from "vscode"
 import * as config from "./config"
 
-const outputChannel = window.createOutputChannel("Argon")
+export const outputChannel = window.createOutputChannel("Argon")
 outputChannel.appendLine("Argon started")
 
 function beautify(message: string): string {

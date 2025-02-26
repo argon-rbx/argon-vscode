@@ -1,6 +1,7 @@
 import * as vscode from "vscode"
 import { getCurrentDir, findProjects } from "../util"
 import { State } from "../state"
+import { RestorableSession } from "../session"
 
 import * as init from "./init"
 import * as serve from "./serve"
@@ -12,9 +13,9 @@ import * as debug from "./debug"
 import * as studio from "./studio"
 import * as plugin from "./plugin"
 import * as update from "./update"
-import * as settings from "./settings"
 import * as help from "./help"
-import { RestorableSession } from "../session"
+import * as output from "./output"
+import * as settings from "./settings"
 
 export interface Item {
   label: string
@@ -71,8 +72,9 @@ export function items(): (Item | Divider)[] {
     plugin.item,
     update.item,
     misc(),
-    settings.item,
     help.item,
+    output.item,
+    settings.item,
   ]
 }
 
@@ -114,11 +116,14 @@ export async function onDidAccept(action: string, state: State) {
       await update.run()
       break
 
-    case "settings":
-      settings.run()
-      break
     case "help":
       help.run()
+      break
+    case "output":
+      output.run()
+      break
+    case "settings":
+      settings.run()
       break
   }
 }
