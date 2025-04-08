@@ -1,7 +1,8 @@
+/* // Commented out to disable this menu item
 import * as vscode from "vscode"
 import * as argon from "../argon"
 import { getProjectName } from "../util"
-import { Item, getProject } from "."
+// import { Item, getProject } from "."
 import { State } from "../state"
 import { RestorableSession, Session } from "../session"
 
@@ -127,3 +128,4 @@ export async function run(state: State, session?: RestorableSession) {
     state.addSession(new Session(name, project, id).withType("Build"))
   }
 }
+*/

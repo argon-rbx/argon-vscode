@@ -1,18 +1,18 @@
 import { window } from "vscode"
 import * as config from "./config"
 
-export const outputChannel = window.createOutputChannel("Argon")
-outputChannel.appendLine("Argon started")
+export const outputChannel = window.createOutputChannel("Lemonade")
+outputChannel.appendLine("Lemonade started")
 
 function beautify(message: string): string {
   const index = message.indexOf(":")
 
-  // Remove Argon CLI log prefix
+  // Remove Lemonade CLI log prefix
   if (index <= 5) {
     message = message.substring(index + 1)
   }
 
-  return "Argon: " + message
+  return "Lemonade: " + message
 }
 
 export function info(message: string, silent?: boolean) {

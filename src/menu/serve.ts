@@ -1,3 +1,4 @@
+/* // Commented out to disable this menu item
 import * as vscode from "vscode"
 import * as argon from "../argon"
 import * as config from "../config"
@@ -178,3 +179,4 @@ export async function run(state: State, session?: RestorableSession) {
     ),
   )
 }
+*/
