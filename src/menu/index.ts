@@ -1,7 +1,8 @@
 import * as vscode from "vscode"
-import { getCurrentDir, findProjects } from "../util"
+// Removing unused imports
+// import { getCurrentDir, findProjects } from "../util"
 import { State } from "../state"
-import { RestorableSession } from "../session"
+// import { RestorableSession } from "../session"
 
 import * as startLemonade from "./startLemonade"
 // Keep other imports commented for context
@@ -37,7 +38,7 @@ export function items(): (Item | Divider)[] {
 export async function onDidAccept(action: string, state: State) {
   switch (action) {
     case "startLemonade":
-      await startLemonade.run(state)
+      await startLemonade.run(state, state.context)
       break
     // No other cases needed as other items are disabled
   }

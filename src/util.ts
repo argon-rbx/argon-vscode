@@ -3,7 +3,6 @@ import * as path from "path"
 import * as os from "os"
 import * as fs from "fs"
 import * as childProcess from "child_process"
-import * as argon from "./argon"
 import * as logger from "./logger"
 
 export function getArgonPath(): string {

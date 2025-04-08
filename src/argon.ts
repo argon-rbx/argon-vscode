@@ -52,7 +52,7 @@ async function spawn(
   const spawnOptions: childProcess.SpawnOptionsWithoutStdio = {
     cwd: getCurrentDir(),
     shell: true,
-    env: { ...process.env, RUST_LOG: config.verbose() ? "trace" : "info" },
+    env: { ...process.env, rustLog: config.verbose() ? "trace" : "info" },
   }
 
   let spawnedProcess: childProcess.ChildProcess | null = null
@@ -83,7 +83,9 @@ async function spawn(
 
   const outputPromise: Promise<string> = new Promise((resolve) => {
     const processOutput = (data: Buffer | string, streamName: string) => {
-      if (promiseResolved) return
+      if (promiseResolved) {
+        return;
+      }
 
       const lines = data.toString()
       // Log output silently to channel
@@ -115,7 +117,9 @@ async function spawn(
     currentProcess.stderr?.on("data", (data) => processOutput(data, "STDERR"))
 
     currentProcess.on("close", (code, signal) => {
-      if (promiseResolved) return
+      if (promiseResolved) {
+        return;
+      }
       logger.info(`Process exited with code: ${code}, signal: ${signal}`, true)
       promiseResolved = true
       resolve(
@@ -126,7 +130,9 @@ async function spawn(
     })
 
     currentProcess.on("error", (err) => {
-      if (promiseResolved) return
+      if (promiseResolved) {
+        return;
+      }
       logger.error(`Spawn error: ${err.message}`, false, true) // Log spawn errors visibly
       promiseResolved = true
       resolve(`Spawn error: ${err.message}`)
