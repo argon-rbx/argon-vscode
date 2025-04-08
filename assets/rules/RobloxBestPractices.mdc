@@ -1,0 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+- In Roblox, clients (.client.luau) can't directly change a server-side (.server.luau) property - to change a server-side property, we need to request the server to do it. 
+- In Roblox's security model, client scripts cannot directly modify server objects.
+- For example, The TakeDamage() method in a client script sends that request to the server, but directly setting Health = 0 from the client is blocked by Roblox's security system.

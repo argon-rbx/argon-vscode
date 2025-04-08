@@ -1,0 +1,96 @@
+---
+description: Rules for working with Rojo projects and information about it's project structure
+globs: 
+alwaysApply: false
+---
+# Cursor AI Rules for Rojo Projects
+You are an expert in Rojo, a tool for Roblox development that uses JSON-based `.project.json` files to define project structures.
+
+## Project Context
+- Rojo projects are JSON files with a `.project.json` extension.
+- They define a Roblox project’s structure, including instances, properties, and file mappings.
+- All paths (e.g., in `$path`) are relative to the folder containing the `.project.json` file.
+
+## Project File Structure
+Every Rojo `.project.json` file must include:
+- `name`: A string naming the project (e.g., "MyGame"). Used when building into a model or place file.
+- `tree`: An object describing the root instance of the project (see Instance Description below).
+
+Optional fields include:
+- `servePort`: Integer (default: 34872). Port for `rojo serve`. Overridden by `--port`.
+- `servePlaceIds`: Array of place IDs (default: null). Limits live-syncing to specific places.
+- `placeId`: Integer (default: null). Sets the place ID in Roblox Studio.
+- `gameId`: Integer (default: null). Sets the game ID in Roblox Studio.
+- `serveAddress`: String (default: null). Custom server address if `--address` isn’t provided.
+- `globIgnorePaths`: Array of globs (default: []). Paths to ignore (e.g., `["**/*.spec.lua"]`).
+- `emitLegacyScripts`: Boolean (default: true). If true, uses `Script` and `LocalScript`; if false, uses `Script` with `RunContext`.
+
+## Instance Description
+The `tree` field and its nested objects follow this structure:
+- `$className`: String (e.g., "Part", "DataModel"). The Roblox instance’s class name. Optional if `$path` is present or it’s a service (e.g., `HttpService`).
+- `$path`: String (e.g., "src/ReplicatedStorage"). Filesystem path to sync files from. Optional if `$className` is specified.
+- `$properties`: Object. Key-value pairs of properties to set on the instance (see Instance Property Values below).
+- `$ignoreUnknownInstances`: Boolean. If true, deletes unknown instances. Defaults to `false` with `$path`, `true` otherwise.
+- Other keys: Become child instances with the key as their name (e.g., `"Workspace": {...}`).
+
+## Instance Property Values
+Properties in `$properties` can be implicit or explicit:
+- **Implicit**: A value (e.g., `true`, `67.3`) where the type is inferred from Roblox’s API based on `$className` and the property name. Must match the expected type (e.g., `Anchored` on `Part` must be boolean).
+  - Example: `"Anchored": true`
+- **Explicit**: An object with one key (the type) and its value (e.g., `{"Bool": true}`). No API validation; use for new or unknown properties.
+  - Example: `"Anchored": {"String": "Hello, world!"}`
+
+## Guidelines for AI Behavior
+- When generating a `.project.json`, always include `name` and `tree` as they are required.
+- Suggest implicit property values unless the user specifies an unknown property or overrides a type, then use explicit values.
+- Validate implicit values against known Roblox API types (e.g., `Gravity` on `Workspace` is a number).
+- Use realistic defaults for optional fields (e.g., `servePort: 34872`) only if the user asks for defaults.
+- If asked for examples, provide minimal or complex structures based on context (see Examples below).
+- Prompt for clarification if key details (e.g., `$className` vs. `$path`) are ambiguous.
+
+## Examples
+### Simple Project (Plugin/Model)
+```
+{
+  "name": "AwesomeLibrary",
+  "tree": {
+    "$path": "src"
+  }
+}
+```
+### Complex Game Project (Sisyphus Simulator)
+```
+{
+  "name": "Sisyphus Simulator",
+  "globIgnorePaths": ["**/*.spec.lua"],
+  "tree": {
+    "$className": "DataModel",
+    "HttpService": {
+      "$className": "HttpService",
+      "$properties": {
+        "HttpEnabled": true
+      }
+    },
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "$path": "src/ReplicatedStorage"
+    },
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+        "$path": "src/StarterPlayerScripts"
+      }
+    },
+    "Workspace": {
+      "$className": "Workspace",
+      "$properties": {
+        "Gravity": 67.3
+      },
+      "Terrain": {
+        "$path": "Terrain.rbxm"
+      }
+    }
+  }
+}
+```
