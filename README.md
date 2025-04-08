@@ -1,5 +1,5 @@
 <div align='center'>
-  <img alt='Lemonade' src='assets/banner.png'>
+  <img alt='Lemonade' src='assets/bannerlemonade.png'>
   <b>Roblox AI code generation tool</b>
 </div>
 
