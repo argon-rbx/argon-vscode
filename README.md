@@ -1,5 +1,5 @@
 <div align='center'>
-  <img alt='Lemonade' src='assets/bannerlemonade.png'>
+  <img alt='Lemonade' src='https://xbahitgsonmucoizwajb.supabase.co/storage/v1/object/public/Lupa//Banner.png'>
   <b>Roblox AI code generation tool</b>
 </div>
 
