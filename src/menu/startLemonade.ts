@@ -66,7 +66,7 @@ export async function run(_state: State) {
   if (!hasStructure) {
     const folderName = path.basename(workspaceRoot)
     const choice = await vscode.window.showWarningMessage(
-      `This folder ('${folderName}') doesn't have the standard Lemonade src structure. Initialize it now?`,
+      `Your setup ('${folderName}') doesn't have the required Lemonade structure yet. Initialize it now?`,
       { modal: true },
       "Yes, Initialize",
     )
