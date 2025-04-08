@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.0.2] - 2025-04-08
+
 ## [0.0.1] - 2024-04-08
 
 ### Added
@@ -202,7 +204,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Initial release
 
-[unreleased]: https://github.com/LupaHQ/argon-vscode/compare/0.0.1...HEAD
+[unreleased]: https://github.com/LupaHQ/argon-vscode/compare/0.0.2...HEAD
+[0.0.2]: https://github.com/LupaHQ/argon-vscode/compare/0.0.1...0.0.2
 [0.0.1]: https://github.com/LupaHQ/argon-vscode/compare/2.0.18...0.0.1
 [2.0.18]: https://github.com/LupaHQ/argon-vscode/compare/2.0.17...2.0.18
 [2.0.17]: https://github.com/LupaHQ/argon-vscode/compare/2.0.16...2.0.17
