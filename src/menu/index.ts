@@ -45,8 +45,8 @@ export async function onDidAccept(action: string, state: State) {
 }
 
 export async function restoreSession() {
-/* session: RestorableSession, */
-/* state: State, */
+  /* session: RestorableSession, */
+  /* state: State, */
   // Functionality commented out/removed, keep stub
 }
 

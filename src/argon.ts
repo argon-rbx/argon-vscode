@@ -84,7 +84,7 @@ async function spawn(
   const outputPromise: Promise<string> = new Promise((resolve) => {
     const processOutput = (data: Buffer | string, streamName: string) => {
       if (promiseResolved) {
-        return;
+        return
       }
 
       const lines = data.toString()
@@ -118,7 +118,7 @@ async function spawn(
 
     currentProcess.on("close", (code, signal) => {
       if (promiseResolved) {
-        return;
+        return
       }
       logger.info(`Process exited with code: ${code}, signal: ${signal}`, true)
       promiseResolved = true
@@ -131,7 +131,7 @@ async function spawn(
 
     currentProcess.on("error", (err) => {
       if (promiseResolved) {
-        return;
+        return
       }
       logger.error(`Spawn error: ${err.message}`, false, true) // Log spawn errors visibly
       promiseResolved = true

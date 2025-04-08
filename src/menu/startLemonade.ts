@@ -30,28 +30,28 @@ async function ensureCursorSetup(
   workspaceRoot: string,
   context: vscode.ExtensionContext,
 ) {
-  const cursorPath = path.join(workspaceRoot, ".cursor");
+  const cursorPath = path.join(workspaceRoot, ".cursor")
   if (!fs.existsSync(cursorPath)) {
     try {
-      fs.mkdirSync(cursorPath);
+      fs.mkdirSync(cursorPath)
     } catch (error) {
-      const errMsg = error instanceof Error ? error.message : String(error);
-      logger.error(`Failed to create .cursor directory: ${errMsg}`, false, true);
-      return; // Stop if we can't create the base directory
+      const errMsg = error instanceof Error ? error.message : String(error)
+      logger.error(`Failed to create .cursor directory: ${errMsg}`, false, true)
+      return // Stop if we can't create the base directory
     }
   }
 
-  const rulesPath = path.join(cursorPath, "rules");
+  const rulesPath = path.join(cursorPath, "rules")
   if (!fs.existsSync(rulesPath)) {
     try {
-      fs.mkdirSync(rulesPath);
+      fs.mkdirSync(rulesPath)
     } catch (error) {
-      const errMsg = error instanceof Error ? error.message : String(error);
+      const errMsg = error instanceof Error ? error.message : String(error)
       logger.error(
         `Failed to create .cursor/rules directory: ${errMsg}`,
         false,
         true,
-      );
+      )
       // Continue to try creating mcp.json even if rules dir fails
     }
   }
@@ -63,29 +63,29 @@ async function ensureCursorSetup(
         context.extensionUri,
         "assets",
         "rules",
-      ).fsPath;
+      ).fsPath
       if (fs.existsSync(ruleAssetsPath)) {
-        const ruleFiles = fs.readdirSync(ruleAssetsPath);
+        const ruleFiles = fs.readdirSync(ruleAssetsPath)
         for (const file of ruleFiles) {
           const srcPath = vscode.Uri.joinPath(
             context.extensionUri,
             "assets",
             "rules",
             file,
-          ).fsPath;
-          const destPath = path.join(rulesPath, file);
+          ).fsPath
+          const destPath = path.join(rulesPath, file)
           // Use copyFileSync to overwrite if exists
-          fs.copyFileSync(srcPath, destPath);
+          fs.copyFileSync(srcPath, destPath)
         }
       } else {
         logger.warn(
           `Extension assets/rules directory not found at: ${ruleAssetsPath}`,
           false,
-        ); // Log warning, not error
+        ) // Log warning, not error
       }
     } catch (error) {
-      const errMsg = error instanceof Error ? error.message : String(error);
-      logger.error(`Failed to copy rule files: ${errMsg}`, false, true);
+      const errMsg = error instanceof Error ? error.message : String(error)
+      logger.error(`Failed to copy rule files: ${errMsg}`, false, true)
     }
   }
 
@@ -100,14 +100,14 @@ async function ensureCursorSetup(
         ],
       },
     },
-  };
+  }
 
-  const mcpJsonPath = path.join(cursorPath, "mcp.json");
+  const mcpJsonPath = path.join(cursorPath, "mcp.json")
   try {
-    fs.writeFileSync(mcpJsonPath, JSON.stringify(servers, null, 2));
+    fs.writeFileSync(mcpJsonPath, JSON.stringify(servers, null, 2))
   } catch (error) {
-    const errMsg = error instanceof Error ? error.message : String(error);
-    logger.error(`Failed to write mcp.json: ${errMsg}`, false, true);
+    const errMsg = error instanceof Error ? error.message : String(error)
+    logger.error(`Failed to write mcp.json: ${errMsg}`, false, true)
   }
 }
 
@@ -147,7 +147,7 @@ export async function run(state: State, context: vscode.ExtensionContext) {
     return
   }
 
-  await ensureCursorSetup(workspaceRoot, context);
+  await ensureCursorSetup(workspaceRoot, context)
 
   const hasStructure = await checkSrcStructure(workspaceRoot)
 
