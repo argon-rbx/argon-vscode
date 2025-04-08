@@ -1,3 +1,4 @@
+/* // Commented out to disable this menu item
 import * as vscode from "vscode"
 import * as argon from "../argon"
 import { Item } from "."
@@ -62,3 +63,4 @@ export async function run(state: State): Promise<void> {
       })
   })
 }
+*/

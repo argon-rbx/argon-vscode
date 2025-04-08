@@ -5,7 +5,7 @@ import { getCurrentDir } from "./util"
 
 let lastId = 0
 
-export type DebugMode = "play" | "run" | "start" | "stop"
+export type DebugMode = "play" | "run" | "start" | "stop" | "studio"
 export type PluginMode = "install" | "uninstall"
 export type UpdateMode = "all" | "cli" | "plugin" | "templates"
 
@@ -31,8 +31,12 @@ function log(data: string, silent?: boolean) {
   return output
 }
 
-async function spawn(args: string[], silent?: boolean) {
-  logger.info("Starting new Argon process..", true)
+async function spawn(
+  args: string[],
+  silent?: boolean,
+): Promise<[string, number | null]> {
+  const commandString = `argon ${args.join(" ")}`
+  logger.info(`Spawning: ${commandString}`, true)
 
   const process = childProcess.spawn(
     "argon",
@@ -44,31 +48,59 @@ async function spawn(args: string[], silent?: boolean) {
     ]),
     {
       cwd: getCurrentDir(),
+      shell: true,
     },
   )
 
-  const firstOutput: string = await new Promise((resolve) => {
-    process.stdout?.on("data", (data) => {
-      const output = log(data.toString(), silent)
+  let firstOutput = ""
+  let stderrOutput = ""
 
-      if (output) {
-        resolve(output)
+  const outputPromise: Promise<string> = new Promise((resolve) => {
+    process.stdout?.on("data", (data) => {
+      const lines = data.toString()
+      logger.info(`stdout: ${lines}`, true)
+      const processedOutput = log(lines, silent)
+      if (processedOutput && !firstOutput) {
+        firstOutput = processedOutput
       }
     })
 
     process.stderr?.on("data", (data) => {
-      const output = log(data.toString(), silent)
-
-      if (output) {
-        resolve(output)
+      const lines = data.toString()
+      logger.error(`stderr: ${lines}`, true)
+      stderrOutput += lines
+      const processedOutput = log(lines, silent)
+      if (processedOutput && !firstOutput) {
+        firstOutput = processedOutput
       }
+    })
+
+    process.on("close", (code) => {
+      logger.info(`Process exited with code: ${code}`, true)
+      resolve(firstOutput || stderrOutput || "Process finished without output.")
+    })
+
+    process.on("error", (err) => {
+      logger.error(`Spawn error: ${err.message}`, true)
+      resolve(`Spawn error: ${err.message}`)
     })
   })
 
-  return (process.exitCode === 0 || process.exitCode === null) &&
-    !firstOutput.includes("Command execution failed")
-    ? Promise.resolve(firstOutput)
-    : Promise.reject(firstOutput)
+  const finalOutput = await outputPromise
+  const exitCode = process.exitCode
+
+  logger.info(
+    `Command "${commandString}" finished with code ${exitCode}. Output: ${finalOutput}`,
+    true,
+  )
+
+  if (exitCode === 0) {
+    return Promise.resolve([finalOutput, exitCode])
+  } else {
+    const errorMessage =
+      stderrOutput || finalOutput || `Command failed with exit code ${exitCode}`
+    return Promise.reject([errorMessage.trim(), exitCode])
+  }
 }
 
 function generateId() {
@@ -89,69 +121,71 @@ export async function serve(
 ): Promise<[number, string]> {
   const id = generateId()
   const message = await spawn(["serve", project, id.toString(), ...options])
-
-  return [id, message]
+  return [id, message[0]]
 }
 
-export async function build(project: string, options: string[]) {
+export async function build(
+  project: string,
+  options: string[],
+): Promise<number | void> {
   if (options.includes("--watch")) {
     const id = generateId()
     await spawn(["build", project, id.toString(), ...options])
-
     return id
   }
-
   await spawn(["build", project, ...options])
 }
 
-export async function sourcemap(project: string, options: string[]) {
+export async function sourcemap(
+  project: string,
+  options: string[],
+): Promise<number | void> {
   if (options.includes("--watch")) {
     const id = generateId()
     await spawn(["sourcemap", project, id.toString(), ...options])
-
     return id
   }
-
   await spawn(["sourcemap", project, ...options])
 }
 
-export function init(project: string, template: string, options: string[]) {
-  spawn(["init", project, "--template", template, ...options])
+export async function init(
+  project: string,
+  template: string,
+  options: string[],
+): Promise<void> {
+  await spawn(["init", project, "--template", template, ...options])
 }
 
-export function stop(ids: number[]) {
-  spawn(["stop", ...ids.map((id) => id.toString())], true)
+export async function stop(ids: number[]): Promise<void> {
+  await spawn(["stop", ...ids.map((id) => id.toString())], true)
 }
 
-export function debug(mode: DebugMode) {
-  spawn(["debug", mode], true)
+export async function debug(mode: DebugMode): Promise<void> {
+  await spawn(["debug", mode], true)
 }
 
-export function exec(code: string, focus?: boolean) {
+export async function exec(code: string, focus?: boolean): Promise<void> {
   const args = focus ? ["--focus"] : []
-  spawn(["exec", code, ...args], true)
+  await spawn(["exec", code, ...args], true)
 }
 
-export function studio(check?: boolean, place?: string) {
+export async function studio(check?: boolean, place?: string): Promise<void> {
   const args = []
-
   if (place) {
     args.push(place)
   }
-
   if (check) {
     args.push("--check")
   }
-
-  spawn(["studio", ...args], true)
+  await spawn(["studio", ...args], true)
 }
 
-export function plugin(mode: PluginMode) {
-  spawn(["plugin", mode])
+export async function plugin(mode: PluginMode): Promise<void> {
+  await spawn(["plugin", mode])
 }
 
-export function update(mode: UpdateMode, auto?: boolean) {
-  spawn(["update", mode], auto)
+export async function update(mode: UpdateMode, auto?: boolean): Promise<void> {
+  await spawn(["update", mode], auto)
 }
 
 export function version() {

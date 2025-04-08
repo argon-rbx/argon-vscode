@@ -1,10 +1,11 @@
+/* // Commented out to disable this menu item
 import * as vscode from "vscode"
 import * as argon from "../argon"
-import { Item } from "."
+// import { Item } from "."
 
 export const item: Item = {
   label: "$(sync) Update",
-  description: "Manually check for Argon updates and install them",
+  description: "Manually check for Lemonade updates and install them", // Changed Argon to Lemonade
   action: "update",
 }
 
@@ -44,5 +45,6 @@ function getMode(): Promise<argon.UpdateMode> {
 }
 
 export async function run() {
-  argon.update(await getMode())
+  // ... function body ...
 }
+*/

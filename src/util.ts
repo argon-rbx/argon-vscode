@@ -119,7 +119,11 @@ export function getProjectAddress(project: string): {
 
 export function getVersion(): string | undefined {
   try {
-    return argon.version().replace("argon-rbx ", "").trim()
+    return childProcess
+      .execSync(`argon --version`)
+      .toString()
+      .replace("argon-rbx ", "")
+      .trim()
   } catch {}
 }
 
