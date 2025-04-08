@@ -1,7 +1,8 @@
+/* // Commented out to disable this menu item
 import * as vscode from "vscode"
 import * as argon from "../argon"
 import { findPlaces } from "../util"
-import { Item } from "."
+// import { Item } from "."
 
 export const item: Item = {
   label: "$(empty-window) Studio",
@@ -38,3 +39,4 @@ function getPlace(): Promise<string | undefined> {
 export async function run() {
   argon.studio(false, await getPlace())
 }
+*/

@@ -3,7 +3,6 @@ import * as path from "path"
 import * as os from "os"
 import * as fs from "fs"
 import * as childProcess from "child_process"
-import * as argon from "./argon"
 import * as logger from "./logger"
 
 export function getArgonPath(): string {
@@ -119,7 +118,11 @@ export function getProjectAddress(project: string): {
 
 export function getVersion(): string | undefined {
   try {
-    return argon.version().replace("argon-rbx ", "").trim()
+    return childProcess
+      .execSync(`argon --version`)
+      .toString()
+      .replace("argon-rbx ", "")
+      .trim()
   } catch {}
 }
 

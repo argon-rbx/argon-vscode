@@ -1,8 +1,9 @@
+/* // Commented out to disable this menu item
 import * as vscode from "vscode"
 import * as argon from "../argon"
 import * as config from "../config"
 import { sep } from "path"
-import { Item } from "."
+// import { Item } from "."
 
 export const item: Item = {
   label: "$(run-all) Exec",
@@ -33,3 +34,4 @@ export function run() {
     argon.exec(path, focus)
   }
 }
+*/

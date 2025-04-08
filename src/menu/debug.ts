@@ -1,6 +1,7 @@
+/* // Commented out to disable this menu item
 import * as vscode from "vscode"
 import * as argon from "../argon"
-import { Item } from "."
+// import { Item } from "."
 
 export const item: Item = {
   label: "$(debug) Debug",
@@ -54,3 +55,4 @@ function getMode(): Promise<argon.DebugMode> {
 export async function run() {
   argon.debug(await getMode())
 }
+*/

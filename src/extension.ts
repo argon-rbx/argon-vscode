@@ -52,7 +52,7 @@ export async function activate(context: vscode.ExtensionContext) {
         const session = new RestorableSession(lastSession)
 
         if (session.isRestorable()) {
-          menu.restoreSession(session, state)
+          menu.restoreSession()
 
           if (session.needsStudio() && config.autoLaunchStudio()) {
             argon.studio(true)
