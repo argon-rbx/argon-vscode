@@ -35,7 +35,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Fixed
 
-- Argon CLI installation issue that occurred only for some Windows users ([#52](https://github.com/argon-rbx/argon-vscode/issues/52))
+- Argon CLI installation issue that occurred only for some Windows users ([#52](https://github.com/LupaHQ/argon-vscode/issues/52))
 
 ## [2.0.16] - 2024-11-22
 
@@ -44,6 +44,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - `name` field in project file is now optional
 - `Stop` command will now run immediately if there is only one session to stop
 - `Studio` command will now run without extra prompt if there are no places to choose from
+
+### Added
+
+- `AutoRun` option can now restore multiple sessions ([#28](https://github.com/LupaHQ/argon-vscode/pull/28))
+- `CustomPath` setting which enables specifying custom Argon CLI installation path
 
 ## [2.0.15] - 2024-10-25
 
@@ -109,7 +114,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
-- `AutoRun` option can now restore multiple sessions ([#28](https://github.com/argon-rbx/argon-vscode/pull/28))
+- `AutoRun` option can now restore multiple sessions ([#28](https://github.com/LupaHQ/argon-vscode/pull/28))
 - `CustomPath` setting which enables specifying custom Argon CLI installation path
 
 ### Fixed

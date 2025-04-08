@@ -15,7 +15,7 @@ export async function install() {
   fs.mkdirSync(path.dirname(execPath), { recursive: true })
 
   await downloadRelease(
-    "argon-rbx",
+    "LupaHQ",
     "argon",
     path.dirname(execPath),
     undefined,
