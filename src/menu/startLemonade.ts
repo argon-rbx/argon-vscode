@@ -136,7 +136,7 @@ async function checkSrcStructure(workspaceRoot: string): Promise<boolean> {
   }
 }
 
-export async function run(state: State, context: vscode.ExtensionContext) {
+export async function run(_state: State, context: vscode.ExtensionContext) {
   const workspaceRoot = getCurrentDir()
   if (!workspaceRoot) {
     logger.error(
