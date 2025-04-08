@@ -10,6 +10,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - New `Output` command to quickly see Argon output channel
 
+## [0.0.1] - 2024-04-08
+
+### Changed
+
+- Reset version to 0.0.1 for initial Lemonade release
+- Fixed linting issues in codebase
+- Renamed LemonadeRAG to lemonadeRag for improved ESLint compliance
+
 ## [2.0.18] - 2025-02-05
 
 ### Added
@@ -194,7 +202,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Initial release
 
-[unreleased]: https://github.com/argon-rbx/argon-vscode/compare/2.0.18...HEAD
+[unreleased]: https://github.com/argon-rbx/argon-vscode/compare/0.0.1...HEAD
+[0.0.1]: https://github.com/argon-rbx/argon-vscode/compare/2.0.18...0.0.1
 [2.0.18]: https://github.com/argon-rbx/argon-vscode/compare/2.0.17...2.0.18
 [2.0.17]: https://github.com/argon-rbx/argon-vscode/compare/2.0.16...2.0.17
 [2.0.16]: https://github.com/argon-rbx/argon-vscode/compare/2.0.15...2.0.16
