@@ -8,10 +8,10 @@
   "homepage": "https://argon.wiki",
   "repository": {
     "type": "git",
-    "url": "https://github.com/argon-rbx/argon-vscode.git"
+    "url": "https://github.com/LupaHQ/argon-vscode.git"
   },
   "bugs": {
-    "url": "https://github.com/argon-rbx/argon-vscode/issues"
+    "url": "https://github.com/LupaHQ/argon-vscode/issues"
   },
   "engines": {
     "vscode": "^1.70.0"
