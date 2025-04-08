@@ -4,7 +4,7 @@ import { loadGlobalConfig } from "../config"
 
 export const item: Item = {
   label: "$(settings) Settings",
-  description: "Make Argon your own",
+  description: "Make Lemonade your own",
   action: "settings",
 }
 

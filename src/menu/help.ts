@@ -3,7 +3,7 @@ import { Item } from "."
 
 export const item: Item = {
   label: "$(question) Help",
-  description: "Visit official Argon website",
+  description: "Visit official Lemonade website",
   action: "help",
 }
 

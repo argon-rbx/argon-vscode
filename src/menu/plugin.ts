@@ -4,7 +4,7 @@ import { Item } from "."
 
 export const item: Item = {
   label: "$(plug) Plugin",
-  description: "Install or uninstall Argon plugin for Roblox Studio",
+  description: "Install or uninstall Lemonade plugin for Roblox Studio",
   action: "plugin",
 }
 

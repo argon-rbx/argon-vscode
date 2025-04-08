@@ -4,7 +4,7 @@ import { outputChannel } from "../logger"
 
 export const item: Item = {
   label: "$(output) Output",
-  description: "Go to the Argon output channel",
+  description: "Go to the Lemonade output channel",
   action: "output",
 }
 
