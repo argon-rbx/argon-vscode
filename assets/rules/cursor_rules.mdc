@@ -4,12 +4,13 @@ globs:
 alwaysApply: true
 ---
 ---
-description: Guidelines for start executing.
-globs: .cursor/rules/*.mdc
+description: Guidelines to start and finish task.
+globs: **/*
 alwaysApply: true
 ---
 
 ## PRIORITY: HIGHEST
+## READING-ORDER: 1
 
 1. Always read `lemonlogs.txt` (at the current root directory) at the very end of your output (when you're about to finish all execution flow).
 2. After reading it, do <wrap_execution>

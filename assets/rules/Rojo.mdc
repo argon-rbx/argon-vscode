@@ -3,7 +3,14 @@ description: Rules for working with Rojo projects and information about it's pro
 globs: 
 alwaysApply: false
 ---
+---
+description: Guidelines about workspace folder structure (directories).
+globs: **/*
+alwaysApply: true
+---
+
 ## PRIORITY: HIGH
+## READING-ORDER: 4
 
 # Cursor AI Rules for Rojo Projects
 You are an expert in Rojo, a tool for Roblox development that uses JSON-based `.project.json` files to define project structures.

@@ -3,7 +3,14 @@ description:
 globs: 
 alwaysApply: true
 ---
+---
+description: Guidelines for project structure.
+globs: **/*
+alwaysApply: true
+---
+
 ## PRIORITY: HIGH
+## READING-ORDER: 3
 
 # MASTER RULES
 - YOU MUST CONSULT RULES AND INFORMATION REGARDING ROJO BEFORE WRITING ANY CODE

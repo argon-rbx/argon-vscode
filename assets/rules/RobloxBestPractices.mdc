@@ -3,7 +3,14 @@ description:
 globs: 
 alwaysApply: true
 ---
+---
+description: Guidelines about Roblox scripting best-practices.
+globs: **/*
+alwaysApply: true
+---
+
 ## PRIORITY: MEDIUM
+## READING-ORDER: 5
 
 - In Roblox, clients (`.client.luau`) can't directly change a server-side (`.server.luau`) property - to change a server-side property, we need to request the server to do it. 
 - In Roblox's security model, client scripts cannot directly modify server objects.
