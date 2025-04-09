@@ -3,6 +3,16 @@ description:
 globs: 
 alwaysApply: true
 ---
-- In Roblox, clients (.client.luau) can't directly change a server-side (.server.luau) property - to change a server-side property, we need to request the server to do it. 
+## PRIORITY: MEDIUM
+
+- In Roblox, clients (`.client.luau`) can't directly change a server-side (`.server.luau`) property - to change a server-side property, we need to request the server to do it. 
 - In Roblox's security model, client scripts cannot directly modify server objects.
-- For example, The TakeDamage() method in a client script sends that request to the server, but directly setting Health = 0 from the client is blocked by Roblox's security system.
+- For example, The `TakeDamage()` method in a client script sends that request to the server, but directly setting `Health = 0` from the client is blocked by Roblox's security system.
+- Use clear variable naming (`PascalCase` for services, folders, modules, table keys and table functions;
+    1. `SCREAMING_SNAKE_CASE` for constants;
+    2. `camelCase` for local variables and functions).
+- General script structure should go in this order: services, folders, modules, constants, and then typical variables oragnized into groups.
+- Do not define Workspace as a variable, use the workspace global. Use `task.wait()`, `task.spawn()`, and `task.delay()` over `wait()`, `spawn()`, and `delay()`. 
+- `task.cancel()` should be used to cancel all threads.
+- Use generalized iteration (no `ipairs()` or `pairs()` is needed). 
+- Do not use `WaitForChild` unless the instance is being created at runtime, or the instance is in the workspace with `StreamingEnabled` on and the code is being run on the client.

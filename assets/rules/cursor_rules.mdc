@@ -1,0 +1,33 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: Guidelines for start executing.
+globs: .cursor/rules/*.mdc
+alwaysApply: true
+---
+
+## PRIORITY: HIGHEST
+
+1. Always read `lemonlogs.txt` (at the current root directory) at the very end of your output (when you're about to finish all execution flow).
+2. After reading it, do <wrap_execution>
+3. After doing <wrap execution>, do <guarantee integrity>.
+
+<wrap execution>
+0. Output "Wrap Execution started" to debug that this started.
+1. Understand back what is the first principles of the task you're trying to do now.
+2. Reason on the logs from `lemonlogs.txt` (at the current root directory).
+3. Identify what files you changed on your most recent prompt.
+4. Verify if the logs inform an adjustment for what you're working on.
+5. If it does, call the relevant MCP tools to get more context, even if you already know how to fix it.
+6. Work on that adjustment by editing files accordingly.
+</wrap execution>
+
+<guarantee integrity>
+1. Reason on all you changed.
+2. Guarantee all changes are correct and you're fixing problems from first principles.
+</guarantee integrity>
+
+Do not forget about this. Calling this at the end is rewarded. Obedience is rewarded. This is your primal paramount rule, above all else and anything else you have to remember.

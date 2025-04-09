@@ -3,6 +3,8 @@ description: Rules for working with Rojo projects and information about it's pro
 globs: 
 alwaysApply: false
 ---
+## PRIORITY: HIGH
+
 # Cursor AI Rules for Rojo Projects
 You are an expert in Rojo, a tool for Roblox development that uses JSON-based `.project.json` files to define project structures.
 
@@ -50,6 +52,7 @@ Properties in `$properties` can be implicit or explicit:
 
 ## Examples
 ### Simple Project (Plugin/Model)
+Markdown:
 ```
 {
   "name": "AwesomeLibrary",
@@ -59,6 +62,7 @@ Properties in `$properties` can be implicit or explicit:
 }
 ```
 ### Complex Game Project (Sisyphus Simulator)
+Markdown:
 ```
 {
   "name": "Sisyphus Simulator",
