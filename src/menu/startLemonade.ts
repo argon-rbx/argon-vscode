@@ -169,7 +169,7 @@ export async function run(_state: State, context: vscode.ExtensionContext) {
           },
           async (progress) => {
             progress.report({ increment: 0 })
-            await argon.init("default.project.json", "quick", [])
+            await argon.init("default.project.json", "quick", ["--git=false"])
             progress.report({ increment: 100 })
           },
         )
