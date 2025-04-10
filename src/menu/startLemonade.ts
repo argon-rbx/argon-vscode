@@ -93,11 +93,10 @@ async function ensureCursorSetup(
   const servers = {
     mcpServers: {
       lemonadeRag: {
-        command: "npx",
-        args: [
-          "mcp-remote",
-          "https://lemoncode-mcp.santiagoarredondocif.workers.dev/sse",
-        ],
+        command: process.platform === "win32" ? "cmd" : "npx",
+        args: process.platform === "win32" 
+          ? ["/c", "npx", "mcp-remote", "https://lemoncode-mcp.santiagoarredondocif.workers.dev/sse"]
+          : ["mcp-remote", "https://lemoncode-mcp.santiagoarredondocif.workers.dev/sse"],
       },
     },
   }

@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.0.5] - 2025-04-10
+
+### Fixed
+- Made MCP server configuration cross-platform compatible to fix the "spawn npx ENOENT" error on Windows
+- Improved error handling for MCP remote server connections
+
 ## [0.0.4] - 2024-04-09
 
 ### Changed
