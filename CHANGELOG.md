@@ -8,13 +8,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [0.0.5] - 2025-04-10
 
+## [0.0.5] - 2025-04-10
+
 ### Fixed
+
 - Made MCP server configuration cross-platform compatible to fix the "spawn npx ENOENT" error on Windows
 - Improved error handling for MCP remote server connections
 
 ## [0.0.4] - 2024-04-09
 
 ### Changed
+
 - Updated dependency management and internal configurations
 - Improved compatibility with latest Roblox Studio plugin (0.0.4)
 - Enhanced documentation and developer workflow
@@ -22,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ## [0.0.3] - 2024-04-09
 
 ### Changed
+
 - Renamed Argon visual elements to Lemonade.
 - Updated internal project configuration and dependencies.
 - Fixed directory structure references.
@@ -156,3 +161,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 
 - Automatic completion for `package_manager`
+
+[unreleased]: https://github.com/LupaHQ/argon-vscode/compare/v0.0.5...HEAD
+[0.0.5]: https://github.com/LupaHQ/argon-vscode/compare/d8b7646cc77c998adcbc55ad6c92d2db673cf4a2...v0.0.5
