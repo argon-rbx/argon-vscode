@@ -185,8 +185,16 @@ export async function run(_state: State, context: vscode.ExtensionContext) {
           return
         }
       } catch (initError) {
-        const errorMsg =
-          initError instanceof Error ? initError.message : String(initError)
+        // Ensure we properly handle all error formats
+        let errorMsg: string
+        if (Array.isArray(initError)) {
+          errorMsg = initError[0] || "Unknown error (array format)"
+        } else if (initError instanceof Error) {
+          errorMsg = initError.message
+        } else {
+          errorMsg = String(initError)
+        }
+        
         logger.error(`Project initialization failed: ${errorMsg}`, false, true)
         return
       }

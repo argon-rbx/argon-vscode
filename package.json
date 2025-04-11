@@ -3,7 +3,7 @@
   "displayName": "Lemonade",
   "description": "Roblox AI code generation tool",
   "publisher": "lemonade-labs",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "icon": "assets/logo.png",
   "homepage": "https://argon.wiki",
   "repository": {
@@ -37,6 +37,11 @@
       {
         "command": "argon.openMenu",
         "title": "Open Menu",
+        "category": "Lemonade"
+      },
+      {
+        "command": "argon.update",
+        "title": "Update Lemonade",
         "category": "Lemonade"
       }
     ],

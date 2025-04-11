@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.0.6] - 2024-04-12
+
+### Added
+- New `Update Lemonade` command to manually trigger CLI and plugin updates
+- Added update option to the Lemonade menu for easier access
+
 ## [0.0.5] - 2025-04-10
 
 ## [0.0.5] - 2025-04-10
@@ -14,6 +20,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Made MCP server configuration cross-platform compatible to fix the "spawn npx ENOENT" error on Windows
 - Improved error handling for MCP remote server connections
+- Fixed log clearing when game starts by updating the Roblox client to use the correct log endpoint
+- Fixed project initialization error with "Cannot read properties of undefined (reading 'toString')"
+
+### Changed
+- Removed unused `log/game_started` endpoint in favor of a more consolidated approach using the standard log endpoint
 
 ## [0.0.4] - 2024-04-09
 

@@ -249,7 +249,17 @@ export async function init(
   template: string,
   options: string[],
 ): Promise<void> {
-  await spawn(["init", project, "--template", template, ...options]) // No options needed
+  try {
+    await spawn(["init", project, "--template", template, ...options]) // No options needed
+  } catch (error) {
+    // Convert array error format to string error
+    const errorMessage = Array.isArray(error)
+      ? error[0]
+      : error instanceof Error
+        ? error.message
+        : String(error)
+    throw new Error(`Failed to initialize project: ${errorMessage}`)
+  }
 }
 
 export async function stop(ids: number[]): Promise<void> {
