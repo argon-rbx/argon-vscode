@@ -128,18 +128,27 @@ export function getVersion(): string | undefined {
 
 export function updatePathVariable() {
   if (os.platform() !== "win32") {
-    return
+    // Skip registry operations on non-Windows platforms
+    return;
   }
 
-  let paths = childProcess
-    .execSync("reg query HKEY_CURRENT_USER\\Environment /v PATH")
-    .toString()
+  try {
+    // Use fully qualified path to reg.exe instead of relying on PATH
+    const regExePath = path.join(process.env.SystemRoot || "C:\\Windows", "System32", "reg.exe");
+    
+    let paths = childProcess
+      .execSync(`"${regExePath}" query "HKEY_CURRENT_USER\\Environment" /v PATH`)
+      .toString();
 
-  const index = paths.indexOf("_SZ")
+    const index = paths.indexOf("_SZ");
 
-  if (index !== -1) {
-    paths = paths.substring(index + 3)
+    if (index !== -1) {
+      paths = paths.substring(index + 3);
+    }
+
+    process.env.PATH = paths.trim();
+  } catch (err) {
+    logger.error(`Failed to update PATH: ${err}`);
+    // Continue without updating PATH - better than crashing
   }
-
-  process.env.PATH = paths.trim()
 }

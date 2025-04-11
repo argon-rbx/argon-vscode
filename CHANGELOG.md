@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.0.7] - 2025-04-09
+
+### Fixed
+- Fixed Windows installation issue where reg.exe command was not found by using absolute path
+- Added error handling to PATH variable updates for improved reliability across different environments
+
 ## [0.0.6] - 2024-04-12
 
 ### Added
