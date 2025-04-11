@@ -31,20 +31,17 @@ export interface Divider {
 }
 
 export function items(): (Item | Divider)[] {
-  return [
-    startLemonade.item,
-    update.item
-  ]
+  return [startLemonade.item, update.item]
 }
 
 export async function onDidAccept(action: string, state: State) {
   switch (action) {
     case "startLemonade":
       await startLemonade.run(state, state.context)
-      break;
+      break
     case "update":
       await update.run()
-      break;
+      break
     // No other cases needed as other items are disabled
   }
 }

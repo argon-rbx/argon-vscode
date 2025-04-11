@@ -5,4 +5,4 @@ export function update() {
   return commands.registerCommand("argon.update", () => {
     argon.update("all", false)
   })
-} 
+}

@@ -9,12 +9,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ## [0.0.7] - 2025-04-09
 
 ### Fixed
+
 - Fixed Windows installation issue where reg.exe command was not found by using absolute path
 - Added error handling to PATH variable updates for improved reliability across different environments
 
 ## [0.0.6] - 2024-04-12
 
 ### Added
+
 - New `Update Lemonade` command to manually trigger CLI and plugin updates
 - Added update option to the Lemonade menu for easier access
 
@@ -30,6 +32,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Fixed project initialization error with "Cannot read properties of undefined (reading 'toString')"
 
 ### Changed
+
 - Removed unused `log/game_started` endpoint in favor of a more consolidated approach using the standard log endpoint
 
 ## [0.0.4] - 2024-04-09

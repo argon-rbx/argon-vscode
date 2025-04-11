@@ -93,10 +93,11 @@ async function ensureCursorSetup(
   const servers = {
     mcpServers: {
       lemonadeRag: {
-        command: process.platform === "win32" ? "cmd" : "npx",
-        args: process.platform === "win32" 
-          ? ["/c", "npx", "mcp-remote", "https://lemoncode-mcp.santiagoarredondocif.workers.dev/sse"]
-          : ["mcp-remote", "https://lemoncode-mcp.santiagoarredondocif.workers.dev/sse"],
+        command: "npx",
+        args: [
+          "mcp-remote",
+          "https://lemoncode-mcp.santiagoarredondocif.workers.dev/sse",
+        ],
       },
     },
   }
@@ -194,7 +195,7 @@ export async function run(_state: State, context: vscode.ExtensionContext) {
         } else {
           errorMsg = String(initError)
         }
-        
+
         logger.error(`Project initialization failed: ${errorMsg}`, false, true)
         return
       }
