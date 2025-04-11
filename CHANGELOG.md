@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.0.8] - 2025-04-09
+
+### Changed
+- Fixed code formatting issues across multiple files
+- Improved code consistency and readability
+
 ## [0.0.7] - 2025-04-09
 
 ### Fixed
