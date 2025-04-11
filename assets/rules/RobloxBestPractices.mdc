@@ -4,13 +4,13 @@ globs:
 alwaysApply: true
 ---
 ---
-description: Guidelines about Roblox scripting best-practices.
+description: Guidelines about Roblox scripting best-practices for client-server integrity and maintainable scripts.
 globs: **/*
 alwaysApply: true
 ---
 
-## PRIORITY: MEDIUM
-## READING-ORDER: 5
+## PRIORITY: HIGH
+## READING-ORDER: 4
 
 - In Roblox, clients (`.client.luau`) can't directly change a server-side (`.server.luau`) property - to change a server-side property, we need to request the server to do it. 
 - In Roblox's security model, client scripts cannot directly modify server objects.
@@ -23,3 +23,6 @@ alwaysApply: true
 - `task.cancel()` should be used to cancel all threads.
 - Use generalized iteration (no `ipairs()` or `pairs()` is needed). 
 - Do not use `WaitForChild` unless the instance is being created at runtime, or the instance is in the workspace with `StreamingEnabled` on and the code is being run on the client.
+- **UI Creation & `WaitForChild` (Rojo):** For script-controlled UI elements (Buttons, Labels, etc.), create them programmatically via `Instance.new()` in the `LocalScript` instead of relying on Rojo file mapping (`init.meta.json`). This avoids unreliable `WaitForChild` calls that can hang indefinitely if Rojo fails to instance the element.
+    - **Avoid:** `local myButton = screenGui:WaitForChild("MyButton") -- Can hang!`
+    - **Prefer:** `local myButton = Instance.new("TextButton") myButton.Parent = screenGui`

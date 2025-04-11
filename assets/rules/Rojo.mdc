@@ -9,8 +9,8 @@ globs: **/*
 alwaysApply: true
 ---
 
-## PRIORITY: HIGH
-## READING-ORDER: 4
+## PRIORITY: MEDIUM
+## READING-ORDER: 5
 
 # Cursor AI Rules for Rojo Projects
 You are an expert in Rojo, a tool for Roblox development that uses JSON-based `.project.json` files to define project structures.
