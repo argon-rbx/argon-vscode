@@ -7,7 +7,7 @@ let lastId = 0
 
 export type DebugMode = "play" | "run" | "start" | "stop" | "studio"
 export type PluginMode = "install" | "uninstall"
-export type UpdateMode = "all" | "cli" | "plugin" | "templates"
+export type UpdateMode = "all" | "cli" | "plugin" | "templates" | "vscode"
 
 // Simplified log function - no file logging
 function log(data: string, silent?: boolean) {
@@ -296,7 +296,7 @@ export async function plugin(mode: PluginMode): Promise<void> {
 
 export async function update(mode: UpdateMode, auto?: boolean): Promise<void> {
   // Pass silent option if auto is true
-  await spawn(["update", mode], { silent: auto })
+  await spawn(["update", "--mode", mode], { silent: auto })
 }
 
 export function version(): string | undefined {
