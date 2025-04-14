@@ -6,14 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-[unreleased]: https://github.com/LupaHQ/argon-vscode/compare/v0.0.13...HEAD
+[unreleased]: https://github.com/LupaHQ/argon-vscode/compare/0.0.13...HEAD
 
 ## [0.0.13] - 2025-04-14
 
 ### Added
 - Add `connect-mcp` command to handle MCP SSE connections natively.
 
-[0.0.13]: https://github.com/LupaHQ/argon-vscode/compare/v0.0.12...v0.0.13
+[0.0.13]: https://github.com/LupaHQ/argon-vscode/compare/0.0.12...0.0.13
 
 ## [0.0.12] - 2025-04-14
 
