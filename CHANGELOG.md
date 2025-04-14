@@ -6,16 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.0.10] - 2025-04-14
+
 ### Added
+
 - Added extension self-update functionality for automatic updates
 - Improved update command to update CLI and plugin components before updating the extension
 
 ### Changed
+
 - Modified update process sequence to update CLI and plugins first, then extension
 
 ## [0.0.8] - 2025-04-09
 
 ### Changed
+
 - Fixed code formatting issues across multiple files
 - Improved code consistency and readability
 
@@ -195,5 +200,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Automatic completion for `package_manager`
 
-[unreleased]: https://github.com/LupaHQ/argon-vscode/compare/v0.0.5...HEAD
+[unreleased]: https://github.com/LupaHQ/argon-vscode/compare/0.0.10...HEAD
+[0.0.10]: https://github.com/LupaHQ/argon-vscode/compare/v0.0.5...0.0.10
 [0.0.5]: https://github.com/LupaHQ/argon-vscode/compare/d8b7646cc77c998adcbc55ad6c92d2db673cf4a2...v0.0.5
