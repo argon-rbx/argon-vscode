@@ -6,15 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.0.11] - 2025-04-14
+
+### Changed
+- Updated dependencies to align with CLI version 0.0.11.
+- Resolved merge conflict with remote changes.
+
 ## [0.0.10] - 2025-04-14
 
-### Added
+### Fixed
+- Fixed `argon.ts` update command arguments to use `--mode` flag correctly.
+- Added `vscode` update mode type definition to `argon.ts`.
 
+## [0.0.9] - 2025-04-14
+
+### Added
 - Added extension self-update functionality for automatic updates
 - Improved update command to update CLI and plugin components before updating the extension
 
 ### Changed
-
 - Modified update process sequence to update CLI and plugins first, then extension
 
 ## [0.0.8] - 2025-04-09
@@ -37,8 +47,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - New `Update Lemonade` command to manually trigger CLI and plugin updates
 - Added update option to the Lemonade menu for easier access
-
-## [0.0.5] - 2025-04-10
 
 ## [0.0.5] - 2025-04-10
 
