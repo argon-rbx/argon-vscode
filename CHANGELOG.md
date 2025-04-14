@@ -6,12 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-## [0.0.11] - 2025-04-14
+## [0.0.12] - 2025-04-14
 
 ### Changed
 
-- Updated dependencies to align with CLI version 0.0.11.
-- Resolved merge conflict with remote changes.
+- Use native `argon connect-mcp` command instead of `npx` for Cursor MCP integration, removing Node.js dependency for this feature.
+
+## [0.0.11] - 2025-04-12
+
+### Added
+
+- Add `RUST_YES` environment variable support.
 
 ## [0.0.10] - 2025-04-14
 
