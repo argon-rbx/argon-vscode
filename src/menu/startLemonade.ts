@@ -101,6 +101,7 @@ async function ensureCursorSetup(
         args: [
           "connect-mcp", // New subcommand
           "https://lemoncode-mcp.santiagoarredondocif.workers.dev/sse",
+          "--client", // Add client flag for the rmcp client feature
         ],
       },
     },

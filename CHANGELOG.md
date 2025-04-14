@@ -6,7 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-[unreleased]: https://github.com/LupaHQ/argon-vscode/compare/0.0.13...HEAD
+[unreleased]: https://github.com/LupaHQ/argon-vscode/compare/0.0.14...HEAD
+
+## [0.0.14] - 2025-04-17
+
+### Improved
+
+- Added `--client` flag support to `connect-mcp` command for better MCP server integration
+- Enhanced compatibility with Argon CLI 0.0.14's improved MCP client implementation
+
+[0.0.14]: https://github.com/LupaHQ/argon-vscode/compare/0.0.13...0.0.14
 
 ## [0.0.13] - 2025-04-14
 
