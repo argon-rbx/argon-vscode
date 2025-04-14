@@ -13,7 +13,7 @@ export async function run(): Promise<void> {
   await argon.update("cli", false)
   await argon.update("plugin", false)
   await argon.update("templates", false)
-  
+
   // Then try to update the extension itself
   await updateExtension()
 }

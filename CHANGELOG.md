@@ -9,22 +9,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ## [0.0.11] - 2025-04-14
 
 ### Changed
+
 - Updated dependencies to align with CLI version 0.0.11.
 - Resolved merge conflict with remote changes.
 
 ## [0.0.10] - 2025-04-14
 
 ### Fixed
+
 - Fixed `argon.ts` update command arguments to use `--mode` flag correctly.
 - Added `vscode` update mode type definition to `argon.ts`.
 
 ## [0.0.9] - 2025-04-14
 
 ### Added
+
 - Added extension self-update functionality for automatic updates
 - Improved update command to update CLI and plugin components before updating the extension
 
 ### Changed
+
 - Modified update process sequence to update CLI and plugins first, then extension
 
 ## [0.0.8] - 2025-04-09

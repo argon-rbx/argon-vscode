@@ -9,189 +9,212 @@ import { updatePathVariable, getVersion } from "./util"
 import { State } from "./state"
 import { RestorableSession } from "./session"
 import { openMenuError } from "./commands/openMenu"
-import * as path from 'path'
-import * as fs from 'fs'
-import * as https from 'https'
-import * as http from 'http'
-import * as os from 'os'
-import * as childProcess from 'child_process'
+import * as path from "path"
+import * as fs from "fs"
+import * as https from "https"
+import * as http from "http"
+import * as os from "os"
+import * as childProcess from "child_process"
 
 let state: State
 
 // Self-update the extension from GitHub releases
 async function updateExtension(): Promise<boolean> {
   // Get current extension info
-  const extension = vscode.extensions.getExtension('lemonade-labs.argon');
-  if (!extension) return false;
-  
-  const currentVersion = extension.packageJSON.version;
-  console.log(`Current extension version: ${currentVersion}`);
-  
+  const extension = vscode.extensions.getExtension("lemonade-labs.argon")
+  if (!extension) {return false}
+
+  const currentVersion = extension.packageJSON.version
+  console.log(`Current extension version: ${currentVersion}`)
+
   try {
     // Get latest extension info from GitHub
-    const extensionInfo = await getLatestExtensionInfo();
+    const extensionInfo = await getLatestExtensionInfo()
     if (!extensionInfo || !extensionInfo.version || !extensionInfo.url) {
-      console.log('Could not get latest extension information');
-      return false;
+      console.log("Could not get latest extension information")
+      return false
     }
-    
-    console.log(`Latest extension version: ${extensionInfo.version}`);
+
+    console.log(`Latest extension version: ${extensionInfo.version}`)
     if (extensionInfo.version === currentVersion) {
-      console.log('Extension is up to date');
-      return false;
+      console.log("Extension is up to date")
+      return false
     }
-    
+
     // Ask for confirmation
     const update = await vscode.window.showInformationMessage(
       `A new version of Lemonade (${extensionInfo.version}) is available. Update extension?`,
-      'Update', 'Later'
-    );
-    
-    if (update !== 'Update') return false;
-    
+      "Update",
+      "Later",
+    )
+
+    if (update !== "Update") {return false}
+
     // Show progress during download and installation
-    return await vscode.window.withProgress({
-      location: vscode.ProgressLocation.Notification,
-      title: `Updating Lemonade extension to ${extensionInfo.version}`,
-      cancellable: false
-    }, async (progress) => {
-      // Download the VSIX file
-      progress.report({ message: 'Downloading update...' });
-      const vsixPath = await downloadFile(extensionInfo.url, 
-        path.join(os.tmpdir(), `argon-${extensionInfo.version}.vsix`));
-      
-      if (!vsixPath) {
-        vscode.window.showErrorMessage('Failed to download extension update');
-        return false;
-      }
-      
-      // Install the VSIX
-      progress.report({ message: 'Installing update...' });
-      const installed = await installVsix(vsixPath);
-      
-      if (installed) {
-        await vscode.window.showInformationMessage(
-          `Lemonade updated to version ${extensionInfo.version}. Please reload VS Code.`,
-          'Reload Now'
-        ).then(choice => {
-          if (choice === 'Reload Now') {
-            vscode.commands.executeCommand('workbench.action.reloadWindow');
-          }
-        });
-        return true;
-      } else {
-        vscode.window.showErrorMessage('Failed to install extension update');
-        return false;
-      }
-    });
+    return await vscode.window.withProgress(
+      {
+        location: vscode.ProgressLocation.Notification,
+        title: `Updating Lemonade extension to ${extensionInfo.version}`,
+        cancellable: false,
+      },
+      async (progress) => {
+        // Download the VSIX file
+        progress.report({ message: "Downloading update..." })
+        const vsixPath = await downloadFile(
+          extensionInfo.url,
+          path.join(os.tmpdir(), `argon-${extensionInfo.version}.vsix`),
+        )
+
+        if (!vsixPath) {
+          vscode.window.showErrorMessage("Failed to download extension update")
+          return false
+        }
+
+        // Install the VSIX
+        progress.report({ message: "Installing update..." })
+        const installed = await installVsix(vsixPath)
+
+        if (installed) {
+          await vscode.window
+            .showInformationMessage(
+              `Lemonade updated to version ${extensionInfo.version}. Please reload VS Code.`,
+              "Reload Now",
+            )
+            .then((choice) => {
+              if (choice === "Reload Now") {
+                vscode.commands.executeCommand("workbench.action.reloadWindow")
+              }
+            })
+          return true
+        } else {
+          vscode.window.showErrorMessage("Failed to install extension update")
+          return false
+        }
+      },
+    )
   } catch (error) {
-    console.error('Extension update error:', error);
-    return false;
+    console.error("Extension update error:", error)
+    return false
   }
 }
 
 // Get latest extension information from repo
-async function getLatestExtensionInfo(): Promise<{version: string, url: string} | null> {
+async function getLatestExtensionInfo(): Promise<{
+  version: string
+  url: string
+} | null> {
   return new Promise((resolve) => {
-    const url = 'https://api.github.com/repos/LupaHQ/argon/releases/latest';
-    
-    const req = https.get(url, {
-      headers: { 'User-Agent': 'VS Code Argon Extension' }
-    }, (res) => {
-      let data = '';
-      res.on('data', (chunk) => { data += chunk; });
-      res.on('end', () => {
-        try {
-          const release = JSON.parse(data);
-          // Look for the VSIX asset
-          const vsixAsset = release.assets.find((asset: any) => 
-            asset.name.endsWith('.vsix') && asset.name.includes('argon'));
-          
-          if (vsixAsset) {
-            resolve({
-              version: release.tag_name.replace(/^v/, ''),
-              url: vsixAsset.browser_download_url
-            });
-          } else {
-            resolve(null);
+    const url = "https://api.github.com/repos/LupaHQ/argon/releases/latest"
+
+    const req = https.get(
+      url,
+      {
+        headers: { "User-Agent": "VS Code Argon Extension" },
+      },
+      (res) => {
+        let data = ""
+        res.on("data", (chunk) => {
+          data += chunk
+        })
+        res.on("end", () => {
+          try {
+            const release = JSON.parse(data)
+            // Look for the VSIX asset
+            const vsixAsset = release.assets.find(
+              (asset: any) =>
+                asset.name.endsWith(".vsix") && asset.name.includes("argon"),
+            )
+
+            if (vsixAsset) {
+              resolve({
+                version: release.tag_name.replace(/^v/, ""),
+                url: vsixAsset.browser_download_url,
+              })
+            } else {
+              resolve(null)
+            }
+          } catch (e) {
+            console.error("Failed to parse release info:", e)
+            resolve(null)
           }
-        } catch (e) {
-          console.error('Failed to parse release info:', e);
-          resolve(null);
-        }
-      });
-    });
-    
-    req.on('error', (e) => {
-      console.error('Failed to get latest release:', e);
-      resolve(null);
-    });
-    
-    req.end();
-  });
+        })
+      },
+    )
+
+    req.on("error", (e) => {
+      console.error("Failed to get latest release:", e)
+      resolve(null)
+    })
+
+    req.end()
+  })
 }
 
 // Download file from URL
-async function downloadFile(url: string, destPath: string): Promise<string | null> {
+async function downloadFile(
+  url: string,
+  destPath: string,
+): Promise<string | null> {
   return new Promise((resolve) => {
-    const file = fs.createWriteStream(destPath);
-    
-    const request = url.startsWith('https') ? https.get(url) : http.get(url);
-    
-    request.on('response', (response: http.IncomingMessage) => {
+    const file = fs.createWriteStream(destPath)
+
+    const request = url.startsWith("https") ? https.get(url) : http.get(url)
+
+    request.on("response", (response: http.IncomingMessage) => {
       if (response.statusCode !== 200) {
-        console.error(`Download failed: ${response.statusCode}`);
-        file.close();
-        fs.unlink(destPath, () => {});
-        resolve(null);
-        return;
+        console.error(`Download failed: ${response.statusCode}`)
+        file.close()
+        fs.unlink(destPath, () => {})
+        resolve(null)
+        return
       }
-      
-      response.pipe(file);
-    });
-    
-    file.on('finish', () => {
-      file.close();
-      resolve(destPath);
-    });
-    
-    request.on('error', (err: Error) => {
-      console.error('Download error:', err);
-      file.close();
-      fs.unlink(destPath, () => {});
-      resolve(null);
-    });
-    
-    file.on('error', (err) => {
-      console.error('File error:', err);
-      file.close();
-      fs.unlink(destPath, () => {});
-      resolve(null);
-    });
-    
-    request.end();
-  });
+
+      response.pipe(file)
+    })
+
+    file.on("finish", () => {
+      file.close()
+      resolve(destPath)
+    })
+
+    request.on("error", (err: Error) => {
+      console.error("Download error:", err)
+      file.close()
+      fs.unlink(destPath, () => {})
+      resolve(null)
+    })
+
+    file.on("error", (err) => {
+      console.error("File error:", err)
+      file.close()
+      fs.unlink(destPath, () => {})
+      resolve(null)
+    })
+
+    request.end()
+  })
 }
 
 // Install VSIX file
 async function installVsix(vsixPath: string): Promise<boolean> {
   return new Promise((resolve) => {
-    const cmd = process.platform === 'win32' 
-      ? `"${process.execPath}" --install-extension "${vsixPath}"`
-      : `"${process.execPath}" --install-extension "${vsixPath}"`;
-    
+    const cmd =
+      process.platform === "win32"
+        ? `"${process.execPath}" --install-extension "${vsixPath}"`
+        : `"${process.execPath}" --install-extension "${vsixPath}"`
+
     childProcess.exec(cmd, (error, stdout, stderr) => {
       if (error) {
-        console.error('Install error:', error);
-        console.error('stderr:', stderr);
-        resolve(false);
-        return;
+        console.error("Install error:", error)
+        console.error("stderr:", stderr)
+        resolve(false)
+        return
       }
-      
-      console.log('VSIX installation output:', stdout);
-      resolve(true);
-    });
-  });
+
+      console.log("VSIX installation output:", stdout)
+      resolve(true)
+    })
+  })
 }
 
 // Export the updateExtension function to be used in commands
@@ -209,7 +232,7 @@ export async function activate(context: vscode.ExtensionContext) {
     argon.update("cli", true)
     argon.update("plugin", true)
     argon.update("templates", true)
-    
+
     // Then check for extension updates
     await updateExtension()
   } else if (!version) {
