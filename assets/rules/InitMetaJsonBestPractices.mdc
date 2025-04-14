@@ -23,8 +23,8 @@ alwaysApply: true
 
 ## 2. Defining Instances: Reliable vs. Unreliable
 
-- **RELIABLE PATTERN:** Use `init.meta.json` to define the instance for its **own directory**, ensuring essential properties like `name` are set.
-  This works well for static UI or parent containers found by scripts using `WaitForChild`.
+- **RELIABLE PATTERN:** Use `init.meta.json` to define the instance for its **own directory**.
+  This works well for static UI or parent containers found by scripts.
 
   ```json
   // RELIABLE: src/Gui/MyButton/init.meta.json
@@ -32,20 +32,10 @@ alwaysApply: true
   {
     "className": "TextButton",
     "properties": {
-      "name": "MyButton",
+      "name": "MyButton", // Lowercase key
       "text": "Click",
-      "size": {"UDim2": [[0,100],[0,50]]}
+      "size": {"UDim2": [[0,100],[0,50]]} // Explicit format
     }
-  }
-  ```
-
-  **WARNING:** Failing to include the `properties` block or omitting the `name` property within it is a common cause of errors. Scripts using `Instance:WaitForChild("InstanceName")` will **yield indefinitely** (hang forever) because the instance created by Rojo won't have the expected name.
-
-  ```json
-  // INCORRECT: src/Gui/MyLabel/init.meta.json
-  // This Label might appear, but scripts will FAIL to find it by name.
-  {
-    "className": "TextLabel"
   }
   ```
 
@@ -81,3 +71,27 @@ alwaysApply: true
   childFrame.Size = UDim2.new(0.2, 0, 0.03, 0)
   childFrame.Parent = parentGui
   ``` 
+
+## 4. Script Communication: Attributes vs. Alternatives (NEW)
+
+- **PROBLEM:** You might be tempted to use `Instance:SetAttribute()` and `Instance:GetAttribute()` to share information *between different scripts*, especially functions or complex data.
+- **WARNING:** Attributes **CANNOT** store Lua functions or tables containing functions. Attempting to do so will fail and `GetAttribute` will return `nil`.
+
+  ```lua
+  -- INCORRECT: Trying to share a function via Attributes
+  -- Script 1 (e.g., StaminaBar.client.luau)
+  local function updateDisplay() print("Updating!") end
+  guiElement:SetAttribute("UpdateFunction", updateDisplay) -- This FAILS! Attribute won't store the function.
+
+  -- Script 2 (e.g., SprintHandler.client.luau)
+  local updateFunc = guiElement:GetAttribute("UpdateFunction") -- This will be nil!
+  if updateFunc then
+      updateFunc() -- This code will NEVER run
+  end
+  ```
+
+- **RECOMMENDED SOLUTIONS:**
+  1.  **Combine Scripts:** If two client scripts manage related logic (like UI and its controller), often the simplest solution is to merge them into a single script.
+  2.  **BindableEvents:** For communication *between client scripts*, use `BindableEvent` instances. One script fires the event, and the other connects a function to it.
+  3.  **ModuleScripts:** If you need to share functions or data structures, place them in a `ModuleScript` and `require()` it from the scripts that need access. This is the standard way to create shared, reusable code.
+  4.  **(Avoid for Functions):** Attributes are suitable for sharing simple state data (numbers, strings, booleans, Color3s, etc.) if needed, but not functions.
