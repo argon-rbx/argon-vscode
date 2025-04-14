@@ -1,6 +1,7 @@
 import * as vscode from "vscode"
 import * as path from "path"
 import * as fs from "fs"
+import * as os from "os" // Added os import
 import * as argon from "../argon" // Use correct relative path
 import * as config from "../config" // Use correct relative path
 import * as logger from "../logger" // Import logger
@@ -89,13 +90,16 @@ async function ensureCursorSetup(
     }
   }
 
+  // Construct the path to the argon binary
+  const argonBinary = path.join(os.homedir(), ".argon", "bin", "argon") // Assumes standard install path
+
   // Create or overwrite mcp.json
   const servers = {
     mcpServers: {
       lemonadeRag: {
-        command: "npx",
+        command: argonBinary, // Use the resolved binary path
         args: [
-          "mcp-remote",
+          "connect-mcp", // New subcommand
           "https://lemoncode-mcp.santiagoarredondocif.workers.dev/sse",
         ],
       },

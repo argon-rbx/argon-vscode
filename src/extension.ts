@@ -22,7 +22,9 @@ let state: State
 async function updateExtension(): Promise<boolean> {
   // Get current extension info
   const extension = vscode.extensions.getExtension("lemonade-labs.argon")
-  if (!extension) {return false}
+  if (!extension) {
+    return false
+  }
 
   const currentVersion = extension.packageJSON.version
   console.log(`Current extension version: ${currentVersion}`)
@@ -48,7 +50,9 @@ async function updateExtension(): Promise<boolean> {
       "Later",
     )
 
-    if (update !== "Update") {return false}
+    if (update !== "Update") {
+      return false
+    }
 
     // Show progress during download and installation
     return await vscode.window.withProgress(
@@ -109,7 +113,10 @@ async function getLatestExtensionInfo(): Promise<{
     const req = https.get(
       url,
       {
-        headers: { "User-Agent": "VS Code Argon Extension" },
+        headers: {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          "User-Agent": "VS Code Argon Extension",
+        },
       },
       (res) => {
         let data = ""
