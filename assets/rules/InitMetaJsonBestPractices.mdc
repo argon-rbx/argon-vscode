@@ -23,8 +23,8 @@ alwaysApply: true
 
 ## 2. Defining Instances: Reliable vs. Unreliable
 
-- **RELIABLE PATTERN:** Use `init.meta.json` to define the instance for its **own directory**.
-  This works well for static UI or parent containers found by scripts.
+- **RELIABLE PATTERN:** Use `init.meta.json` to define the instance for its **own directory**, ensuring essential properties like `name` are set.
+  This works well for static UI or parent containers found by scripts using `WaitForChild`.
 
   ```json
   // RELIABLE: src/Gui/MyButton/init.meta.json
@@ -32,10 +32,20 @@ alwaysApply: true
   {
     "className": "TextButton",
     "properties": {
-      "name": "MyButton", // Lowercase key
+      "name": "MyButton",
       "text": "Click",
-      "size": {"UDim2": [[0,100],[0,50]]} // Explicit format
+      "size": {"UDim2": [[0,100],[0,50]]}
     }
+  }
+  ```
+
+  **WARNING:** Failing to include the `properties` block or omitting the `name` property within it is a common cause of errors. Scripts using `Instance:WaitForChild("InstanceName")` will **yield indefinitely** (hang forever) because the instance created by Rojo won't have the expected name.
+
+  ```json
+  // INCORRECT: src/Gui/MyLabel/init.meta.json
+  // This Label might appear, but scripts will FAIL to find it by name.
+  {
+    "className": "TextLabel"
   }
   ```
 
