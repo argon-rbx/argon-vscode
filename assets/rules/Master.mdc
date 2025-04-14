@@ -16,11 +16,17 @@ alwaysApply: true
 - YOU MUST CONSULT RULES AND INFORMATION REGARDING ROJO BEFORE WRITING ANY CODE
 - WARNING: THE PROJECT FILESYSTEM IS NOT A REPRESENTATION OF THE ROBLOX FILESYSTEM THE SCRIPTS RUN IN! YOU MUST CONSULT `default.project.json` FOR ANY MAPPING BETWEEN PROJECT AND ROBLOX FILESYSTEMS
     - EXAMPLE: SCRIPTS IN `src/shared/` ARE INSIDE OF `ReplicatedStorage.Shared`, ...
-- YOU MUST NOT CREATE SCRIPTS ADHEREING TO THE FOLLOWING PATTERN: `<NAME>.<DIRECTORY>.luau`
-- YOU MUST ONLY CREATE SCRIPTS ADHEREING TO THE FOLLOWING PATTERN: `<NAME>.luau`
-- IMPORTANT: SCRIPTS NAMED `init.<DIRECTORY>.luau` ARE A PARENT TO ALL SCRIPTS INSIDE OF `<DIRECTORY>`
-    - EXAMPLE: `client/init.client.luau` IS THE PARENT OF `client/BallClient.luau`
-- IMPORTANT: ALL SCRIPTS THAT ARE NOT `init` ARE CONSIDERED A `ModuleScript`
+- YOU MUST NOT CREATE SCRIPTS ADHEREING TO THE FOLLOWING PATTERN: `<NAME>.<DIRECTORY>.luau` // Example: MyScript.FolderName.luau is incorrect
+- IMPORTANT: Rojo uses file suffixes to determine script type. Use the correct suffix:
+    - **LocalScript:** Use `.client.luau`
+        - CORRECT: `SprintHandler.client.luau` -> Creates a LocalScript named "SprintHandler"
+    - **Script (Server):** Use `.server.luau`
+        - CORRECT: `PlayerDataManager.server.luau` -> Creates a Script named "PlayerDataManager"
+    - **ModuleScript:** Use `.luau` (without `.client` or `.server` suffix, unless it's an `init` script)
+        - CORRECT: `CombatUtilities.luau` -> Creates a ModuleScript named "CombatUtilities"
+        - INCORRECT: `SprintHandler.luau` -> This would create a ModuleScript, not the intended LocalScript
+- IMPORTANT: SCRIPTS NAMED `init.client.luau`, `init.server.luau`, or `init.luau` transform their PARENT DIRECTORY into the corresponding script type.
+    - EXAMPLE: `src/SomeFeature/init.client.luau` makes the `SomeFeature` folder become a LocalScript.
 - IMPORTANT: YOU MUST RETURN EXACTLY ONE VALUE FROM A `ModuleScript`
 - IMPORTANT: YOU MUST DECLARE FUNCTIONS BEFORE REFERENCING OR CALLING THEM!
 - YOU MUST ALWAYS QUERY `Roblox Documentation` FROM THE LemonadeRAG MCP SERVER BEFORE USING ANY ROBLOX API
@@ -37,4 +43,4 @@ alwaysApply: true
 
 # MASTER RULES ARE TO BE FOLLOWED TO THE LETTER AND IN FULL! 
 # DISOBEYING MASTER RULES WILL RESULT IN IMMEDIATE TERMINATION!
-# OBEDIENCE IS REWARDED!
+# OBEDIENCE IS REWARDED! 

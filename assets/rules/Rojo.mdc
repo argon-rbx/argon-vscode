@@ -1,7 +1,7 @@
 ---
-description: Rules for working with Rojo projects and information about it's project structure
+description: 
 globs: 
-alwaysApply: false
+alwaysApply: true
 ---
 ---
 description: Guidelines about workspace folder structure (directories).
@@ -9,99 +9,71 @@ globs: **/*
 alwaysApply: true
 ---
 
-## PRIORITY: MEDIUM
-## READING-ORDER: 5
+## PRIORITY: HIGH
+## READING-ORDER: 4
 
-# Cursor AI Rules for Rojo Projects
-You are an expert in Rojo, a tool for Roblox development that uses JSON-based `.project.json` files to define project structures.
+## Purpose
+To ensure correct file placement in Rojo projects by strictly adhering to the project's `default.project.json` mapping.
 
-## Project Context
-- Rojo projects are JSON files with a `.project.json` extension.
-- They define a Roblox project’s structure, including instances, properties, and file mappings.
-- All paths (e.g., in `$path`) are relative to the folder containing the `.project.json` file.
+## 1. Understanding `default.project.json`
 
-## Project File Structure
-Every Rojo `.project.json` file must include:
-- `name`: A string naming the project (e.g., "MyGame"). Used when building into a model or place file.
-- `tree`: An object describing the root instance of the project (see Instance Description below).
+- **Rojo:** Uses `default.project.json` to map your project files to Roblox instances (like Folders, Scripts, Services).
+- **Required Fields:** Every `default.project.json` *must* have a `name` (string) and a `tree` (object).
+- **`tree` Object:** This defines your project's root in Roblox and contains mappings. Keys inside `tree` typically represent Roblox instances.
 
-Optional fields include:
-- `servePort`: Integer (default: 34872). Port for `rojo serve`. Overridden by `--port`.
-- `servePlaceIds`: Array of place IDs (default: null). Limits live-syncing to specific places.
-- `placeId`: Integer (default: null). Sets the place ID in Roblox Studio.
-- `gameId`: Integer (default: null). Sets the game ID in Roblox Studio.
-- `serveAddress`: String (default: null). Custom server address if `--address` isn’t provided.
-- `globIgnorePaths`: Array of globs (default: []). Paths to ignore (e.g., `["**/*.spec.lua"]`).
-- `emitLegacyScripts`: Boolean (default: true). If true, uses `Script` and `LocalScript`; if false, uses `Script` with `RunContext`.
+## 2. Core Mapping Properties (`$path`, `$className`, `$properties`)
 
-## Instance Description
-The `tree` field and its nested objects follow this structure:
-- `$className`: String (e.g., "Part", "DataModel"). The Roblox instance’s class name. Optional if `$path` is present or it’s a service (e.g., `HttpService`).
-- `$path`: String (e.g., "src/ReplicatedStorage"). Filesystem path to sync files from. Optional if `$className` is specified.
-- `$properties`: Object. Key-value pairs of properties to set on the instance (see Instance Property Values below).
-- `$ignoreUnknownInstances`: Boolean. If true, deletes unknown instances. Defaults to `false` with `$path`, `true` otherwise.
-- Other keys: Become child instances with the key as their name (e.g., `"Workspace": {...}`).
-
-## Instance Property Values
-Properties in `$properties` can be implicit or explicit:
-- **Implicit**: A value (e.g., `true`, `67.3`) where the type is inferred from Roblox’s API based on `$className` and the property name. Must match the expected type (e.g., `Anchored` on `Part` must be boolean).
-  - Example: `"Anchored": true`
-- **Explicit**: An object with one key (the type) and its value (e.g., `{"Bool": true}`). No API validation; use for new or unknown properties.
-  - Example: `"Anchored": {"String": "Hello, world!"}`
-
-## Guidelines for AI Behavior
-- When generating a `.project.json`, always include `name` and `tree` as they are required.
-- Suggest implicit property values unless the user specifies an unknown property or overrides a type, then use explicit values.
-- Validate implicit values against known Roblox API types (e.g., `Gravity` on `Workspace` is a number).
-- Use realistic defaults for optional fields (e.g., `servePort: 34872`) only if the user asks for defaults.
-- If asked for examples, provide minimal or complex structures based on context (see Examples below).
-- Prompt for clarification if key details (e.g., `$className` vs. `$path`) are ambiguous.
-
-## Examples
-### Simple Project (Plugin/Model)
-Markdown:
-```
-{
-  "name": "AwesomeLibrary",
-  "tree": {
-    "$path": "src"
-  }
-}
-```
-### Complex Game Project (Sisyphus Simulator)
-Markdown:
-```
-{
-  "name": "Sisyphus Simulator",
-  "globIgnorePaths": ["**/*.spec.lua"],
-  "tree": {
-    "$className": "DataModel",
-    "HttpService": {
-      "$className": "HttpService",
-      "$properties": {
-        "HttpEnabled": true
-      }
-    },
-    "ReplicatedStorage": {
-      "$className": "ReplicatedStorage",
-      "$path": "src/ReplicatedStorage"
-    },
-    "StarterPlayer": {
-      "$className": "StarterPlayer",
-      "StarterPlayerScripts": {
-        "$className": "StarterPlayerScripts",
-        "$path": "src/StarterPlayerScripts"
-      }
-    },
-    "Workspace": {
-      "$className": "Workspace",
-      "$properties": {
-        "Gravity": 67.3
-      },
-      "Terrain": {
-        "$path": "Terrain.rbxm"
-      }
+- **`$path`:** Tells Rojo: "Sync the contents of *this filesystem directory* into this Roblox instance." (e.g., `"src/ReplicatedStorage"`).
+- **`$className`:** Specifies the Roblox class (e.g., `"Folder"`, `"ScreenGui"`). Often used when *not* using `$path` or to define services.
+- **`$properties`:** An object defining properties to set on the instance (e.g., `{"Archivable": false}`). Property formatting rules are in `InitMetaJsonBestPractices.mdc`.
+- **Child Instances:** Any key in the `tree` that *doesn't* start with `$` defines a *named child instance*. The key itself becomes the instance's `Name`.
+  ```json
+  // Example: Creates a Folder named "MyFolder" inside ReplicatedStorage
+  "ReplicatedStorage": {
+    "$path": "src/ReplicatedStorage", // Maps the service
+    "MyFolder": {                  // Defines a child instance named "MyFolder"
+      "$className": "Folder"       // Specifies its class
     }
   }
+  ```
+
+## 3. Path Authority: `default.project.json` is KING
+
+**RULE: The `$path` values in `default.project.json` are the ONLY source of truth for where to put your files when syncing directories.**
+
+- **ALWAYS:** Check `default.project.json` first. Find the Roblox service/instance you want to add to (e.g., `StarterGui`, `ReplicatedStorage`). Look at its `$path` value. Place your new files/folders inside *that exact filesystem directory*.
+- **NEVER:** Guess filesystem paths based on common conventions (`src/client/`, `src/server/`, `src/shared/`, or even matching the service name like `src/StarterGui/`) if they don't match the `$path` specified in *your* `default.project.json`.
+
+**REASONING:** Rojo ONLY looks at the `$path` specified in `default.project.json` for directory syncing. Using any other directory structure *will* result in your code not being placed correctly in the game, causing errors.
+
+## 4. Examples (`$path` in `default.project.json` determines the CORRECT filesystem path)
+
+**Scenario 1: `default.project.json` maps `StarterGui` to `src/Interface`**
+```json
+// default.project.json (excerpt)
+"StarterGui": {
+  "$path": "src/Interface"
 }
 ```
+- **CORRECT Filesystem Path:** `src/Interface/` (e.g., `src/Interface/MyGui/Handler.client.luau`).
+- **INCORRECT Filesystem Paths:** `src/StarterGui/`, `src/client/StarterGui/`.
+
+**Scenario 2: `default.project.json` maps `ReplicatedStorage` to `src/SharedCode`**
+```json
+// default.project.json (excerpt)
+"ReplicatedStorage": {
+  "$path": "src/SharedCode"
+}
+```
+- **CORRECT Filesystem Path:** `src/SharedCode/` (e.g., `src/SharedCode/Utilities.luau`).
+- **INCORRECT Filesystem Paths:** `src/ReplicatedStorage/`, `src/shared/`.
+
+**Scenario 3: `default.project.json` uses standard names**
+```json
+// default.project.json (excerpt)
+"ServerScriptService": {
+  "$path": "src/ServerScriptService"
+}
+```
+- **CORRECT Filesystem Path:** `src/ServerScriptService/` (e.g., `src/ServerScriptService/MainLoop.server.luau`).
+- **INCORRECT Filesystem Path:** `src/server/` (unless `$path` explicitly points there).

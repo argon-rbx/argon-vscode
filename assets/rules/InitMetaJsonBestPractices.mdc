@@ -1,0 +1,73 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: Rojo init.meta.json Best Practices & Lessons Learned
+globs: **/*
+alwaysApply: true
+---
+
+## PRIORITY: HIGH
+## READING-ORDER: 6
+
+## 1. Key Casing & Complex Types (Summary)
+- ALWAYS use lowercase keys ('className', 'properties', and keys *inside* 'properties').
+  (Incorrect: `"ClassName"`, `"Properties"`, `"Size"`)
+- ALWAYS use explicit formats for complex types.
+  (Incorrect: `"size": [[0,100],[0,50]]`)
+  (Correct: `"size": {"UDim2": [[0,100],[0,50]]}`)
+  (Incorrect: `"backgroundColor3": [1,0,0]`)
+  (Correct: `"backgroundColor3": {"Color3": [1,0,0]}`)
+
+## 2. Defining Instances: Reliable vs. Unreliable
+
+- **RELIABLE PATTERN:** Use `init.meta.json` to define the instance for its **own directory**.
+  This works well for static UI or parent containers found by scripts.
+
+  ```json
+  // RELIABLE: src/Gui/MyButton/init.meta.json
+  // Defines the TextButton instance for the 'MyButton' directory.
+  {
+    "className": "TextButton",
+    "properties": {
+      "name": "MyButton", // Lowercase key
+      "text": "Click",
+      "size": {"UDim2": [[0,100],[0,50]]} // Explicit format
+    }
+  }
+  ```
+
+- **UNRELIABLE (AVOID for scripted children):** Using `Children` array in a parent's `init.meta.json`.
+  Scripts often fail (`WaitForChild` infinite yield) to find children created this way.
+
+  ```json
+  // UNRELIABLE: src/Gui/ParentGui/init.meta.json
+  {
+    "className": "ScreenGui",
+    "properties": { "name": "ParentGui" },
+    "Children": [ // <-- Problematic for finding 'ChildFrame' via script
+      {
+        "className": "Frame",
+        "properties": { "name": "ChildFrame" } // Will likely fail WaitForChild
+      }
+    ]
+  }
+  ```
+
+## 3. Recommended: Programmatic Creation for Scripted UI
+
+- Define only the main parent container (`ScreenGui`) via `init.meta.json` (Reliable Pattern).
+- In the controlling script, create child elements (`Frame`, `Button`, etc.) using `Instance.new()`.
+
+  ```luau
+  -- Script Example (Fix applied to Stamina UI)
+  local parentGui = playerGui:WaitForChild("ParentGui") // Find parent
+  
+  -- Create child programmatically
+  local childFrame = Instance.new("Frame")
+  childFrame.Name = "ChildFrame"
+  childFrame.Size = UDim2.new(0.2, 0, 0.03, 0)
+  childFrame.Parent = parentGui
+  ``` 
