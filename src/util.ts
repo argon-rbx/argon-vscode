@@ -128,15 +128,19 @@ export function updatePathVariable() {
     return
   }
 
-  let paths = childProcess
-    .execSync("reg query HKEY_CURRENT_USER\\Environment /v PATH")
-    .toString()
+  try {
+    let paths = childProcess
+      .execSync("reg query HKEY_CURRENT_USER\\Environment /v PATH")
+      .toString()
 
-  const index = paths.indexOf("_SZ")
+    const index = paths.indexOf("_SZ")
 
-  if (index !== -1) {
-    paths = paths.substring(index + 3)
+    if (index !== -1) {
+      paths = paths.substring(index + 3)
+    }
+
+    process.env.PATH = paths.trim()
+  } catch (err) {
+    logger.warn("Failed to update PATH variable: " + err, true)
   }
-
-  process.env.PATH = paths.trim()
 }

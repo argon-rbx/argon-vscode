@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - New `Output` command to quickly see Argon output channel
 
+### Fixed
+
+- Reading `PATH` variable no longer crashes Argon for some Windows users
+
 ## [2.0.18] - 2025-02-05
 
 ### Added
