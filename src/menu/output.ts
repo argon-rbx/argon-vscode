@@ -1,4 +1,3 @@
-import * as vscode from "vscode"
 import { Item } from "."
 import { outputChannel } from "../logger"
 
