@@ -6,7 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-[unreleased]: https://github.com/LupaHQ/argon-vscode/compare/0.0.14...HEAD
+[unreleased]: https://github.com/LupaHQ/argon-vscode/compare/0.0.16...HEAD
+
+## [0.0.16] - 2025-04-22
+
+### Fixed
+- Enhanced error handling for Argon CLI communication
+- Fixed MCP configuration to improve stability with Cursor IDE integration
+- Updated dependencies to address potential security vulnerabilities
+
+[0.0.16]: https://github.com/LupaHQ/argon-vscode/compare/0.0.15...0.0.16
+
+## [0.0.15] - 2025-04-21
+
+### Changed
+
+- Updated MCP configuration to use the new local Pinecone RAG implementation in Argon CLI 0.0.15
+- Simplified `.cursor/mcp.json` configuration to remove unnecessary URL and client flag arguments
+- Compatible with Argon CLI's reimplemented MCP server using `mcpr` library
+
+[0.0.15]: https://github.com/LupaHQ/argon-vscode/compare/0.0.14...0.0.15
 
 ## [0.0.14] - 2025-04-17
 
