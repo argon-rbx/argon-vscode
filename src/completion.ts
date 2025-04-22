@@ -13,7 +13,7 @@ const SETTINGS = [
   },
   {
     field: "template",
-    value: '"${1|place,plugin,package,model,quick|}"',
+    value: '"${1|place,plugin,package,model,empty,quick|}"',
     doc: "Default project template (place, model, etc.)",
   },
   {
@@ -133,9 +133,9 @@ const SETTINGS = [
     doc: "Use .lua file extension instead of .luau when writing scripts",
   },
   {
-    field: "line_ending",
-    value: "${1|LF,CRLF,CR|}",
-    doc: "Line ending to use when writing files (LF, CRLF, CR)",
+    field: "ignore_line_endings",
+    value: "${1|true,false|}",
+    doc: "Ignore line endings when reading files to avoid script diffs",
   },
   {
     field: "package_manager",

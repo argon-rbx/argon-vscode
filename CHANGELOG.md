@@ -9,6 +9,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 
 - New `Output` command to quickly see Argon output channel
+- Completion for `ignore_line_endings` setting
+- `empty` variant for `template` setting completion
 
 ### Fixed
 
