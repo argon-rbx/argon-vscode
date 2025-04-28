@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [2.0.19] - 2025-04-28
+
 ### Added
 
 - New `Output` command to quickly see Argon output channel
@@ -200,7 +202,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Initial release
 
-[unreleased]: https://github.com/argon-rbx/argon-vscode/compare/2.0.18...HEAD
+[unreleased]: https://github.com/argon-rbx/argon-vscode/compare/2.0.19...HEAD
+[2.0.19]: https://github.com/argon-rbx/argon-vscode/compare/2.0.18...2.0.19
 [2.0.18]: https://github.com/argon-rbx/argon-vscode/compare/2.0.17...2.0.18
 [2.0.17]: https://github.com/argon-rbx/argon-vscode/compare/2.0.16...2.0.17
 [2.0.16]: https://github.com/argon-rbx/argon-vscode/compare/2.0.15...2.0.16
