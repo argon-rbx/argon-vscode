@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- Updating PATH variable causing issues with other extensions ([#80](https://github.com/argon-rbx/argon-vscode/issues/80))
+
 ## [2.0.19] - 2025-04-28
 
 ### Added

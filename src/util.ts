@@ -139,7 +139,12 @@ export function updatePathVariable() {
       paths = paths.substring(index + 3)
     }
 
-    process.env.PATH = paths.trim()
+    const registry = paths.trim().split(path.delimiter)
+    const current = (process.env.PATH || "").split(path.delimiter)
+
+    process.env.PATH = Array.from(new Set([...registry, ...current]))
+      .filter(Boolean)
+      .join(path.delimiter)
   } catch (err) {
     logger.warn("Failed to update PATH variable: " + err, true)
   }
