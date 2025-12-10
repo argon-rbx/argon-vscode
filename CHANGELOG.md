@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [2.0.20] - 2025-12-10
+
 ### Fixed
 
 - Updating PATH variable causing issues with other extensions ([#80](https://github.com/argon-rbx/argon-vscode/issues/80))
@@ -206,7 +208,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Initial release
 
-[unreleased]: https://github.com/argon-rbx/argon-vscode/compare/2.0.19...HEAD
+[unreleased]: https://github.com/argon-rbx/argon-vscode/compare/2.0.20...HEAD
+[2.0.20]: https://github.com/argon-rbx/argon-vscode/compare/2.0.19...2.0.20
 [2.0.19]: https://github.com/argon-rbx/argon-vscode/compare/2.0.18...2.0.19
 [2.0.18]: https://github.com/argon-rbx/argon-vscode/compare/2.0.17...2.0.18
 [2.0.17]: https://github.com/argon-rbx/argon-vscode/compare/2.0.16...2.0.17
