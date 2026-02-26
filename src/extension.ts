@@ -10,6 +10,10 @@ import { State } from "./state"
 import { RestorableSession } from "./session"
 import { openMenuError } from "./commands/openMenu"
 
+const ERROR_MESSAGE =
+  "Try running VS Code as an administrator or restarting your computer.\
+ If the issue persists make sure your PATH variable is valid and points to the Argon CLI binary!"
+
 let state: State
 
 export async function activate(context: vscode.ExtensionContext) {
@@ -17,7 +21,10 @@ export async function activate(context: vscode.ExtensionContext) {
 
   updatePathVariable()
 
-  let version = getVersion()
+  let version = undefined
+  try {
+    version = getVersion()
+  } catch {}
 
   if (version && config.autoUpdate()) {
     argon.update("all", true)
@@ -25,14 +32,11 @@ export async function activate(context: vscode.ExtensionContext) {
     try {
       await installer.install()
       version = getVersion()
-
-      if (!version) {
-        throw new Error(
-          "Try running VS Code as an administrator or restarting your computer!",
-        )
-      }
     } catch (err) {
-      return openMenuError(context, `Argon failed to install: ${err}`)
+      return openMenuError(
+        context,
+        `Failed to install: ${err}. ${ERROR_MESSAGE}`,
+      )
     }
   }
 

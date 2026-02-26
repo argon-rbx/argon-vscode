@@ -117,10 +117,8 @@ export function getProjectAddress(project: string): {
   }
 }
 
-export function getVersion(): string | undefined {
-  try {
-    return argon.version().replace("argon-rbx ", "").trim()
-  } catch {}
+export function getVersion(): string {
+  return argon.version().replace("argon-rbx ", "").trim()
 }
 
 export function updatePathVariable() {
